@@ -1,0 +1,4 @@
+# Não salva os notbooks, pq o tio disse que não quer
+*.ipynb
+
+extrutura.png
