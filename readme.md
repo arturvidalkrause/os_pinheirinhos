@@ -9,6 +9,8 @@ Proporção de terra arável em relação à área total de um país, usada para
 
 Tratamentos: dados faltantes, dados repetidos, valores atípicos etc.
 
+#### Fonte: [WorldBank](https://data.worldbank.org/indicator/AG.LND.ARBL.ZS)
+
 | Country N    | aCountry C | oIndicator  | NIndicator       | C            | 1960         | 1961         | 1962         | 1963         | 1964         | 1965         | 1966         |
 |--------------|------------|-------------|------------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|
 | Aruba        | ABW        | Arable lan  | AG.LND.ARBL.ZS    | 1.111.111.111| 1.111.111.111| 1.111.111.111| 1.111.111.111| 1.111.111.111| 1.111.111.111|              |
@@ -23,6 +25,8 @@ Dados mensais históricos de temperatura de estações meteorológicas terrestre
 **Desafios:** ao baixar os dados eles vêm em dois arquivos, um `.dat` e outro `.env`. Deve-se lê-los com Python e transformá-los em um DataFrame para começar o tratamento dos dados, com cerca de 1.400.000 linhas.
 
 Tratamentos: conversão de unidade (estão em centésimos °C), valores nulos (-9999), transformar em dados anuais, identificação correta dos países, agrupar os dados por país.
+
+#### Fonte: [NOAA](https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-monthly)
 
 | Station_ID   | Year | Jan  | Feb  | Mar  | Apr  | May  | Jun  | Jul  | Aug  | Sep  | Oct  | Nov  | Dec  |
 |--------------|------|------|------|------|------|------|------|------|------|------|------|------|------|
@@ -40,6 +44,8 @@ Dados históricos e projetados sobre precipitação focados nos impactos agríco
 
 Tratamentos: dados faltantes, conversão de strings, agrupamento de dados, transformar em dados anuais.
 
+#### Fonte: [WorldBank](https://climateknowledgeportal.worldbank.org/download-data)
+
 | code | name       | 1901-01 | 1901-02 | 1901-03 | 1901-04 | 1901-05 | 1901-06 | 1901-07 | 1901-08 | 1901-09 | 1901-10 |
 |------|------------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|
 | ABW  | Aruba      |    33.3 |    16.7 |         |       9 |    16.9 |    20.1 |    19.9 |    25.8 |    22.6 |    41.9 |
@@ -53,6 +59,8 @@ Tratamentos: dados faltantes, conversão de strings, agrupamento de dados, trans
 Índices de produção agrícola que medem a variação no volume de produção agrícola ao longo do tempo. Fonte: FAO.
 
 Tratamentos: dados faltantes, conversão de unidades, segmentação de dados.
+
+#### Fonte: [Faostat](https://www.fao.org/faostat/en/#data/QI)
 
 | Area Code | Area Code | Area      | Item Code | Item Code | Item       | Element C | oElement  | Unit     | Y1961 | Y1962 | Y1963 | Y1964 | Y1965 |
 |-----------|-----------|-----------|-----------|-----------|------------|-----------|-----------|----------|-------|-------|-------|-------|-------|
@@ -68,6 +76,8 @@ Tratamentos: dados faltantes, conversão de unidades, segmentação de dados.
 Produto Interno Bruto de países, medido em dólares correntes, usado para avaliar o desempenho econômico. Fonte: Banco Mundial.
 
 Tratamentos: dados faltantes.
+
+#### Fonte: [WorldBank](https://data.worldbank.org/indicator/NY.GDP.MKTP.CD)
 
 | Country N  | aCountry C | oIndicator | NIndicator      | C           | 1960       | 1961       | 1962       | 1963       | 1964       | 1965       | 1966       |
 |------------|------------|------------|-----------------|-------------|------------|------------|------------|------------|------------|------------|------------|
@@ -85,6 +95,8 @@ Quantidade de fertilizantes usados por tipo de nutriente na agricultura. Fonte: 
 
 Tratamentos: dados faltantes, retirar dados úteis da tabela, conversão de unidades.
 
+#### Fonte: [Faostat](https://www.fao.org/faostat/en/#data/RFN)
+
 | 9  | 32 | Argentina | 3102 | Nutrient n | i | 5510 | Productio | nt   | 2100  | A  | Official da | 5000  | X  |
 |----|----|-----------|------|------------|---|------|-----------|------|-------|----|-------------|-------|----|
 | 9  | 32 | Argentina | 3102 | Nutrient n | i | 5610 | Import Qu | t    | 6290  | A  | Official da | 7073  | A  |
@@ -98,6 +110,8 @@ Uso de pesticidas agrícolas por categoria (herbicidas, inseticidas, etc.). Font
 
 Tratamentos: valores faltantes, segmentação de dados, conversão de unidades.
 
+#### Fonte: [Faostat](https://www.fao.org/faostat/en/#data/RP)
+
 | 4  | 12 | Algeria  | 1320 | Herbicide  | s | 5157 | Agricultur | at   | 99.28  | E  | Estimated   | 129.54  | E  | Estimated  | 69.7  |
 |----|----|----------|------|------------|---|------|------------|------|--------|----|-------------|---------|----|------------|-------|
 | 4  | 12 | Algeria  | 1331 | Fungicide  | s | 5157 | Agricultur | at   | 3275.4 | E  | Estimated   | 3712.8  | E  | Estimated  | 1898.4|
@@ -110,7 +124,9 @@ Tratamentos: valores faltantes, segmentação de dados, conversão de unidades.
 ### Emissões
 O dataset contém dados de emissões de gases de efeito estufa na agricultura, abrangendo diversas atividades agrícolas e mais de 200 países desde 1961. Fonte: FAO.
 
-Tratamentos: agrupamento de dados por elementos e países, dados nulos, conversão de unidades, segmentação dos dados necessários.]
+Tratamentos: agrupamento de dados por elementos e países, dados nulos, conversão de unidades, segmentação dos dados necessários.
+
+#### Fonte: [Faostat](https://www.fao.org/faostat/en/##data/GT)
 
 | Area Code | Area Code (M49) | Area       | Item Code | Item             | Element Code | Element                          | Source Code | Source   | Unit | Y1961     |
 |-----------|-----------------|------------|-----------|------------------|--------------|----------------------------------|-------------|----------|------|-----------|
@@ -126,6 +142,8 @@ Dados sobre a ocorrência e impacto de desastres em geral, naturais e tecnológi
 Utilidade: Realizar análises com a API da OpenAI para comprovar ou sustentar teses e hipóteses levantadas.
 
 Tratamentos: segmentar os dados, identificação correta dos países.
+
+#### Fonte: [Emdat]( https://public.emdat.be/data)
 
 | DisNo.      | Historic | Classifica  | tDisaster G | Disaster Su  | Disaster T | yDisaster Su    | External ID | Event Nam         | ISO | Country      | Subregion | Region      | Location             | Origin   | Associated |
 |-------------|----------|-------------|-------------|--------------|------------|-----------------|-------------|-------------------|-----|--------------|-----------|-------------|----------------------|----------|------------|
