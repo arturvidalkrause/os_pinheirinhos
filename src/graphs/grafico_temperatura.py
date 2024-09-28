@@ -1,21 +1,15 @@
 import os
-import sys
-import numpy as np
 import pandas as pd
 import altair as alt
 
 # Desabilitando o máximo de linhas
 alt.data_transformers.disable_max_rows()
 
-# Importando o modulo para limpeza
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../clean")))
-import temperatura
-
 # Diretório da tabela a ser tratada
-path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
+path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/limpos/temperatura.csv")
 
 # Obtendo a tabela tratada
-df = temperatura.preprocessamento_temperatura(path_data)
+df = pd.read_csv(path_data)
 
 # Criando uma tabela com a média mundial
 df_world = df.groupby(['Year'], as_index=False)['media_anual'].mean()

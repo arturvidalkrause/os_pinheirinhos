@@ -23,7 +23,7 @@ def preprocessamento_temperatura(path):
 
     # Lendo o arquivo com a conversão de ID para o nome
     # do país e mapeando no DataFrame original
-    with open(os.path.join(path_data, "Conversão Station_id para Pais.txt"), 'r') as file:
+    with open(os.path.join(path, "Conversão Station_id para Pais.txt"), 'r') as file:
         mapping = {}
         for line in file:
             parts = line.strip().split(' ', 1)
