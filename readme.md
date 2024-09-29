@@ -135,28 +135,23 @@ Tratamentos: agrupamento de dados por elementos e países, dados nulos, convers�
 | 2         | 004             | Afghanistan| 5064      | Crop Residues    | 723113       | Emissions (CO2eq) (AR5)          | 3050        | FAOTIER1 | kt   | 284451000 |
 | 2         | 004             | Afghanistan| 5060      | Rice Cultivation | 724413       | Emissions (CO2eq) from CH4 (AR5) | 3050        | FAOTIER1 | kt   | 823200000 |
 
+### Emissões CO2
+O dataset contém dados de emissões de CO2 de mais de 200 países ao longo dos anos, desde 1750.
 
-### Desastres Naturais/Tecnológicos
-Dados sobre a ocorrência e impacto de desastres em geral, naturais e tecnológicos. Fonte: EM-DAT.
-
-Utilidade: Realizar análises com a API da OpenAI para comprovar ou sustentar teses e hipóteses levantadas.
-
-Tratamentos: segmentar os dados, identificação correta dos países.
-
-#### Fonte: [Emdat]( https://public.emdat.be/data)
-
-| DisNo.      | Historic | Classifica  | tDisaster G | Disaster Su  | Disaster T | yDisaster Su    | External ID | Event Nam         | ISO | Country      | Subregion | Region      | Location             | Origin   | Associated |
-|-------------|----------|-------------|-------------|--------------|------------|-----------------|-------------|-------------------|-----|--------------|-----------|-------------|----------------------|----------|------------|
-| 1900-0003-  | Yes      | nat-met-s   | tNatural    | Meteorolo    | Storm      | Tropical cyclone |             |                   | USA | United Sta   | Northern  | AAmericas   | Galveston (Texas)    | Avalanch |            |
-| 1900-0005-  | Yes      | tec-ind-fir | -Technolog  | Industrial   | Fire (Indu)| sFire (Industrial)|             |                   | USA | United Sta   | Northern  | AAmericas   | Hoboken, New York,   | Explosion|            |
-| 1900-0006-  | Yes      | nat-hyd-fl  | oNatural    | Hydrologi    | cFlood     | Flood (General)  |             |                   | JAM | Jamaica      | Latin Ame | rAmericas   | Saint James          |          |            |
-| 1900-0007-  | Yes      | nat-bio-ep  | Natural     | Biological   | Epidemic   | Viral disease    | Gastroent   |                   | JAM | Jamaica      | Latin Ame | rAmericas   | Porus                |          |            |
-
+#### Fonte: [Our World in Data](https://ourworldindata.org/co2-emissions)
 
 ## Hipóteses Levantadas:
 
-- Há uma correlação entre a área de terra arável, a temperatura e a precipitação com a produção agrícola do país?
-- Existe uma correlação significativa entre a produção agrícola e o PIB do país?
-- A composição das culturas agrícolas produzidas por um país está mudando ao longo do tempo devido às mudanças climáticas?
-- A produtividade por hectare de terra arável, ou seja, a quantidade de toneladas produzidas por terra arada, está aumentando ao longo do tempo devido a inovações tecnológicas?
-- Relação entre uso de pesticidas e rendimento agrícola: investigar a correlação entre o uso de diferentes categorias de pesticidas e o rendimento das culturas é significativa.
+- Baseando-se nos dados agrícolas, é possível ver se um país apresentou
+desenvolvimento significativo no período (PIB)?
+
+- A produtividade por hectare de terra arável, ou seja, a quantidade de
+toneladas produzidas por terra arada, está aumentando ao longo do tempo
+devido a inovações tecnológicas (fertilizantes e pesticidas)?
+
+- Há uma correlação maior entre produção agrícola e PIB nos países
+subdesenvolvidos/em desenvolvimento em relação aos países desenvolvidos?
+
+- A expansão das terras aráveis contribui significativamente para o aumento nas emissões de gases poluentes? (adoção de práticas agrícolas prejudiciais como desmatamento e queimadas)
+
+- As emissões de gases poluentes oriundas de práticas agrícolas estão relacionadas com a variação da temperatura ao redor do mundo?
