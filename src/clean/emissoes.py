@@ -5,40 +5,55 @@ import os
 def preprocessamento_emissoes(path):
     # Lendo o arquivo
     try:
-        df = pd.read_csv(os.path.join(path, "Emissões.csv"), encoding='utf-8')
+        df = pd.read_csv(os.path.join(path, "annual-co2-emissions-per-country.csv"), encoding='utf-8')
     except UnicodeDecodeError:
         # Se ocorrer um erro de decodificação, tenta com uma codificação diferente
-        df = pd.read_csv(os.path.join(path, "Emissões.csv"), encoding='ISO-8859-1')
+        df = pd.read_csv(os.path.join(path, "annual-co2-emissions-per-country.csv"), encoding='ISO-8859-1')
 
-    # Remover colunas que terminam em F ou N
-    df = df.loc[:, ~df.columns.str.endswith(('F', 'N'))]
+    # Removendo a coluna Entity
+    df.drop(['Entity'], axis=1, inplace=True)
 
-    # Renomear as colunas dos anos para remover o Y
-    df.columns = df.columns.str.replace(r'^Y', '', regex=True)
+    # Tomando apenas de 1961 a 2022
+    df_periodo = df[(df['Year']>1960) & (df['Year']<2023)]
 
-    # Remover os anos 2030 e 2050
-    df = df.iloc[:, :-2]
+    # Renomeando as colunas
+    df_periodo.rename(columns={'Year': 'ano', 'Code': 'country_code'}, inplace=True)
 
-    # Remover as colunas Area Code, M49, Source Code, Source
-    df.drop(['Area Code', 'Area Code (M49)', 'Source Code', 'Source'], axis=1, inplace=True)
+    # Preenchendo anos faltantes
+    def preencher_anos_faltantes(df):
+        # Criar uma lista de anos de 1961 a 2022
+        anos = pd.Series(range(1961, 2023))
 
-    # Filtrando apenas os setores desejados
-    df_filtered_use = df[df['Item Code'].isin([1707, 6825, 6829])]
+        # Criar um DataFrame com todas as combinações de country_code e anos
+        country_codes = df['country_code'].unique()
+        todos_anos = pd.MultiIndex.from_product([country_codes, anos], names=['country_code', 'ano'])
 
-    # Filtrando apenas o CO2 e equivalentes
-    df_filtered_co2eq = df_filtered_use[df_filtered_use['Element Code'].isin([7273, 717815, 724413, 724313, 723113])]
+        # Criar um DataFrame vazio para os anos de 1961 a 2022
+        df_todos_anos = pd.DataFrame(index=todos_anos).reset_index()
+
+        # Certifique-se de que a coluna 'ano' seja do tipo int
+        df['ano'] = df['ano'].astype(int)
+
+        # Fazer merge com o DataFrame original
+        df_completo = pd.merge(df_todos_anos, df, on=['country_code', 'ano'], how='left')
+
+        return df_completo
     
-    # Removendo colunas inúteis
-    df_filtered_co2eq.drop(['Item Code', 'Element Code'], axis=1, inplace=True)
+    df_completo = preencher_anos_faltantes(df_periodo)
+    
+    # Remover linhas onde country_code é nan para obter apeans os países
+    df_cleaned = df_completo.dropna(subset=['country_code'])
 
-    # Somando todos os equivalentes em CO2
-    df_soma_co2eq = df_filtered_co2eq.groupby(['Area', 'Item'], as_index=False).sum(numeric_only=True)
+    # Renomear o total global
+    df_final = df_cleaned.replace('OWID_WRL', 'WLD')
 
-    print(df_soma_co2eq.columns)
-    return df_soma_co2eq
+    # Renomear Kosovo
+    df_final.replace('OWID_KOS', 'XKS', inplace=True)
+
+    return df_final
 
 
 
 # path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
 # print(preprocessamento_emissoes(path_data))
-# print(preprocessamento_emissoes(path_data)['Area'].unique())
+# print(preprocessamento_emissoes(path_data)['country_code'].unique())

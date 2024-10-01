@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy as np
 import os
+import big_strings
+import big_dicts
+
 
 def preprocessamento_PIB(path):
     # Lendo o arquivo removendo as primeiras linhas
@@ -17,17 +20,33 @@ def preprocessamento_PIB(path):
 
     # Renomeando as colunas
     df_melted = df_melted.rename(columns={
-        'Country Name': 'country_name',
-        'Indicator Name': 'indicator_name'
+        'Country Name': 'area_name',
+        'Indicator Name': 'indicator_name',
+        'Year': 'ano'
     })
 
     # Convertendo a coluna 'Year' para int
-    df_melted['Year'] = df_melted['Year'].astype(int)
+    df_melted['ano'] = df_melted['ano'].astype(int)
 
     # Removendo coluna desnecessária
     df_melted.drop(['indicator_name'], axis=1, inplace=True)
 
-    return df_melted
+    # Pegando apenas de 1961 a 2022
+    df_periodo = df_melted[(df_melted['ano']>1960)&(df_melted['ano']<2023)]
+
+    # Obtendo apenas os países e o mundo:
+    countries_to_keep = big_strings.countries_to_keep_worldbank
+    df_filtered = df_periodo[df_periodo['area_name'].isin(countries_to_keep)]
+    df_filtered.reset_index(drop=True, inplace=True)
+
+    # Dando um código para cada, para poder integrar com outros datasets
+    country_codes = big_dicts.countries_codes_worldbank
+    df_filtered['country_code'] = df_filtered['area_name'].map(country_codes)
+
+    # Removendo os nomes antigos
+    df_renamed = df_filtered.drop('area_name', axis=1)
+
+    return df_renamed
 
 # path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
 # print(preprocessamento_PIB(path_data))

@@ -14,6 +14,7 @@ import temperatura
 import pib
 import arable_land
 import emissoes
+import producao
 
 # Diretório das tabelas a serem tratadas
 path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data")
@@ -34,4 +35,8 @@ arable_land_data.to_csv(os.path.join(path_limpos, 'terras_araveis.csv'))
 
 # limpeza dos dados de emissões
 emissoes_data = emissoes.preprocessamento_emissoes(path_brutos)
-emissoes_data.to_csv(os.path.join(path_limpos, 'emissoes_co2eq.csv'))
+emissoes_data.to_csv(os.path.join(path_limpos, 'emissoes_co2.csv'))
+
+# limpeza dos dados de produção
+producao_data = producao.preprocessamento_producao(path_brutos)
+producao_data.to_csv(os.path.join(path_limpos, 'producao_total_e_area.csv'))

@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import os
+import big_strings
+import big_dicts
 
 def preprocessamento_temperatura(path):
     # Unindo as duas partes da tabela
@@ -31,14 +33,41 @@ def preprocessamento_temperatura(path):
                 code, country = parts
                 mapping[code] = country
 
-    df['country_name'] = df['ID'].map(mapping)
+    df['area_name'] = df['ID'].map(mapping)
 
     # Criando uma coluna com a média anual da temperatura
-    df['media_anual'] = df[months].mean(axis=1)
+    df['temperatura_media_anual(°C)'] = df[months].mean(axis=1)
 
-    # Pegando apenas os anos a partir de 1900
-    df_1900_atual = df[df['Year']>1900]
+    # Pegando apenas os anos a partir de 1961 até 2022
+    df_1961_atual = df[(df['Year']>1960) & (df['Year']<2023)]
 
     # Agrupando as estações por país e por ano
-    df_grouped = df_1900_atual.groupby(['Year', 'country_name'], as_index=False)['media_anual'].mean()
-    return df_grouped
+    df_grouped = df_1961_atual.groupby(['Year', 'area_name'], as_index=False)['temperatura_media_anual(°C)'].mean()
+    
+    # Renomeando a coluna dos anos
+    df_grouped.rename(columns={'Year': 'ano'}, inplace=True)
+
+    # Obtendo apenas os países e a Antártica
+    countries_to_keep = big_strings.countries_to_keep_temperatura
+
+    df_filtered = df_grouped[df_grouped['area_name'].isin(countries_to_keep)]
+    df_filtered.reset_index(drop=True, inplace=True)
+
+    # Dando um código para cada, para poder integrar com outros datasets
+    country_codes = big_dicts.country_codes_temperatura
+    df_filtered['country_code'] = df_filtered['area_name'].map(country_codes)
+
+    # Remover a coluna com os nomes
+    df_codes = df_filtered.drop(['area_name'], axis=1)
+
+    # Criar um dataframe com as linhas com a média global
+    df_world = df_codes.groupby(['ano'], as_index=False)['temperatura_media_anual(°C)'].mean()
+    df_world['country_code'] = 'WLD'
+
+    # Unir e ter o dataframe final
+    df_final = pd.concat([df_codes, df_world], ignore_index=True)
+
+    return df_final
+
+# path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
+# print(preprocessamento_temperatura(path_data))
