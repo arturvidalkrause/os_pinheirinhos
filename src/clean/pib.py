@@ -25,7 +25,7 @@ def preprocessamento_PIB(path):
         'Year': 'ano'
     })
 
-    # Convertendo a coluna 'Year' para int
+    # Convertendo a coluna 'ano' para int
     df_melted['ano'] = df_melted['ano'].astype(int)
 
     # Removendo coluna desnecessária
@@ -48,5 +48,5 @@ def preprocessamento_PIB(path):
 
     return df_renamed
 
-path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
-print(preprocessamento_PIB(path_data))
+# path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
+# print(preprocessamento_PIB(path_data))

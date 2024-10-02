@@ -15,6 +15,7 @@ import pib
 import arable_land
 import emissoes
 import producao
+import fertilizantes
 
 # Diretório das tabelas a serem tratadas
 path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data")
@@ -44,3 +45,7 @@ producao_data.to_csv(os.path.join(path_limpos, 'producao_total_e_area.csv'))
 # limpeza dos dados de precipitacao
 precipitacao_data = precipitacao.preprocessamento_precipitacao(path_brutos)
 precipitacao_data.to_csv(os.path.join(path_limpos, 'precipitacao_anual.csv'))
+
+# limpeza dos dados de fertilizantes
+fertilizantes_data = fertilizantes.preprocessamento_fertilizantes(path_brutos)
+fertilizantes_data.to_csv(os.path.join(path_limpos, 'fertilizantes_total.csv'))
