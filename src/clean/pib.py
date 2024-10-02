@@ -48,5 +48,5 @@ def preprocessamento_PIB(path):
 
     return df_renamed
 
-# path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
-# print(preprocessamento_PIB(path_data))
+path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
+print(preprocessamento_PIB(path_data))

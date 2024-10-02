@@ -40,3 +40,7 @@ emissoes_data.to_csv(os.path.join(path_limpos, 'emissoes_co2.csv'))
 # limpeza dos dados de produção
 producao_data = producao.preprocessamento_producao(path_brutos)
 producao_data.to_csv(os.path.join(path_limpos, 'producao_total_e_area.csv'))
+
+# limpeza dos dados de precipitacao
+precipitacao_data = precipitacao.preprocessamento_precipitacao(path_brutos)
+precipitacao_data.to_csv(os.path.join(path_limpos, 'precipitacao_anual.csv'))

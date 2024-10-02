@@ -48,7 +48,7 @@ def preprocessamento_emissoes(path):
     df_final = df_cleaned.replace('OWID_WRL', 'WLD')
 
     # Renomear Kosovo
-    df_final.replace('OWID_KOS', 'XKS', inplace=True)
+    df_final.replace('OWID_KOS', 'XKX', inplace=True)
 
     return df_final
 

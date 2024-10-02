@@ -1,37 +1,35 @@
-"""Trata todos os dados da tabela 'Preciptação_mes_a_mes.csv'"""
+"""Trata todos os dados da tabela 'Preciptação_mes_a_mes.xlsx'"""
 
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+import big_strings
+import big_dicts
 
-# Diretório da tabela a ser tratada
-path_data= os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos/Precipitação_mes_a_mes.xlsx")
 
-df = pd.read_excel(path_data)
+def preprocessamento_precipitacao(path):
+    # Lendo o arquivo removendo as primeiras linhas
+    df = pd.read_excel(os.path.join(path, "Precipitação_mes_a_mes.xlsx"))
 
-# print(df.columns[2:])
+    # Removendo a coluna com o nome do país
+    df.drop(['name'], axis=1, inplace=True)
 
-year_columns = [col[:4] for col in df.columns]
+    # Transpondo o DataFrame para que os anos fiquem nas linhas
+    df_transposed = df.set_index('code').T
 
-df_year = df.groupby(year_columns, axis=1).sum()
+    # Removendo informações de mês
+    df_transposed['ano'] = df_transposed.index.str[:4]
 
-# Escolher um pais específico
-ano_especifico = 2024
-serie = df_year[df_year['code'] == "BRA"]
+    # Agrupar pelos anos e somar os valores das colunas de precipitação
+    annual_totals = df_transposed.groupby('ano').sum(numeric_only=True)
 
-anos = df_year.index.tolist()
-valores = serie.values[0][:-2].tolist()
-print(anos)
-print(valores)
+    # Resetando o índice
+    annual_totals.reset_index(inplace=True)
 
-# plt.figure(figsize=(30, 10))  # Tamanho do gráfico
-# plt.bar(anos, valores, marker='o', linestyle='-', color='b')
+    # Transformando com melt
+    df_melted = annual_totals.melt(id_vars=['ano'], var_name='country_code', value_name='precipitação_anual')
 
-# # Adicionar título e rótulos aos eixos
-# plt.title('Precipitação ao longo dos anos (1901-2022)', fontsize=14)
-# plt.xlabel('Ano', fontsize=12)
-# plt.ylabel('Precipitação (mm)', fontsize=12)
+    return df_melted
 
-# # Exibir o gráfico
-# # plt.grid(True)
-# plt.show()
+# path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
+# print(preprocessamento_precipitacao(path_data))
