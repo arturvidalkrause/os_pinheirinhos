@@ -7,16 +7,25 @@ st.title("Hipóteses de Dados")
 hipoteses = [
     {
         "titulo": "Hipótese 1",
-        "descricao": "Descrição detalhada da Hipótese 1. Aqui você pode adicionar mais informações sobre a hipótese."
+        "descricao": "Baseando-se nos dados agrícolas, é possível ver se um país apresentou desenvolvimento significativo no período (PIB)?"
     },
     {
         "titulo": "Hipótese 2",
-        "descricao": "Descrição detalhada da Hipótese 2. Aqui você pode adicionar mais informações sobre a hipótese."
+        "descricao": "Há uma correlação maior entre produção agrícola e PIB nos países subdesenvolvidos/em desenvolvimento em relação aos países desenvolvidos?"
     },
     {
         "titulo": "Hipótese 3",
-        "descricao": "Descrição detalhada da Hipótese 3. Aqui você pode adicionar mais informações sobre a hipótese."
-    }
+        "descricao": "A produtividade por hectare de terra arável está aumentando ao longo do tempo, com destaque para os países emergentes."
+    },
+    {
+        "titulo": "Hipótese 4",
+        "descricao": "A variação na precipitação ao longo dos anos está correlacionada com mudanças nos índices de produção agrícola em regiões específicas."
+    },
+    {
+        "titulo": "Hipótese 5",
+        "descricao": "O aumento no uso de fertilizantes e pesticidas apresenta uma corelação maior com a produção por hectare em paises subdesenvolvidos e emergentes?"
+    },
+    
 ]
 
 # Apresentar as hipóteses com botões de expandir
