@@ -3,3 +3,8 @@ pandas
 numpy
 pyarrow
 matplotlib
+altair
+altair_saver
+altair_viewer
+vl-convert-python
+pycountry
