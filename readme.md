@@ -71,7 +71,7 @@ O objetivo é tratar e unificar diversos datasets sobre que afetam a agricultura
 
 - #### Gustavo:
 	- Streamlit
-   	-Fez os Geomaps 
+   	- Fez os Geomaps 
 
 - #### Kauan:
 	- Testes unitários
