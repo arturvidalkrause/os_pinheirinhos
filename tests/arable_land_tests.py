@@ -1,7 +1,7 @@
 import unittest
 import pandas as pd
 from io import StringIO
-from arable_land.py import preprocessamento_arable_land
+from arable_land import preprocessamento_arable_land
 
 class TestPreprocessamentoArableLand(unittest.TestCase):
 
