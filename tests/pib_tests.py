@@ -6,7 +6,7 @@ from pib import preprocessamento_PIB
 class TestPreprocessamentoPIB(unittest.TestCase):
 
     def setUp(self):
-        # Criando um CSV de exemplo para testar
+        # CSV de exemplo para testar a função
         self.csv_data = """Country Name,Indicator Name,1960,1961,1962,1963,Indicator Code,Country Code
                            Brazil,PIB (current US$),NaN,500.5,505.0,510.0,NY.GDP.MKTP.CD,BRA
                            World,PIB (current US$),NaN,10000.0,10500.0,11000.0,NY.GDP.MKTP.CD,WLD
