@@ -14,25 +14,25 @@ class TestPreprocessamentoArableLand(unittest.TestCase):
         self.path_mock = StringIO(self.csv_data)
 
     def test_preprocessamento_arable_land(self):
-        # Usando StringIO para simular a leitura de um arquivo CSV
+        # Usando StringIO para simulação de leitura do CSV
         df_result = preprocessamento_arable_land(self.path_mock)
 
-        # Verificando se as colunas estão corretas
+        # Verificando se as colunas estão
         expected_columns = ['ano', 'terras_araveis(%)', 'country_code']
         self.assertListEqual(list(df_result.columns), expected_columns)
 
-        # Verificando se a coluna 'ano' foi convertida corretamente para int
+        # Verifica se a coluna 'ano' foi convertida para int
         self.assertTrue(pd.api.types.is_integer_dtype(df_result['ano']))
 
-        # Verificando se o período está correto (de 1961 a 2022)
+        # Verifica se o período está correto (de 1961 a 2022)
         self.assertTrue((df_result['ano'] >= 1961).all())
         self.assertTrue((df_result['ano'] <= 2022).all())
 
-        # Verificando se os países estão corretos
+        # Verifica se os países estão corretos
         self.assertTrue('BRA' in df_result['country_code'].values)
         self.assertTrue('WLD' in df_result['country_code'].values)
 
-        # Verificando se os valores estão arredondados corretamente
+        # Verifica se os valores estão arredondados corretamente
         self.assertEqual(df_result["terras_araveis(%)"].iloc[0], 10.600)
 
 if __name__ == '__main__':
