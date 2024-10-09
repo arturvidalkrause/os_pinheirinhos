@@ -1,4 +1,4 @@
-"""Inicializa totas as funções de limpeza dos dados que estão dentro de ./clean"""
+"""Inicializa totas as funções de limpeza dos dados que estão dentro de ./clean, e salva cada dataset tratado"""
 
 import pandas as tp
 import sys

@@ -1,3 +1,5 @@
+"""  """
+
 import os
 import pandas as pd
 import altair as alt
@@ -12,7 +14,7 @@ path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data
 df = pd.read_csv(path_data, index_col=0)
 
 # Removendo os dados mundiais
-df_paises = df[df['country_code']!='WLD']
+df_paises = df[df['country_code'] != 'WLD']
 
 # Encontrar o valor máximo da coluna 'Annual CO₂ emissions'
 max_value = df_paises['Annual CO₂ emissions'].max()
@@ -33,4 +35,4 @@ Countries = alt.Chart(df_paises, title="Emissoes CO2 (t)").mark_area(opacity=1.0
 )
 
 # Salvando o gráfico
-Countries.save('src/graphs/gráfico_emissoes.svg')
+Countries.save('os_pinheirinhos/src/graphs/gráfico_emissoes_temp.svg')
