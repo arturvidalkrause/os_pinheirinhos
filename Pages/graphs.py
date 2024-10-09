@@ -2,13 +2,17 @@ import streamlit as st
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Função para exibir o gráfico de emissões de CO2
 @st.cache_resource
 def show_chart_1():
     def exibir_dados_emissoes():
         # Diretório da tabela a ser tratada
-        path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/limpos/emissoes_co2.csv")
+        path_data = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "../../data/limpos/emissoes_co2.csv"
+        )
 
         # Obtendo a tabela tratada
         df = pd.read_csv(path_data, index_col=0)
@@ -26,22 +30,34 @@ def show_chart_1():
         st.write("Linha com o valor máximo de emissões anuais de CO₂:")
         st.write(max_row)
 
-        # Gerando o gráfico usando matplotlib
-        fig, ax = plt.subplots()
+        # Pivotar o DataFrame para que cada país seja uma coluna
+        df_pivot = df_paises.pivot(index='ano', columns='country_code', values='Annual CO₂ emissions')
 
-        for country_code in df_paises['country_code'].unique():
-            df_country = df_paises[df_paises['country_code'] == country_code]
-            ax.plot(df_country['ano'], df_country['Annual CO₂ emissions'], label=country_code)
+        # Criação da figura e do eixo
+        fig, ax = plt.subplots(figsize=(10, 6))
 
+        # Plotar o gráfico de área
+        colors=sns.color_palette('Blues', n_colors=len(df_pivot.columns))
+        df_pivot.plot(kind='area', stacked=True, ax=ax, legend=False, color=colors)
+
+        # Configurações do gráfico
         ax.set_title('Emissões de CO₂ (kt)')
         ax.set_xlabel('Ano')
         ax.set_ylabel('Emissões anuais de CO₂')
 
-        # Adicionar uma legenda
-        ax.legend(loc='upper left', bbox_to_anchor=(1, 1), ncol=1)
+        # Ajustar a legenda para estar abaixo do gráfico em 4 colunas
+        handles, labels = ax.get_legend_handles_labels()
+        ax.legend(
+            handles=handles,
+            labels=labels,
+            loc='upper center',
+            bbox_to_anchor=(0.5, -0.15),
+            ncol=4
+        )
 
         # Ajustar layout
         plt.tight_layout()
+        plt.subplots_adjust(bottom=0.35)
 
         # Exibir o gráfico no Streamlit
         st.pyplot(fig)
@@ -54,29 +70,41 @@ def show_chart_1():
 def show_chart_2():
     def gerar_grafico_producao():
         # Diretório da tabela a ser tratada
-        path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/limpos/producao_total_e_area.csv")
+        path_data = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "../../data/limpos/producao_total_e_area.csv"
+        )
 
         # Obtendo a tabela tratada
         df = pd.read_csv(path_data, index_col=0)
+        df=df[df['country_code']!='WLD']
 
         # Criação da figura e do eixo
         fig, ax = plt.subplots()
 
-        # Plotar os dados para cada país
-        for country_code in df['country_code'].unique():
-            df_country = df[df['country_code'] == country_code]
-            ax.plot(df_country['ano'], df_country['producao_total(t)'], label=country_code)
+        # Plotar os dados usando seaborn
+        colors = sns.color_palette('Blues', n_colors=len(df['country_code'].unique()))
+        sns.lineplot(data=df, x='ano', y='producao_total(t)', hue='country_code', ax=ax,palette=colors)
 
         # Configurações do gráfico
         ax.set_title('Produção Total ao longo dos anos')
         ax.set_xlabel('Ano')
         ax.set_ylabel('Produção Total (t)')
 
-        # Adicionar uma legenda
-        ax.legend(loc='upper left', bbox_to_anchor=(1, 1), ncol=1)
+
+        # Ajustar a legenda para estar abaixo do gráfico em 4 colunas
+        handles, labels = ax.get_legend_handles_labels()
+        ax.legend(
+            handles=handles,
+            labels=labels,
+            loc='upper center',
+            bbox_to_anchor=(0.5, -0.15),
+            ncol=4
+        )
 
         # Ajustar layout para evitar sobreposição de elementos
         plt.tight_layout()
+        plt.subplots_adjust(bottom=0.25)
 
         # Exibir o gráfico no Streamlit
         st.pyplot(fig)
@@ -88,38 +116,62 @@ def show_chart_2():
 @st.cache_resource
 def show_chart_3():
     # Diretório da tabela a ser tratada
-    path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/limpos/temperatura.csv")
+    path_data = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        "../../data/limpos/temperatura.csv"
+    )
 
     # Obtendo a tabela tratada
     df = pd.read_csv(path_data, index_col=0)
 
+    # Remover 'WLD' do dataset
     df_paises = df[df['country_code'] != 'WLD']
     df_world = df[df['country_code'] == 'WLD']
 
     # Função para gerar o gráfico de temperatura
-    
     def gerar_grafico_temperatura():
         # Criação da figura e do eixo
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(10, 6))
 
-        # Plotar os dados para cada país
-        for country_code in df_paises['country_code'].unique():
-            df_country = df_paises[df_paises['country_code'] == country_code]
-            ax.plot(df_country['ano'], df_country['temperatura_media_anual(°C)'], label=country_code, alpha=0.2)
+        # Plotar os dados usando Seaborn
+        sns.lineplot(
+            data=df_paises,
+            x='ano',
+            y='temperatura_media_anual(°C)',
+            hue='country_code',
+            ax=ax,
+            alpha=0.2,
+            legend=False
+        )
 
         # Plotar a média global com opacidade completa
-        ax.plot(df_world['ano'], df_world['temperatura_media_anual(°C)'], label='Média Global', color='black')
+        sns.lineplot(
+            data=df_world,
+            x='ano',
+            y='temperatura_media_anual(°C)',
+            label='Média Global',
+            color='black',
+            ax=ax
+        )
 
         # Configurações do gráfico
         ax.set_title('Temperatura ao longo dos anos')
         ax.set_xlabel('Ano')
         ax.set_ylabel('Temperatura média anual (°C)')
 
-        # Adicionar uma legenda
-        ax.legend(loc='upper left', bbox_to_anchor=(1, 1), ncol=1)
+        # Ajustar a legenda para estar abaixo do gráfico em 4 colunas
+        handles, labels = ax.get_legend_handles_labels()
+        ax.legend(
+            handles=handles,
+            labels=labels,
+            loc='upper center',
+            bbox_to_anchor=(0.5, -0.15),
+            ncol=4
+        )
 
         # Ajustar layout para evitar sobreposição de elementos
         plt.tight_layout()
+        plt.subplots_adjust(bottom=0.25)
 
         # Exibir o gráfico no Streamlit
         st.pyplot(fig)
