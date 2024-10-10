@@ -1,5 +1,7 @@
+from config import DATA_SETS_LIMPOS
 import streamlit as st
 import pandas as pd
+from pathlib import Path
 
 # Descrição geral
 st.title("Análise de Dados")
@@ -11,23 +13,17 @@ Utilize as abas abaixo para visualizar cada dataset individualmente.
 # Função para carregar os DataFrames com cache
 @st.cache_data
 def load_data():
-    df1 = pd.read_csv('C:\\Users\\guguo\\OneDrive\\Área de Trabalho\\FGV\\LP\\trabalho_a1\\data\\limpos\\emissoes_co2.csv')
+    df1 = pd.read_parquet(DATA_SETS_LIMPOS + "/emissoes_co2.parquet")
+    df2 = pd.read_parquet(DATA_SETS_LIMPOS + "/fertilizantes_total.parquet")
+    df3 = pd.read_parquet(DATA_SETS_LIMPOS + "/PIB.parquet")
+    df4 = pd.read_parquet(DATA_SETS_LIMPOS + "/precipitacao_anual.parquet")
+    df5 = pd.read_parquet(DATA_SETS_LIMPOS + "/producao_total_e_area.parquet")
+    df6 = pd.read_parquet(DATA_SETS_LIMPOS + "/temperatura.parquet")
+    df7 = pd.read_parquet(DATA_SETS_LIMPOS + "/terras_araveis.parquet")
 
-    df2 = pd.read_csv('C:\\Users\\guguo\\OneDrive\\Área de Trabalho\\FGV\\LP\\trabalho_a1\\data\\limpos\\fertilizantes_total.csv')
-
-    df3 = pd.read_csv('C:\\Users\\guguo\\OneDrive\\Área de Trabalho\\FGV\\LP\\trabalho_a1\\data\\limpos\\PIB.csv')
-
-    df4 = pd.read_csv('C:\\Users\\guguo\\OneDrive\\Área de Trabalho\\FGV\\LP\\trabalho_a1\\data\\limpos\\precipitacao_anual.csv')
-
-    df5 = pd.read_csv('C:\\Users\\guguo\\OneDrive\\Área de Trabalho\\FGV\\LP\\trabalho_a1\\data\\limpos\\producao_total_e_area.csv')
-
-    df6 = pd.read_csv('C:\\Users\\guguo\\OneDrive\\Área de Trabalho\\FGV\\LP\\trabalho_a1\\data\\limpos\\temperatura.csv')
-
-    df7 = pd.read_csv('C:\\Users\\guguo\\OneDrive\\Área de Trabalho\\FGV\\LP\\trabalho_a1\\data\\limpos\\terras_araveis.csv')
-    
     return df1, df2, df3, df4, df5, df6, df7
 
-# Carregar os DataFrames
+# Carregar os dados
 df1, df2, df3, df4, df5, df6, df7 = load_data()
 
 # Abas para cada dataset
