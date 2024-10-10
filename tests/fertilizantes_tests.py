@@ -1,7 +1,14 @@
 import unittest
 import pandas as pd
 from io import StringIO
-from fertilizantes import preprocessamento_fertilizantes
+
+import sys
+import os
+
+# Adiciona o diretório src ao sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+
+from clean.fertilizantes import preprocessamento_fertilizantes
 
 class TestPreprocessamentoFertilizantes(unittest.TestCase):
 

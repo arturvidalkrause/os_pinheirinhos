@@ -1,7 +1,14 @@
 import unittest
 import pandas as pd
 from io import StringIO
-from emissoes import preprocessamento_emissoes
+
+import sys
+import os
+
+# Adiciona o diretório src ao sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+
+from clean.emissoes import preprocessamento_emissoes
 
 class TestPreprocessamentoEmissoes(unittest.TestCase):
 
