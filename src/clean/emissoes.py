@@ -3,8 +3,8 @@
 """
 
 import pandas as pd
-import numpy as np
 import os
+import big_dicts
 
 def preprocessamento_emissoes(path: str) -> pd.DataFrame:
 	"""Trata o dataset em questão removendo colunas desnecessárias, agrupas os dados necessários, trata dados NaN e transforma dados de colunas em novas linhas e retorna apenas o necessário para as análises
@@ -29,7 +29,7 @@ def preprocessamento_emissoes(path: str) -> pd.DataFrame:
 	df_periodo = df[(df['Year']>1960) & (df['Year']<2023)]
 
 	# Renomeando as colunas
-	df_periodo.rename(columns={'Year': 'ano', 'Code': 'country_code'}, inplace=True)
+	df_periodo = df_periodo.rename(columns={'Year': 'ano', 'Code': 'country_code'})
 
     # Preenchendo anos faltantes
 	def preencher_anos_faltantes(df):
@@ -44,7 +44,7 @@ def preprocessamento_emissoes(path: str) -> pd.DataFrame:
 		df_todos_anos = pd.DataFrame(index=todos_anos).reset_index()
 
     	# Certifique-se de que a coluna 'ano' seja do tipo int
-		df['ano'] = df['ano'].astype(int)
+		df.loc[:, 'ano'] = df['ano'].astype(int)
 
         # Fazer merge com o DataFrame original
 		df_completo = pd.merge(df_todos_anos, df, on=['country_code', 'ano'], how='left')
@@ -62,10 +62,20 @@ def preprocessamento_emissoes(path: str) -> pd.DataFrame:
     # Renomear Kosovo
 	df_final.replace('OWID_KOS', 'XKX', inplace=True)
 
+	# Inverte o dicionário para que o código do país seja a chave
+	reversed_dict = {v: k for k, v in big_dicts.countries_codes_emissoes_co2.items()}
+
+	# Faz a substituição
+	df_final["pais"] = df_final["country_code"].replace(reversed_dict)
+
+	df_final["Annual CO₂ emissions"] = df_final["Annual CO₂ emissions"].round(0)
+	
+	# Define um tipo correto a cada coluna
+	df_final = df_final.astype({
+		'pais': "category",
+		'country_code': "category",
+		'ano': "category",
+		'Annual CO₂ emissions': "Int64"
+	})
+
 	return df_final
-
-
-
-# path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
-# print(preprocessamento_emissoes(path_data))
-# print(preprocessamento_emissoes(path_data)['country_code'].unique())

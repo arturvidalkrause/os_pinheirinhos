@@ -3,7 +3,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
-import big_strings
 import big_dicts
 
 
@@ -32,7 +31,18 @@ def preprocessamento_precipitacao(path):
 	# Arredonda para duas casas decimais
 	df_melted["precipitação_anual"] = df_melted["precipitação_anual"].round(2)
 
-	return df_melted
+	# Inverte o dicionário para que o código do país seja a chave
+	reversed_dict = {v: k for k, v in big_dicts.country_codes_precipitacao.items()}
 
-# path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
-# print(preprocessamento_precipitacao(path_data))
+	# Faz a substituição
+	df_melted["pais"] = df_melted["country_code"].replace(reversed_dict)
+	
+	# Converter outras colunas para os tipos corretos
+	df_melted = df_melted.astype({
+		'pais': "category",
+		'country_code': "category",
+		'ano': "category",
+		'precipitação_anual': "float64",
+	})
+
+	return df_melted

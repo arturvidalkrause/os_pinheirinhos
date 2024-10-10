@@ -32,7 +32,7 @@ def preprocessamento_PIB(path: str) -> pd.DataFrame:
 
     # Renomeando as colunas
 	df_melted = df_melted.rename(columns={
-        'Country Name': 'area_name',
+        'Country Name': 'pais',
         'Indicator Name': 'indicator_name',
         'Year': 'ano'
     })
@@ -48,20 +48,25 @@ def preprocessamento_PIB(path: str) -> pd.DataFrame:
 
     # Obtendo apenas os países e o mundo:
 	countries_to_keep = big_strings.countries_to_keep_worldbank
-	df_filtered = df_periodo[df_periodo['area_name'].isin(countries_to_keep)]
+	df_filtered = df_periodo[df_periodo['pais'].isin(countries_to_keep)]
 	df_filtered.reset_index(drop=True, inplace=True)
+	df_filtered.dropna()
 
     # Dando um código para cada, para poder integrar com outros datasets
 	country_codes = big_dicts.countries_codes_worldbank
-	df_filtered['country_code'] = df_filtered['area_name'].map(country_codes)
-
+	df_filtered['country_code'] = df_filtered['pais'].map(country_codes)
     # Removendo os nomes antigos
-	df_renamed = df_filtered.drop('area_name', axis=1)
+	df_renamed = df_filtered.dropna()
 
-	# Arredonda para duas casas decimais
+	# # Arredonda para duas casas decimais
 	df_renamed["PIB"] = df_renamed["PIB"].round(2)
 
-	return df_renamed
+	# # Define um tipo correto a cada coluna
+	df_renamed = df_renamed.astype({
+		'pais': "category",
+		'ano': "category",
+		'PIB': "int64",
+		'country_code': "category"
+	})
 
-# path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
-# print(preprocessamento_PIB(path_data))
+	return df_renamed

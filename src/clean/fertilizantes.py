@@ -103,8 +103,18 @@ def preprocessamento_fertilizantes(path: str) -> pd.DataFrame:
 	# Arredonda para duas casas decimais
 	df_completo["uso_total_de_fertilizantes(t)"]  = df_completo["uso_total_de_fertilizantes(t)"].round(2)
 
+	# Inverte o dicionário para que o código do país seja a chave
+	reversed_dict = {v: k for k, v in big_dicts.countries_codes_emissoes_co2.items()}
+
+	# Substituir os valores em country_code com o dicionário de correspondência
+	df_completo["pais"] = df_completo["country_code"].replace(reversed_dict)
+	
+	# Converter outras colunas para os tipos corretos
+	df_completo = df_completo.astype({
+		'pais': "category",
+		'country_code': "category",
+		'ano': "category",
+		'uso_total_de_fertilizantes(t)': "float64",
+	})
+
 	return df_completo
-
-
-# path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
-# print(preprocessamento_fertilizantes(path_data))

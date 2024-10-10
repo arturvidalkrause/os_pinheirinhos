@@ -3,7 +3,6 @@ import numpy as np
 import os
 from scipy.stats import pearsonr, spearmanr
 
-
 path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/limpos")
 
 df_producao = pd.read_csv(os.path.join(path_data, 'producao_total_e_area.csv'), index_col=0)
