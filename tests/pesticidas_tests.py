@@ -1,7 +1,14 @@
 import unittest
 import pandas as pd
 from io import StringIO
-from pesticidas import preprocessamento_pesticidas
+
+import sys
+import os
+
+# Adiciona o diretório src ao sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+
+from clean.pesticidas import preprocessamento_pesticidas
 
 class TestPreprocessamentoPesticidas(unittest.TestCase):
 

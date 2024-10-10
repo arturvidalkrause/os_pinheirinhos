@@ -3,8 +3,8 @@
 """
 
 import pandas as pd
-import big_strings
-import big_dicts
+from . import big_strings
+from . import big_dicts
 import os
 
 

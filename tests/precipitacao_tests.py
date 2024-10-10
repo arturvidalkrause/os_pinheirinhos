@@ -1,7 +1,14 @@
 import unittest
 import pandas as pd
 from io import StringIO
-from precipitacao import preprocessamento_precipitacao  # Importe sua função correta aqui
+
+import sys
+import os
+
+# Adiciona o diretório src ao sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+
+from clean.precipitacao import preprocessamento_precipitacao
 
 class TestPreprocessamentoPrecipitacao(unittest.TestCase):
 

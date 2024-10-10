@@ -5,8 +5,8 @@
 import pandas as pd
 import numpy as np
 import os
-import big_strings
-import big_dicts
+from . import big_strings
+from . import big_dicts
 
 def preprocessamento_producao(path: str) -> pd.DataFrame:
 	"""Trata o dataset em questão removendo colunas desnecessárias, agrupas os dados necessários, trata dados NaN e transforma dados de colunas em novas linhas e retorna apenas o necessário para as análises

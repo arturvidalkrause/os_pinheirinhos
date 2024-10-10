@@ -3,8 +3,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
-import big_strings
-import big_dicts
+from . import big_strings
+from . import big_dicts
 
 
 def preprocessamento_precipitacao(path):

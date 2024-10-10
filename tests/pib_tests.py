@@ -1,7 +1,14 @@
 import unittest
 import pandas as pd
 from io import StringIO
-from pib import preprocessamento_PIB
+
+import sys
+import os
+
+# Adiciona o diretório src ao sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+
+from clean.pib import preprocessamento_PIB
 
 class TestPreprocessamentoPIB(unittest.TestCase):
 

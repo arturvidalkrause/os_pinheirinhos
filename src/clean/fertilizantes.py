@@ -5,8 +5,8 @@
 import pandas as pd
 import numpy as np
 import os
-import big_strings
-import big_dicts
+from . import big_strings
+from . import big_dicts
 
 
 def preprocessamento_fertilizantes(path: str) -> pd.DataFrame:
