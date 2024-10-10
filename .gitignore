@@ -1,0 +1,56 @@
+# Ignorar arquivos de notebook do Jupyter
+*.ipynb
+
+# Ignorar arquivos de imagem gerados ou temporários com a tag "*_temp.png"
+*_temp.png
+
+# Ignorar arquivos de cache e metadados de Jupyter
+.ipynb_checkpoints/
+
+# Ignorar configurações específicas de ambiente ou IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignorar arquivos de ambiente virtual Python
+venv/
+env/
+.venv/
+ENV/
+__pycache__/
+*.py[cod]
+*.so
+
+# Ignorar arquivos temporários do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ignorar logs e arquivos de depuração
+*.log
+*.out
+*.err
+
+# Ignorar arquivos de pacotes Python
+*.egg-info/
+*.egg
+dist/
+build/
+*.whl
+
+# Ignorar arquivos de banco de dados ou do SQLite
+*.sqlite3
+
+# Ignorar arquivos de chaves ou de configuração confidenciais
+*.env
+*.key
+*.pem
+
+# Ignorar arquivos gerados por ferramentas de containers (Docker)
+docker-compose.override.yml
+Dockerfile
+.dockerignore
+
+# Ignorar arquivos de backup
+*.bak
+*.old
