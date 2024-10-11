@@ -24,7 +24,7 @@ World,Arable land (% of land area),AG.LND.ARBL.ZS,WLD,NaN,37.8,38.0
             f.write(self.csv_content)
 
     def tearDown(self):
-        # Remova o arquivo temporário e o diretório após o teste
+        # Remove o arquivo temporário e o diretório após o teste
         if os.path.exists(self.temp_path):
             os.remove(self.temp_path)
         if os.path.exists(self.test_dir):

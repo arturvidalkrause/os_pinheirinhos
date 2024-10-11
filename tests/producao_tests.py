@@ -19,7 +19,7 @@ class TestPreprocessamentoProducao(unittest.TestCase):
         df.to_csv(temp_path, index=False)
         return temp_path
 
-    # Teste a função com um DataFrame contendo todas as colunas necessárias
+    # Testa a função com um DataFrame contendo todas as colunas necessárias
     def test_all_columns_present(self):
         csv_content = """Area,Item,Element,Unit,Y1961,Y1962,Y1963
 Brazil,Wheat,Area harvested,ha,100,110,120
@@ -34,7 +34,7 @@ Brazil,Rice,Production,t,1500,1550,1600"""
         expected_columns = ['ano', 'producao_total(t)', 'area_total_de_producao(ha)', 'country_code']
         self.assertEqual(sorted(cleaned_data.columns.tolist()), sorted(expected_columns))
 
-    # Teste a função para verificar se ela retorna um DataFrame não vazio
+    # Testa a função para verificar se ela retorna um DataFrame não vazio
     def test_non_empty_dataframe(self):
         csv_content = """Area,Item,Element,Unit,Y1961,Y1962,Y1963
 Brazil,Wheat,Area harvested,ha,100,110,120

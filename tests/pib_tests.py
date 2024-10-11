@@ -17,7 +17,7 @@ class TestPreprocessamentoPIB(unittest.TestCase):
             f.write(content)
         return temp_path
 
-    # Teste a função com um DataFrame contendo todas as colunas necessárias
+    # Testa a função com um DataFrame contendo todas as colunas necessárias
     def test_all_columns_present(self):
         csv_content = """Country Name,Indicator Name,Indicator Code,Country Code,1960,1961,1962
 Brazil,GDP (current US$),NY.GDP.MKTP.CD,BRA,500,550,600
@@ -30,7 +30,7 @@ World,GDP (current US$),NY.GDP.MKTP.CD,WLD,1000,1100,1200"""
         expected_columns = ['ano', 'PIB', 'country_code']
         self.assertEqual(sorted(cleaned_data.columns.tolist()), sorted(expected_columns))
 
-    # Teste a função para verificar se ela retorna um DataFrame não vazio
+    # Testa a função para verificar se ela retorna um DataFrame não vazio
     def test_non_empty_dataframe(self):
         csv_content = """Country Name,Indicator Name,Indicator Code,Country Code,1960,1961,1962
 Brazil,GDP (current US$),NY.GDP.MKTP.CD,BRA,500,550,600

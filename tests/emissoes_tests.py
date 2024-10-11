@@ -19,7 +19,7 @@ class TestPreprocessamentoEmissoes(unittest.TestCase):
         df.to_csv(temp_path, index=False)
         return temp_path
 
-    # Teste a função com um DataFrame contendo todas as colunas necessárias
+    # Testa a função com um DataFrame contendo todas as colunas necessárias
     def test_all_columns_present(self):
         csv_content = """Entity,Code,Year,Annual CO2 emissions (tonnes)
 Brazil,BRA,1960,10.5
@@ -36,7 +36,7 @@ World,OWID_WRL,1962,38.0"""
         expected_columns = ['ano', 'Annual CO2 emissions (tonnes)', 'country_code']
         self.assertEqual(sorted(cleaned_data.columns.tolist()), sorted(expected_columns))
 
-    # Teste a função para verificar se ela retorna um DataFrame não vazio
+    # Testa a função para verificar se ela retorna um DataFrame não vazio
     def test_non_empty_dataframe(self):
         csv_content = """Entity,Code,Year,Annual CO2 emissions (tonnes)
 Brazil,BRA,1960,10.5

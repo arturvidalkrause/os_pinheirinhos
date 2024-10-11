@@ -16,7 +16,7 @@ class TestPreprocessamentoPrecipitacao(unittest.TestCase):
         df.to_excel(temp_path, index=False)
         return temp_path
 
-    # Teste a função com um DataFrame contendo todas as colunas necessárias
+    # Testa a função com um DataFrame contendo todas as colunas necessárias
     def test_all_columns_present(self):
         data = {
             'code': ['BRA', 'WLD'],
@@ -33,7 +33,7 @@ class TestPreprocessamentoPrecipitacao(unittest.TestCase):
         expected_columns = ['ano', 'country_code', 'precipitação_anual']
         self.assertEqual(sorted(cleaned_data.columns.tolist()), sorted(expected_columns))
 
-    # Teste a função para verificar se ela retorna um DataFrame não vazio
+    # Testa a função para verificar se ela retorna um DataFrame não vazio
     def test_non_empty_dataframe(self):
         data = {
             'code': ['BRA', 'WLD'],

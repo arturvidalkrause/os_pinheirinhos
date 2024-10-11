@@ -1,8 +1,5 @@
-import sys, os
+import sys
+import os
 
-PROJECT_PATH = os.getcwd()
-SOURCE_PATH = os.path.join(
-    PROJECT_PATH,"clean"
-)
-
-sys.path.append(SOURCE_PATH)
+# Adiciona o diretório atual (tests) no sys.path
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))

@@ -19,7 +19,7 @@ class TestPreprocessamentoFertilizantes(unittest.TestCase):
         df.to_csv(temp_path, index=False)
         return temp_path
 
-    # Teste a função com um DataFrame contendo todas as colunas necessárias
+    # Testa a função com um DataFrame contendo todas as colunas necessárias
     def test_all_columns_present(self):
         csv_content = """Area,Element Code,Item Code,Element,Unit,Y1961,Y1962,Y1963
 Brazil,5157,1234,Total Nutrient Use,t,100,110,120
@@ -34,7 +34,7 @@ World,5157,1234,Total Nutrient Use,t,400,410,420"""
         expected_columns = ['ano', 'uso_total_de_fertilizantes(t)', 'country_code']
         self.assertEqual(sorted(cleaned_data.columns.tolist()), sorted(expected_columns))
 
-    # Teste a função para verificar se ela retorna um DataFrame não vazio
+    # Testa a função para verificar se ela retorna um DataFrame não vazio
     def test_non_empty_dataframe(self):
         csv_content = """Area,Element Code,Item Code,Element,Unit,Y1961,Y1962,Y1963
 Brazil,5157,1234,Total Nutrient Use,t,100,110,120
