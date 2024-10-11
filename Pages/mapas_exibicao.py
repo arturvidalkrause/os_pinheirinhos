@@ -60,6 +60,7 @@ double_graph = st.sidebar.checkbox('Ativar Duplo Gráfico')
 
 # Função para criar o mapa
 def create_map(df, data_column, year, map_title, unit):
+    
     # Filtra o DataFrame para o ano selecionado
     df_year = df[df['ano'] == year]
     
