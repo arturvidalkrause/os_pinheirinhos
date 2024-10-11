@@ -1,39 +1,39 @@
 import streamlit as st
 
-# Título da página
+#Título 
 st.title("Apresentação do Trabalho")
 
-# Subtítulo
+#Subtítulo
 st.subheader("Descrição Geral")
 
-# Descrição do trabalho
+#Descrição do que falar
 st.write("""
 Bem-vindo à nossa apresentação! Este trabalho tem como objetivo [insira o objetivo do trabalho aqui].
 Estamos analisando [insira a descrição dos dados aqui].
 """)
 
-# Seção de Dados
+#Seção de Dados
 st.subheader("Dados Analisados")
 
-# Descrição dos dados
+#Descrição dos dados
 st.write("""
 Os dados que estamos analisando incluem [insira a descrição dos dados aqui].
 Esses dados foram coletados de [insira a fonte dos dados aqui] e abrangem o período de [insira o período aqui].
 """)
 
-# Seção de Metodologia
+#Seção de Metodologia
 st.subheader("Metodologia")
 
-# Descrição da metodologia
+#Descrição da metodologia
 st.write("""
 Nossa metodologia inclui [insira a descrição da metodologia aqui].
 Utilizamos técnicas como [insira as técnicas utilizadas aqui] para analisar os dados.
 """)
 
-# Seção de Resultados Esperados
+#Seção de Resultados Esperados
 st.subheader("Resultados Esperados")
 
-# Descrição dos resultados esperados
+#Descrição dos resultados esperados
 st.write("""
 Esperamos encontrar [insira os resultados esperados aqui].
 Esses resultados nos ajudarão a [insira o propósito dos resultados aqui].
