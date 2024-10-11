@@ -1,5 +1,8 @@
 import streamlit as st
 
+# config da pagina
+st.set_page_config(page_title="Apresentação do Trabalho", layout="wide")
+
 #Título 
 st.title("Apresentação do Trabalho")
 

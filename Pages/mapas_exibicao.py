@@ -1,16 +1,21 @@
 import pandas as pd
 import streamlit as st
 import plotly.express as px
+from config import DATA_SETS_LIMPOS
+from pathlib import Path
 
 # Leitura dos arquivos CSV usando pandas
 # Ajuste os caminhos dos arquivos conforme necessário
-df_terras_araveis = pd.read_csv('C:\\Users\\guguo\\OneDrive\\Área de Trabalho\\FGV\\LP\\trabalho_a1\\data\\limpos\\terras_araveis.csv')
-df_temperatura = pd.read_csv('C:\\Users\\guguo\\OneDrive\\Área de Trabalho\\FGV\\LP\\trabalho_a1\\data\\limpos\\temperatura.csv')
-df_precipitacao_anual = pd.read_csv('C:\\Users\\guguo\\OneDrive\\Área de Trabalho\\FGV\\LP\\trabalho_a1\\data\\limpos\\precipitacao_anual.csv')
-df_producao_total_e_area = pd.read_csv('C:\\Users\\guguo\\OneDrive\\Área de Trabalho\\FGV\\LP\\trabalho_a1\\data\\limpos\\producao_total_e_area.csv')
-df_fertilizantes_total = pd.read_csv('C:\\Users\\guguo\\OneDrive\\Área de Trabalho\\FGV\\LP\\trabalho_a1\\data\\limpos\\fertilizantes_total.csv')
-df_pib = pd.read_csv('C:\\Users\\guguo\\OneDrive\\Área de Trabalho\\FGV\\LP\\trabalho_a1\\data\\limpos\\PIB.csv')
-df_emissoes_co2 = pd.read_csv('C:\\Users\\guguo\\OneDrive\\Área de Trabalho\\FGV\\LP\\trabalho_a1\\data\\limpos\\terras_araveis.csv')
+df_terras_araveis = pd.read_parquet(DATA_SETS_LIMPOS + '/terras_araveis.parquet')
+df_temperatura = pd.read_parquet(DATA_SETS_LIMPOS + '/temperatura.parquet')
+df_precipitacao_anual = pd.read_parquet(DATA_SETS_LIMPOS + '/precipitacao_anual.parquet')
+df_producao_total_e_area = pd.read_parquet(DATA_SETS_LIMPOS + '/producao_total_e_area.parquet')
+df_fertilizantes_total = pd.read_parquet(DATA_SETS_LIMPOS + '/fertilizantes_total.parquet')
+df_pib = pd.read_parquet(DATA_SETS_LIMPOS + '/pib.parquet')
+df_emissoes_co2 = pd.read_parquet(DATA_SETS_LIMPOS + '/emissoes_co2.parquet')
+
+# Corrigir o nome da coluna no DataFrame de temperatura
+df_temperatura.rename(columns={'temperatura_media_anual(Â°C)': 'temperatura_media_anual(°C)'}, inplace=True)
 
 # Mapeamento dos temas para os dataframes correspondentes
 themes = {
@@ -31,7 +36,7 @@ themes = {
 
 data_info = {
     'Terras Aráveis': ('terras_araveis(%)', '%'),
-    'Temperatura': ('temperatura_media_anual(Â°C)', 'ºC'),
+    'Temperatura': ('temperatura_media_anual(°C)', 'ºC'),
     'Precipitação Anual': ('precipitação_anual', 'mm'),
     'Produção Total e Área': ('producao_total(t)', 'toneladas'),
     'Fertilizantes Total': ('uso_total_de_fertilizantes(t)', 'toneladas'),
@@ -60,6 +65,7 @@ double_graph = st.sidebar.checkbox('Ativar Duplo Gráfico')
 
 # Função para criar o mapa
 def create_map(df, data_column, year, map_title, unit):
+    
     # Filtra o DataFrame para o ano selecionado
     df_year = df[df['ano'] == year]
     

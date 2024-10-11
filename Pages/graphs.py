@@ -1,24 +1,31 @@
+from config import DATA_SETS_LIMPOS
 import streamlit as st
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# Função para carregar os DataFrames com cache
+@st.cache_data
+def load_data():
+    df1 = pd.read_parquet(DATA_SETS_LIMPOS + "/emissoes_co2.parquet")
+    df2 = pd.read_parquet(DATA_SETS_LIMPOS + "/fertilizantes_total.parquet")
+    df3 = pd.read_parquet(DATA_SETS_LIMPOS + "/PIB.parquet")
+    df4 = pd.read_parquet(DATA_SETS_LIMPOS + "/precipitacao_anual.parquet")
+    df5 = pd.read_parquet(DATA_SETS_LIMPOS + "/producao_total_e_area.parquet")
+    df6 = pd.read_parquet(DATA_SETS_LIMPOS + "/temperatura.parquet")
+    df7 = pd.read_parquet(DATA_SETS_LIMPOS + "/terras_araveis.parquet")
+
+    return df1, df2, df3, df4, df5, df6, df7
+
+# Carregar os dados
+df1, df2, df3, df4, df5, df6, df7 = load_data()
+
 # Função para exibir o gráfico de emissões de CO2
 @st.cache_resource
 def show_chart_1():
-    def exibir_dados_emissoes():
-        # Diretório da tabela a ser tratada
-        path_data = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "../../data/limpos/emissoes_co2.csv"
-        )
-
-        # Obtendo a tabela tratada
-        df = pd.read_csv(path_data, index_col=0)
-
         # Removendo os dados mundiais
-        df_paises = df[df['country_code'] != 'WLD']
+        df_paises = df1[df1['country_code'] != 'WLD']
 
         # Encontrar o valor máximo da coluna 'Annual CO₂ emissions'
         max_value = df_paises['Annual CO₂ emissions'].max()
@@ -62,22 +69,11 @@ def show_chart_1():
         # Exibir o gráfico no Streamlit
         st.pyplot(fig)
 
-    # Chamar a função para exibir os dados e o gráfico
-    exibir_dados_emissoes()
-
 # Função para exibir o gráfico de produção total
 @st.cache_resource
 def show_chart_2():
-    def gerar_grafico_producao():
-        # Diretório da tabela a ser tratada
-        path_data = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "../../data/limpos/producao_total_e_area.csv"
-        )
-
         # Obtendo a tabela tratada
-        df = pd.read_csv(path_data, index_col=0)
-        df=df[df['country_code']!='WLD']
+        df=df5[df5['country_code']!='WLD']
 
         # Criação da figura e do eixo
         fig, ax = plt.subplots()
@@ -109,75 +105,60 @@ def show_chart_2():
         # Exibir o gráfico no Streamlit
         st.pyplot(fig)
 
-    # Chamar a função para gerar o gráfico
-    gerar_grafico_producao()
-
 # Função para exibir o gráfico de temperatura
 @st.cache_resource
 def show_chart_3():
-    # Diretório da tabela a ser tratada
-    path_data = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        "../../data/limpos/temperatura.csv"
+    # Remover 'WLD' do dataset
+    df_paises = df6[df6['country_code'] != 'WLD']
+    df_world = df6[df6['country_code'] == 'WLD']
+
+    # Criação da figura e do eixo
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    # Plotar os dados usando Seaborn
+    sns.lineplot(
+    data=df_paises,
+    x='ano',
+    y='temperatura_media_anual(°C)',
+    hue='country_code',
+    ax=ax,
+    alpha=0.2,
+    legend=False
     )
 
-    # Obtendo a tabela tratada
-    df = pd.read_csv(path_data, index_col=0)
+    # Plotar a média global com opacidade completa
+    sns.lineplot(
+        data=df_world,
+        x='ano',
+        y='temperatura_media_anual(°C)',
+        label='Média Global',
+        color='black',
+        ax=ax
+    )
 
-    # Remover 'WLD' do dataset
-    df_paises = df[df['country_code'] != 'WLD']
-    df_world = df[df['country_code'] == 'WLD']
+    # Configurações do gráfico
+    ax.set_title('Temperatura ao longo dos anos')
+    ax.set_xlabel('Ano')
+    ax.set_ylabel('Temperatura média anual (°C)')
 
-    # Função para gerar o gráfico de temperatura
-    def gerar_grafico_temperatura():
-        # Criação da figura e do eixo
-        fig, ax = plt.subplots(figsize=(10, 6))
+    # Ajustar a legenda para estar abaixo do gráfico em 4 colunas
+    handles, labels = ax.get_legend_handles_labels()
+    ax.legend(
+        handles=handles,
+        labels=labels,
+        loc='upper center',
+        bbox_to_anchor=(0.5, -0.15),
+        ncol=4
+    )
 
-        # Plotar os dados usando Seaborn
-        sns.lineplot(
-            data=df_paises,
-            x='ano',
-            y='temperatura_media_anual(°C)',
-            hue='country_code',
-            ax=ax,
-            alpha=0.2,
-            legend=False
-        )
+    # Ajustar layout para evitar sobreposição de elementos
+    plt.tight_layout()
+    plt.subplots_adjust(bottom=0.25)
 
-        # Plotar a média global com opacidade completa
-        sns.lineplot(
-            data=df_world,
-            x='ano',
-            y='temperatura_media_anual(°C)',
-            label='Média Global',
-            color='black',
-            ax=ax
-        )
+    # Exibir o gráfico no Streamlit
+    st.pyplot(fig)
 
-        # Configurações do gráfico
-        ax.set_title('Temperatura ao longo dos anos')
-        ax.set_xlabel('Ano')
-        ax.set_ylabel('Temperatura média anual (°C)')
-
-        # Ajustar a legenda para estar abaixo do gráfico em 4 colunas
-        handles, labels = ax.get_legend_handles_labels()
-        ax.legend(
-            handles=handles,
-            labels=labels,
-            loc='upper center',
-            bbox_to_anchor=(0.5, -0.15),
-            ncol=4
-        )
-
-        # Ajustar layout para evitar sobreposição de elementos
-        plt.tight_layout()
-        plt.subplots_adjust(bottom=0.25)
-
-        # Exibir o gráfico no Streamlit
-        st.pyplot(fig)
-
-    # Chamar a função para gerar o gráfico
-    gerar_grafico_temperatura()
+    st.write("A função show chart 3 foi chamada.")
 
 # Título da página
 st.title('Visualização de Gráficos')
