@@ -1,43 +1,52 @@
 import unittest
 import pandas as pd
+import os
 from io import StringIO
 
-import sys
-import os
-
 # Adiciona o diretório src ao sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src', 'clean')))
 
-from clean.producao import preprocessamento_producao
+from producao import preprocessamento_producao
 
-class TestPreprocessamentoPrecipitacao(unittest.TestCase):
+class TestPreprocessamentoProducao(unittest.TestCase):
 
-    def setUp(self):
-        # CSV de exemplo para testar a função
-        self.csv_data = """code,name,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec
-                           BRA,Brazil,200,180,150,120,90,60,40,80,130,160,170,190
-                           ARG,Argentina,100,120,140,160,180,200,220,190,170,150,130,110
-                           USA,United States,300,310,320,330,340,350,360,370,380,390,400,410
-                           CAN,Canada,150,160,170,180,190,200,210,220,230,240,250,260
-                        """
-        self.path_mock = StringIO(self.csv_data)
+    # Helper para criar um arquivo CSV temporário
+    def create_temp_csv(self, content):
+        csv_data = StringIO(content)
+        df = pd.read_csv(csv_data)
+        temp_path = 'test_temp_producao.csv'
+        df.to_csv(temp_path, index=False)
+        return temp_path
 
-    def test_preprocessamento_producao(self):
-        # Usando StringIO para simular a leitura de um arquivo Excel (o formato do exemplo foi adaptado)
-        df_result = preprocessamento_producao(self.path_mock)
+    # Teste a função com um DataFrame contendo todas as colunas necessárias
+    def test_all_columns_present(self):
+        csv_content = """Area,Item,Element,Unit,Y1961,Y1962,Y1963
+Brazil,Wheat,Area harvested,ha,100,110,120
+Brazil,Wheat,Production,t,1000,1050,1100
+Brazil,Rice,Area harvested,ha,200,210,220
+Brazil,Rice,Production,t,1500,1550,1600"""
+        
+        temp_path = self.create_temp_csv(csv_content)
+        cleaned_data = preprocessamento_producao(temp_path)
+        os.remove(temp_path)
 
-        # Verifica se as colunas estão corretas após o processamento
-        expected_columns = ['ano', 'country_code', 'precipitação_anual']
-        self.assertListEqual(list(df_result.columns), expected_columns)
+        expected_columns = ['ano', 'producao_total(t)', 'area_total_de_producao(ha)', 'country_code']
+        self.assertEqual(sorted(cleaned_data.columns.tolist()), sorted(expected_columns))
 
-        # Verifica se o número de linhas está correto
-        self.assertEqual(len(df_result), 16)  # 4 países com dados para 12 meses
+    # Teste a função para verificar se ela retorna um DataFrame não vazio
+    def test_non_empty_dataframe(self):
+        csv_content = """Area,Item,Element,Unit,Y1961,Y1962,Y1963
+Brazil,Wheat,Area harvested,ha,100,110,120
+Brazil,Wheat,Production,t,1000,1050,1100
+Brazil,Rice,Area harvested,ha,200,210,220
+Brazil,Rice,Production,t,1500,1550,1600"""
+        
+        temp_path = self.create_temp_csv(csv_content)
+        cleaned_data = preprocessamento_producao(temp_path)
+        os.remove(temp_path)
 
-        # Verifica se os valores estão arredondados corretamente
-        self.assertAlmostEqual(df_result['precipitação_anual'].iloc[0], 1940.00)
+        self.assertFalse(cleaned_data.empty)
 
-        # Verifica se a coluna de ano foi extraída corretamente
-        self.assertTrue(df_result['ano'].str.isnumeric().all())
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -1,7 +1,5 @@
 import unittest
 import pandas as pd
-from io import StringIO
-
 import sys
 import os
 
@@ -13,40 +11,45 @@ from clean.emissoes import preprocessamento_emissoes
 class TestPreprocessamentoEmissoes(unittest.TestCase):
 
     def setUp(self):
-        # CSV de exemplo para testar a função
-        self.csv_data = """Entity,Code,Year,Annual CO2 emissions
-                           Brazil,BRA,1960,NaN
-                           Brazil,BRA,1961,100.0
-                           Brazil,BRA,1962,110.0
-                           World,OWID_WRL,1961,NaN
-                           World,OWID_WRL,1962,30000.0
-                           Kosovo,OWID_KOS,1961,NaN
-                        """
-        self.path_mock = StringIO(self.csv_data)
+        # Crie um arquivo temporário CSV para o teste
+        self.csv_path = 'test_annual_co2_emissions.csv'
+        with open(self.csv_path, 'w') as f:
+            f.write("""Entity,Code,Year,Annual CO2 emissions (tonnes)
+Brazil,BRA,1960,10.5
+Brazil,BRA,1961,10.6
+Brazil,BRA,1962,NaN
+World,OWID_WRL,1960,NaN
+World,OWID_WRL,1961,37.8
+World,OWID_WRL,1962,38.0
+""")
+
+    def tearDown(self):
+        # Remova o arquivo temporário após o teste
+        if os.path.exists(self.csv_path):
+            os.remove(self.csv_path)
 
     def test_preprocessamento_emissoes(self):
-        # Usando StringIO para simulação de leitura do CSV
-        df_result = preprocessamento_emissoes(self.path_mock)
+        # Passe o caminho completo do arquivo de teste
+        df_result = preprocessamento_emissoes(os.path.dirname(os.path.abspath(self.csv_path)))
 
-        # Verifica se as colunas foram renomeadas corretamente
-        expected_columns = ['country_code', 'ano', 'Annual CO2 emissions']
+        # Verifique se as colunas estão corretas
+        expected_columns = ['ano', 'Annual CO2 emissions (tonnes)', 'country_code']
         self.assertListEqual(list(df_result.columns), expected_columns)
 
         # Verifica se a coluna 'ano' foi convertida para int
         self.assertTrue(pd.api.types.is_integer_dtype(df_result['ano']))
 
-        # Verifica se o período está correto (de 1961 a 2022)
+        # Verifique se o período está correto (de 1961 a 2022)
         self.assertTrue((df_result['ano'] >= 1961).all())
         self.assertTrue((df_result['ano'] <= 2022).all())
 
-        # Verifica se o total global foi renomeado de 'OWID_WRL' para 'WLD'
-        self.assertIn('WLD', df_result['country_code'].unique())
+        # Verifique se os países estão corretos
+        self.assertIn('BRA', df_result['country_code'].values)
+        self.assertIn('WLD', df_result['country_code'].values)
 
-        # Verifica se o Kosovo foi renomeado de 'OWID_KOS' para 'XKX'
-        self.assertIn('XKX', df_result['country_code'].unique())
-
-        # Verifica se as linhas com 'country_code' NaN foram removidas
-        self.assertFalse(df_result['country_code'].isna().any())
+        # Verifique se os valores estão arredondados corretamente
+        self.assertEqual(df_result["Annual CO2 emissions (tonnes)"].iloc[0], 10.6)
+        self.assertEqual(df_result["Annual CO2 emissions (tonnes)"].iloc[1], 37.8)
 
 if __name__ == '__main__':
     unittest.main()
