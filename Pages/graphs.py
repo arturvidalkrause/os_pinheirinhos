@@ -1,24 +1,34 @@
+from config import DATA_SETS_LIMPOS
 import streamlit as st
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# Função para carregar os DataFrames com cache
+@st.cache_data
+def load_data():
+    df1 = pd.read_parquet(DATA_SETS_LIMPOS + "/emissoes_co2.parquet")
+    df2 = pd.read_parquet(DATA_SETS_LIMPOS + "/fertilizantes_total.parquet")
+    df3 = pd.read_parquet(DATA_SETS_LIMPOS + "/PIB.parquet")
+    df4 = pd.read_parquet(DATA_SETS_LIMPOS + "/precipitacao_anual.parquet")
+    df5 = pd.read_parquet(DATA_SETS_LIMPOS + "/producao_total_e_area.parquet")
+    df6 = pd.read_parquet(DATA_SETS_LIMPOS + "/temperatura.parquet")
+    df7 = pd.read_parquet(DATA_SETS_LIMPOS + "/terras_araveis.parquet")
+
+    return df1, df2, df3, df4, df5, df6, df7
+
+# Carregar os dados
+df1, df2, df3, df4, df5, df6, df7 = load_data()
+
+# Abas para cada dataset
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["emissões co2", "fertilizantes total","PIB","precipitação anual","prod total e area","temperatura","terras araveis"])
+
 # Função para exibir o gráfico de emissões de CO2
 @st.cache_resource
-def show_chart_1():
-    def exibir_dados_emissoes():
-        # Diretório da tabela a ser tratada
-        path_data = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "../../data/limpos/emissoes_co2.csv"
-        )
-
-        # Obtendo a tabela tratada
-        df = pd.read_csv(path_data, index_col=0)
-
+def show_chart_1(): # df == df1
         # Removendo os dados mundiais
-        df_paises = df[df['country_code'] != 'WLD']
+        df_paises = df1[df1['country_code'] != 'WLD']
 
         # Encontrar o valor máximo da coluna 'Annual CO₂ emissions'
         max_value = df_paises['Annual CO₂ emissions'].max()
@@ -62,22 +72,11 @@ def show_chart_1():
         # Exibir o gráfico no Streamlit
         st.pyplot(fig)
 
-    # Chamar a função para exibir os dados e o gráfico
-    exibir_dados_emissoes()
-
 # Função para exibir o gráfico de produção total
 @st.cache_resource
-def show_chart_2():
-    def gerar_grafico_producao():
-        # Diretório da tabela a ser tratada
-        path_data = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "../../data/limpos/producao_total_e_area.csv"
-        )
-
+def show_chart_2(): #df == df5
         # Obtendo a tabela tratada
-        df = pd.read_csv(path_data, index_col=0)
-        df=df[df['country_code']!='WLD']
+        df=df5[df5['country_code']!='WLD']
 
         # Criação da figura e do eixo
         fig, ax = plt.subplots()
@@ -109,24 +108,12 @@ def show_chart_2():
         # Exibir o gráfico no Streamlit
         st.pyplot(fig)
 
-    # Chamar a função para gerar o gráfico
-    gerar_grafico_producao()
-
 # Função para exibir o gráfico de temperatura
 @st.cache_resource
-def show_chart_3():
-    # Diretório da tabela a ser tratada
-    path_data = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        "../../data/limpos/temperatura.csv"
-    )
-
-    # Obtendo a tabela tratada
-    df = pd.read_csv(path_data, index_col=0)
-
+def show_chart_3(): # df == df6
     # Remover 'WLD' do dataset
-    df_paises = df[df['country_code'] != 'WLD']
-    df_world = df[df['country_code'] == 'WLD']
+    df_paises = df6[df6['country_code'] != 'WLD']
+    df_world = df6[df6['country_code'] == 'WLD']
 
     # Função para gerar o gráfico de temperatura
     def gerar_grafico_temperatura():
@@ -175,9 +162,6 @@ def show_chart_3():
 
         # Exibir o gráfico no Streamlit
         st.pyplot(fig)
-
-    # Chamar a função para gerar o gráfico
-    gerar_grafico_temperatura()
 
 # Título da página
 st.title('Visualização de Gráficos')
