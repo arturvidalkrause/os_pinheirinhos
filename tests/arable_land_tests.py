@@ -12,23 +12,27 @@ from arable_land import preprocessamento_arable_land
 class TestPreprocessamentoArableLand(unittest.TestCase):
 
     def setUp(self):
-        # Crie um arquivo temporário CSV para o teste
+        # Crie um diretório temporário e um arquivo CSV para o teste
+        self.test_dir = 'test_dir'
+        os.makedirs(self.test_dir, exist_ok=True)
         self.csv_content = """Country Name,Indicator Name,Indicator Code,Country Code,1960,1961,1962
 Brazil,Arable land (% of land area),AG.LND.ARBL.ZS,BRA,10.5,10.6,NaN
 World,Arable land (% of land area),AG.LND.ARBL.ZS,WLD,NaN,37.8,38.0
 """
-        self.temp_path = 'test_Arable_Land.csv'
+        self.temp_path = os.path.join(self.test_dir, 'Arable_Land.csv')
         with open(self.temp_path, 'w') as f:
             f.write(self.csv_content)
 
     def tearDown(self):
-        # Remova o arquivo temporário após o teste
+        # Remova o arquivo temporário e o diretório após o teste
         if os.path.exists(self.temp_path):
             os.remove(self.temp_path)
+        if os.path.exists(self.test_dir):
+            os.rmdir(self.test_dir)
 
     def test_preprocessamento_arable_land(self):
-        # Chama a função com o caminho do arquivo temporário
-        df_result = preprocessamento_arable_land(os.path.dirname(os.path.abspath(self.temp_path)))
+        # Chama a função com o caminho do diretório temporário
+        df_result = preprocessamento_arable_land(self.temp_path)
 
         # Verifica se as colunas estão corretas após o processamento
         expected_columns = ['ano', 'terras_araveis(%)', 'country_code']
