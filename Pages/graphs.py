@@ -21,12 +21,9 @@ def load_data():
 # Carregar os dados
 df1, df2, df3, df4, df5, df6, df7 = load_data()
 
-# Abas para cada dataset
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["emissões co2", "fertilizantes total","PIB","precipitação anual","prod total e area","temperatura","terras araveis"])
-
 # Função para exibir o gráfico de emissões de CO2
 @st.cache_resource
-def show_chart_1(): # df == df1
+def show_chart_1():
         # Removendo os dados mundiais
         df_paises = df1[df1['country_code'] != 'WLD']
 
@@ -74,7 +71,7 @@ def show_chart_1(): # df == df1
 
 # Função para exibir o gráfico de produção total
 @st.cache_resource
-def show_chart_2(): #df == df5
+def show_chart_2():
         # Obtendo a tabela tratada
         df=df5[df5['country_code']!='WLD']
 
@@ -110,58 +107,58 @@ def show_chart_2(): #df == df5
 
 # Função para exibir o gráfico de temperatura
 @st.cache_resource
-def show_chart_3(): # df == df6
+def show_chart_3():
     # Remover 'WLD' do dataset
     df_paises = df6[df6['country_code'] != 'WLD']
     df_world = df6[df6['country_code'] == 'WLD']
 
-    # Função para gerar o gráfico de temperatura
-    def gerar_grafico_temperatura():
-        # Criação da figura e do eixo
-        fig, ax = plt.subplots(figsize=(10, 6))
+    # Criação da figura e do eixo
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    # Plotar os dados usando Seaborn
+    sns.lineplot(
+    data=df_paises,
+    x='ano',
+    y='temperatura_media_anual(°C)',
+    hue='country_code',
+    ax=ax,
+    alpha=0.2,
+    legend=False
+    )
 
-        # Plotar os dados usando Seaborn
-        sns.lineplot(
-            data=df_paises,
-            x='ano',
-            y='temperatura_media_anual(°C)',
-            hue='country_code',
-            ax=ax,
-            alpha=0.2,
-            legend=False
-        )
+    # Plotar a média global com opacidade completa
+    sns.lineplot(
+        data=df_world,
+        x='ano',
+        y='temperatura_media_anual(°C)',
+        label='Média Global',
+        color='black',
+        ax=ax
+    )
 
-        # Plotar a média global com opacidade completa
-        sns.lineplot(
-            data=df_world,
-            x='ano',
-            y='temperatura_media_anual(°C)',
-            label='Média Global',
-            color='black',
-            ax=ax
-        )
+    # Configurações do gráfico
+    ax.set_title('Temperatura ao longo dos anos')
+    ax.set_xlabel('Ano')
+    ax.set_ylabel('Temperatura média anual (°C)')
 
-        # Configurações do gráfico
-        ax.set_title('Temperatura ao longo dos anos')
-        ax.set_xlabel('Ano')
-        ax.set_ylabel('Temperatura média anual (°C)')
+    # Ajustar a legenda para estar abaixo do gráfico em 4 colunas
+    handles, labels = ax.get_legend_handles_labels()
+    ax.legend(
+        handles=handles,
+        labels=labels,
+        loc='upper center',
+        bbox_to_anchor=(0.5, -0.15),
+        ncol=4
+    )
 
-        # Ajustar a legenda para estar abaixo do gráfico em 4 colunas
-        handles, labels = ax.get_legend_handles_labels()
-        ax.legend(
-            handles=handles,
-            labels=labels,
-            loc='upper center',
-            bbox_to_anchor=(0.5, -0.15),
-            ncol=4
-        )
+    # Ajustar layout para evitar sobreposição de elementos
+    plt.tight_layout()
+    plt.subplots_adjust(bottom=0.25)
 
-        # Ajustar layout para evitar sobreposição de elementos
-        plt.tight_layout()
-        plt.subplots_adjust(bottom=0.25)
+    # Exibir o gráfico no Streamlit
+    st.pyplot(fig)
 
-        # Exibir o gráfico no Streamlit
-        st.pyplot(fig)
+    st.write("A função show chart 3 foi chamada.")
 
 # Título da página
 st.title('Visualização de Gráficos')
