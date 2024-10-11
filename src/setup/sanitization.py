@@ -15,6 +15,7 @@ import arable_land
 import emissoes
 import producao
 import fertilizantes
+import pesticidas
 
 # Diretório das tabelas a serem tratadas
 path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data")
@@ -48,3 +49,7 @@ precipitacao_data.to_parquet(os.path.join(path_limpos, 'precipitacao_anual.parqu
 # # limpeza dos dados de fertilizantes
 fertilizantes_data = fertilizantes.preprocessamento_fertilizantes(path_brutos)
 fertilizantes_data.to_parquet(os.path.join(path_limpos, 'fertilizantes_total.parquet'), engine="pyarrow", index=False)
+
+# # limpeza dos dados de fertilizantes
+fertilizantes_data = pesticidas.preprocessamento_pesticidas(path_brutos)
+fertilizantes_data.to_parquet(os.path.join(path_limpos, 'pesticidas_total.parquet'), engine="pyarrow", index=False)

@@ -1,4 +1,3 @@
-import plotly.express as px
 import pandas as pd
 import numpy as np
 import sys
@@ -26,6 +25,9 @@ def regressao_por_grupo(grupo: pd.DataFrame) -> np.float64:
 		x (pd.Series): Série com os anos
 		y (pd.Series): Série com as emissões de anuais de CO₂
 	"""
+	if grupo.empty:
+		return np.nan  # Retorna NaN se o grupo estiver vazio
+
 	x: pd.Series = grupo[["ano"]]
 	y: pd.Series = grupo["Produção por hectare (t)"]
 
@@ -36,6 +38,7 @@ def regressao_por_grupo(grupo: pd.DataFrame) -> np.float64:
 	return slope
 
 def mean(grupo: pd.DataFrame) -> pd.Series:
+	print(grupo)
 	return pd.Series({"Produção por hectare (t)": grupo["Produção por hectare (t)"].mean()})
 
 # le o json da classificação dos paises
@@ -55,9 +58,13 @@ df_emerging = df_producao[df_producao["country_code"].isin(countries_data['emerg
 df_subdeveloped = df_producao[df_producao["country_code"].isin(countries_data['developing_countries'])]
 
 
-df_developed_resume = df_developed.groupby(["ano"], observed= False).apply(mean).reset_index()
-df_emerging_resume = df_emerging.groupby(["ano"], observed= False).apply(mean).reset_index()
-df_subdeveloped_resume = df_subdeveloped.groupby(["ano"], observed= False).apply(mean).reset_index()
+# df_developed_resume = df_developed.groupby(["ano"], observed= False).apply(mean).reset_index()
+# df_emerging_resume = df_emerging.groupby(["ano"], observed= False).apply(mean).reset_index()
+# df_subdeveloped_resume = df_subdeveloped.groupby(["ano"], observed= False).apply(mean).reset_index()
+
+df_developed_resume = df_developed.groupby(["country_code"], observed= False).apply(regressao_por_grupo).reset_index()
+df_emerging_resume = df_emerging.groupby(["country_code"], observed= False).apply(regressao_por_grupo).reset_index()
+df_subdeveloped_resume = df_subdeveloped.groupby(["country_code"], observed= False).apply(regressao_por_grupo).reset_index()
 
 # print(df_developed_resume)
 
@@ -92,4 +99,36 @@ line_chart = alt.Chart(df_merge_resume).mark_line().encode(
     height=400
 )
 
-line_chart.save('grafico_dispersao3.svg')
+line_chart.save('./src/graphs/hip_3.svg')
+
+df_developed_resume_desc = df_developed_resume.describe()["Produção por hectare (t)"].to_frame().rename(columns={"Produção por hectare (t)": "developed"}).transpose()
+df_emerging_resume_desc = df_emerging_resume.describe()["Produção por hectare (t)"].to_frame().rename(columns={"Produção por hectare (t)": "emerging"}).transpose()
+df_subdeveloped_resume_desc = df_subdeveloped_resume.describe()["Produção por hectare (t)"].to_frame().rename(columns={"Produção por hectare (t)": "developing_countries"}).transpose()
+
+df_resume_desc = pd.concat([df_developed_resume_desc, df_emerging_resume_desc, df_subdeveloped_resume_desc])
+
+print(df_resume_desc)
+
+def calcular_r2_total(grupo: pd.DataFrame) -> float:
+    """Calcula o R² de uma regressão linear para um DataFrame.
+
+    Args:
+        grupo (pd.DataFrame): DataFrame contendo os dados.
+
+    Returns:
+        float: R² da regressão linear.
+    """
+    x = grupo[["ano"]]
+    y = grupo["Produção por hectare (t)"]
+
+    modelo = LinearRegression()
+    modelo.fit(x, y)
+    r_squared = modelo.score(x, y)
+
+    return r_squared
+
+# Calculando o R² total
+r_squared_total = calcular_r2_total(df_merge_resume)
+
+# Exibindo o valor de R² total
+print(f"O R² total é: {r_squared_total:.4f}")

@@ -61,9 +61,9 @@ df_developed = df_merged[df_merged["country_code"].isin(countries_data['develope
 df_emerging = df_merged[df_merged["country_code"].isin(countries_data['emerging'])]
 df_subdeveloped = df_merged[df_merged["country_code"].isin(countries_data['developing_countries'])]
 
-corr_analise(df_developed, ["producao_total(t)", "PIB"])
-corr_analise(df_emerging, ["producao_total(t)", "PIB"])
-corr_analise(df_subdeveloped, ["producao_total(t)", "PIB"])
+# corr_analise(df_developed, ["producao_total(t)", "PIB"])
+# corr_analise(df_emerging, ["producao_total(t)", "PIB"])
+# corr_analise(df_subdeveloped, ["producao_total(t)", "PIB"])
 
 df_developed_resume = df_developed.groupby(["ano"], observed= False).apply(corr_pais_ano).reset_index()
 df_emerging_resume = df_emerging.groupby(["ano"], observed= False).apply(corr_pais_ano).reset_index()
@@ -90,4 +90,14 @@ line_chart = alt.Chart(df_merge_resume).mark_line().encode(
     height=400
 )
 
-line_chart.save('grafico_dispersao2.svg')
+line_chart.save('./src/graphs/Produção_agricola_vs_ano.svg')
+
+
+# df_developed_resume = df_developed_resume.dropna()
+# df_emerging = df_emerging.dropna()
+# df_subdeveloped = df_subdeveloped.dropna()
+# print(df_developed_resume.describe())
+# Nas proximas versões do pandas pode ser necessário usar "include_groups=False" ou explicitamente selecionar as colunas após o agrupamento.
+# resultados_regressao = df_merge_resume.groupby(['dataset'], observed=False).apply(regressao_por_pais).reset_index()
+
+# print(resultados_regressao)
