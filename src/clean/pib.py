@@ -14,8 +14,8 @@ def preprocessamento_PIB(file_path: str) -> pd.DataFrame:
     Returns:
         pd.DataFrame: DataFrame com os dados tratados.
     """
-    # Lendo o arquivo
-    df = pd.read_csv(file_path, skiprows=3)
+    # Lendo o arquivo sem pular linhas
+    df = pd.read_csv(file_path)
 
     # Removendo colunas desnecessárias
     df.drop(['Indicator Code', 'Country Code'], axis=1, inplace=True, errors='ignore')
@@ -58,7 +58,3 @@ def preprocessamento_PIB(file_path: str) -> pd.DataFrame:
     df_renamed["PIB"] = df_renamed["PIB"].round(2)
 
     return df_renamed
-
-
-# path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
-# print(preprocessamento_PIB(path_data))
