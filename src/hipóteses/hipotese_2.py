@@ -59,7 +59,7 @@ df_merged = df_merged.dropna()
 
 df_developed = df_merged[df_merged["country_code"].isin(countries_data['developed'])]
 df_emerging = df_merged[df_merged["country_code"].isin(countries_data['emerging'])]
-df_subdeveloped = df_merged[df_merged["country_code"].isin(countries_data['subdeveloped'])]
+df_subdeveloped = df_merged[df_merged["country_code"].isin(countries_data['developing_countries'])]
 
 corr_analise(df_developed, ["producao_total(t)", "PIB"])
 corr_analise(df_emerging, ["producao_total(t)", "PIB"])
@@ -71,7 +71,7 @@ df_subdeveloped_resume = df_subdeveloped.groupby(["ano"], observed= False).apply
 
 df_developed_resume["dataset"] = "developed"
 df_emerging_resume["dataset"] = "emerging"
-df_subdeveloped_resume["dataset"] = "subdeveloped"
+df_subdeveloped_resume["dataset"] = "developing_countries"
 
 df_merge_resume = pd.concat([df_developed_resume, df_emerging_resume, df_subdeveloped_resume])
 

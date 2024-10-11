@@ -52,7 +52,7 @@ df_producao = df_producao.dropna()
 
 df_developed = df_producao[df_producao["country_code"].isin(countries_data['developed'])]
 df_emerging = df_producao[df_producao["country_code"].isin(countries_data['emerging'])]
-df_subdeveloped = df_producao[df_producao["country_code"].isin(countries_data['subdeveloped'])]
+df_subdeveloped = df_producao[df_producao["country_code"].isin(countries_data['developing_countries'])]
 
 
 df_developed_resume = df_developed.groupby(["ano"], observed= False).apply(mean).reset_index()
@@ -64,7 +64,7 @@ df_subdeveloped_resume = df_subdeveloped.groupby(["ano"], observed= False).apply
 slope = {
 	"developed": regressao_por_grupo(df_developed_resume),
 	"emerging": regressao_por_grupo(df_emerging_resume),
-	"subdeveloped": regressao_por_grupo(df_subdeveloped_resume),
+	"developing_countries": regressao_por_grupo(df_subdeveloped_resume),
 }
 
 # Imprimindo os valores de slope
@@ -73,7 +73,7 @@ for group, coefficient in slope.items():
 
 df_developed_resume["dataset"] = "developed"
 df_emerging_resume["dataset"] = "emerging"
-df_subdeveloped_resume["dataset"] = "subdeveloped"
+df_subdeveloped_resume["dataset"] = "developing_countries"
 
 df_merge_resume = pd.concat([df_developed_resume, df_emerging_resume, df_subdeveloped_resume])
 

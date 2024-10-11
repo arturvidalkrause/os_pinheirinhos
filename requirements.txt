@@ -13,3 +13,4 @@ pathlib==1.0.1				# Object-oriented filesystem paths
 scikit-learn==1.5.2
 statsmodels==0.14.4
 IPython==8.28.0
+kaleido==0.2.1

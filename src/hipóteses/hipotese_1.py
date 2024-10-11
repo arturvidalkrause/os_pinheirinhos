@@ -90,4 +90,4 @@ final_chart = scatter + regression_line
 # final_chart.show()
 
 # Exportando para SVG
-final_chart.save('grafico_dispersao1.svg')
+# final_chart.save('grafico_dispersao1.svg')
