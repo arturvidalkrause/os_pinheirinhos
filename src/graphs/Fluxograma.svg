@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210.19701mm"
+   height="65.421997mm"
+   viewBox="0 0 210.19701 65.421996"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="Fluxograma.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.74564394"
+     inkscape:cx="368.13818"
+     inkscape:cy="236.70815"
+     inkscape:window-width="1920"
+     inkscape:window-height="1051"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.486996;stroke-linecap:square;stroke-dasharray:5.84397, 5.84397;stroke-opacity:1"
+       id="rect5"
+       width="209.70815"
+       height="64.935005"
+       x="0.24349825"
+       y="0.24349824"
+       ry="7.8063946" />
+    <rect
+       style="fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:0.885855;stroke-linecap:square;stroke-dasharray:10.6303, 10.6303;stroke-opacity:1"
+       id="rect1"
+       width="127.79972"
+       height="20.009047"
+       x="6.4056787"
+       y="6.1327548"
+       ry="5.2486491" />
+    <rect
+       style="fill:#999999;fill-opacity:1;stroke:none;stroke-width:0.885855;stroke-linecap:square;stroke-dasharray:10.6303, 10.6303;stroke-opacity:1"
+       id="rect1-5"
+       width="127.79972"
+       height="20.009047"
+       x="5.6274614"
+       y="39.280197"
+       ry="5.2486491" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.14911px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:0.900963;stroke:none;stroke-width:0.771697;stroke-linecap:square;stroke-dasharray:9.2604, 9.2604"
+       x="71.087692"
+       y="13.895916"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;stroke-width:0.771697"
+         x="71.087692"
+         y="13.895916">Temperatura, precipitação, terra arável, </tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;stroke-width:0.771697"
+         x="71.087692"
+         y="21.582304"
+         id="tspan2">fertilizantes, pesticidas</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:6.14911px;font-family:Inter;-inkscape-font-specification:Inter;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:0.900963;stroke:none;stroke-width:0.771697;stroke-linecap:square;stroke-dasharray:9.2604, 9.2604"
+       x="69.452263"
+       y="50.922581"
+       id="text1-4"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial;fill:#000000;stroke-width:0.771697"
+         x="69.452263"
+         y="50.922581"
+         id="tspan2-0">Produção, PIB, emissões de CO2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.36907px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:0.900963;stroke:none;stroke-width:0.741184;stroke-linecap:square;stroke-dasharray:8.89424, 8.89424"
+       x="165.3589"
+       y="50.683353"
+       id="text3-9"><tspan
+         sodipodi:role="line"
+         id="tspan3-8"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.36907px;font-family:Arial;-inkscape-font-specification:Arial;stroke-width:0.741184"
+         x="165.3589"
+         y="50.683353">Variáveis dependentes</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.36907px;font-family:Arial;-inkscape-font-specification:Arial;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:0.900963;stroke:none;stroke-width:0.741184;stroke-linecap:square;stroke-dasharray:8.89424, 8.89424"
+       x="167.44832"
+       y="17.53591"
+       id="text3-9-9"><tspan
+         sodipodi:role="line"
+         id="tspan3-8-7"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.36907px;font-family:Arial;-inkscape-font-specification:Arial;stroke-width:0.741184"
+         x="167.44832"
+         y="17.53591">Variáveis independentes</tspan></text>
+  </g>
+</svg>
