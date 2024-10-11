@@ -44,7 +44,7 @@ def preprocessamento_PIB(path: str) -> pd.DataFrame:
 	df_melted.drop(['indicator_name'], axis=1, inplace=True)
 
     # Pegando apenas de 1961 a 2022
-	df_periodo = df_melted[(df_melted['ano']>1960)&(df_melted['ano']<2023)]
+	df_periodo = df_melted[(df_melted['ano'] > 1960) & (df_melted['ano']<2023)]
 
     # Obtendo apenas os países e o mundo:
 	countries_to_keep = big_strings.countries_to_keep_worldbank
@@ -60,6 +60,12 @@ def preprocessamento_PIB(path: str) -> pd.DataFrame:
 
 	# # Arredonda para duas casas decimais
 	df_renamed["PIB"] = df_renamed["PIB"].round(2)
+
+	# Inverte o dicionário para que o código do país seja a chave
+	reversed_dict = {v: k for k, v in big_dicts.countries_codes_emissoes_co2.items()}
+
+	# Faz a substituição
+	df_renamed["pais"] = df_renamed["country_code"].replace(reversed_dict)
 
 	# # Define um tipo correto a cada coluna
 	df_renamed = df_renamed.astype({
