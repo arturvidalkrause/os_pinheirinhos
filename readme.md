@@ -64,7 +64,6 @@ O objetivo é tratar e unificar diversos datasets sobre que afetam a agricultura
 ## Contribuições
 - #### Bruno:
 	- Tratou os dados
-	- Fez mais nada
 
 - #### Artur: 
 	- Documentação dos módulos e funções
@@ -72,9 +71,10 @@ O objetivo é tratar e unificar diversos datasets sobre que afetam a agricultura
 
 - #### Gustavo:
 	- Streamlit
+   	- Fez os Geomaps 
 
 - #### Kauan:
-	- 
+	- Testes unitários
 
 - #### Gabriel:
 	- Testes unitários

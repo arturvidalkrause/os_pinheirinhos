@@ -1,4 +1,4 @@
-"""Inicializa totas as funções de limpeza dos dados que estão dentro de ./clean, e salva cada dataset tratado"""
+"""Inicializa totas as funções de limpeza dos dados que estão dentro de ./clean"""
 
 import sys
 import os
@@ -7,7 +7,6 @@ sys.path.append(
 	os.path.abspath(os.path.join(os.path.dirname(__file__), "../clean"))
 )
 
-# Importando os arquivos de limpeza
 import precipitacao
 import temperatura
 import pib
