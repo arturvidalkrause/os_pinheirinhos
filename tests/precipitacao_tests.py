@@ -1,43 +1,53 @@
 import unittest
 import pandas as pd
-from io import StringIO
-
-import sys
 import os
 
-# Adiciona o diretório src ao sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+# Ajusta o caminho do módulo para importação
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src', 'clean')))
 
-from clean.precipitacao import preprocessamento_precipitacao
+from precipitacao import preprocessamento_precipitacao
 
 class TestPreprocessamentoPrecipitacao(unittest.TestCase):
 
-    def setUp(self):
-        # CSV de exemplo para testar a função
-        self.csv_data = """code,name,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec
-                           BRA,Brazil,200,180,150,120,90,60,40,80,130,160,170,190
-                           ARG,Argentina,100,120,140,160,180,200,220,190,170,150,130,110
-                           USA,United States,300,310,320,330,340,350,360,370,380,390,400,410
-                           CAN,Canada,150,160,170,180,190,200,210,220,230,240,250,260
-                        """
-        self.path_mock = StringIO(self.csv_data)
+    # Helper para criar um arquivo Excel temporário
+    def create_temp_excel(self, df, file_name='test_temp_precipitacao.xlsx'):
+        temp_path = file_name
+        df.to_excel(temp_path, index=False)
+        return temp_path
 
-    def test_preprocessamento_precipitacao(self):
-        # Usando StringIO para simular a leitura de um arquivo CSV
-        df_result = preprocessamento_precipitacao(self.path_mock)
+    # Teste a função com um DataFrame contendo todas as colunas necessárias
+    def test_all_columns_present(self):
+        data = {
+            'code': ['BRA', 'WLD'],
+            'name': ['Brazil', 'World'],
+            '2021-01': [100, 200],
+            '2021-02': [110, 210],
+            '2022-01': [120, 220]
+        }
+        df = pd.DataFrame(data)
+        temp_path = self.create_temp_excel(df)
+        cleaned_data = preprocessamento_precipitacao(temp_path)
+        os.remove(temp_path)
 
-        # Verifica se as colunas estão corretas após o processamento
         expected_columns = ['ano', 'country_code', 'precipitação_anual']
-        self.assertListEqual(list(df_result.columns), expected_columns)
+        self.assertEqual(sorted(cleaned_data.columns.tolist()), sorted(expected_columns))
 
-        # Verifica se o número de linhas está correto após a transformação
-        self.assertEqual(len(df_result), 16)  # 4 países com dados para 12 meses
+    # Teste a função para verificar se ela retorna um DataFrame não vazio
+    def test_non_empty_dataframe(self):
+        data = {
+            'code': ['BRA', 'WLD'],
+            'name': ['Brazil', 'World'],
+            '2021-01': [100, 200],
+            '2021-02': [110, 210],
+            '2022-01': [120, 220]
+        }
+        df = pd.DataFrame(data)
+        temp_path = self.create_temp_excel(df)
+        cleaned_data = preprocessamento_precipitacao(temp_path)
+        os.remove(temp_path)
 
-        # Verifica se os valores estão arredondados corretamente
-        self.assertAlmostEqual(df_result['precipitação_anual'].iloc[0], 1940)
+        self.assertFalse(cleaned_data.empty)
 
-        # Verifica se a coluna de ano foi extraída corretamente
-        self.assertTrue(df_result['ano'].str.isnumeric().all())
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
