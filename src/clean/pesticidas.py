@@ -9,7 +9,7 @@ import big_strings
 import big_dicts
 
 
-def preprocessamento_fertilizantes(path: str) -> pd.DataFrame:
+def preprocessamento_pesticidas(path: str) -> pd.DataFrame:
 	"""Trata o dataset em questão removendo colunas desnecessárias, agrupas os dados necessários, trata dados NaN e transforma dados de colunas em novas linhas e retorna apenas o necessário para as análises
 
     Args:
@@ -21,12 +21,12 @@ def preprocessamento_fertilizantes(path: str) -> pd.DataFrame:
     # Lendo o arquivo
 	try:
 		df = pd.read_csv(
-			os.path.join(path, "Fertilizantes_por_nutrientes.csv"), encoding="utf-8"
+			os.path.join(path, "Pesticidas.csv"), encoding="utf-8"
         )
 	except UnicodeDecodeError:
         # Se ocorrer um erro de decodificação, tenta com uma codificação diferente
 		df = pd.read_csv(
-			os.path.join(path, "Fertilizantes_por_nutrientes.csv"),
+			os.path.join(path, "Pesticidas.csv"),
 			encoding="ISO-8859-1",
         )
 
@@ -42,19 +42,19 @@ def preprocessamento_fertilizantes(path: str) -> pd.DataFrame:
     # Remover as colunas Area Code e M49
 	df.drop(["Area Code", "Area Code (M49)"], axis=1, inplace=True)
 
-    # Obter apenas o uso total por nutriente
+    # Obter apenas o uso total
 	df = df[df["Element Code"] == 5157]
+	df = df[df["Item Code"] == 1357]
 
     # Remover colunas desnecessárias
 	df.drop(["Item Code", "Element", "Element Code", "Unit"], axis=1, inplace=True)
-
-    # Obter o total de todos os nutrientes
-	df_total = df.groupby("Area").sum(numeric_only=True).reset_index()
-
+	
     # Usando melt para alterar o formato
-	df_melted = df_total.melt(
-        id_vars=["Area"], var_name="ano", value_name="uso_total_de_fertilizantes(t)"
+	df_melted = df.melt(
+        id_vars=["Area"], var_name="ano", value_name="uso_total_de_pesticidas(t)"
     )
+
+	df_melted = df_melted[df_melted["ano"] != "Item"]
 
     # Obtendo apenas os países e o mundo:
 	countries_to_keep = big_strings.countries_to_keep_faostat
@@ -71,37 +71,10 @@ def preprocessamento_fertilizantes(path: str) -> pd.DataFrame:
     # Convertendo a coluna 'ano' para int
 	df_renamed["ano"] = df_renamed["ano"].astype(int)
 
-    # Obtendo apenas de 1961 a 2022
-	df_renamed = df_renamed[(df_renamed["ano"] > 1960) & (df_renamed["ano"] < 2023)]
-
-    # Preenchendo anos faltantes
-	def preencher_anos_faltantes(df):
-        # Criar uma lista de anos de 1961 a 2022
-		anos = pd.Series(range(1961, 2023))
-
-        # Criar um DataFrame com todas as combinações de country_code e anos
-		country_codes = df["country_code"].unique()
-		todos_anos = pd.MultiIndex.from_product(
-            [country_codes, anos], names=["country_code", "ano"]
-        )
-
-        # Criar um DataFrame vazio para os anos de 1961 a 2022
-		df_todos_anos = pd.DataFrame(index=todos_anos).reset_index()
-
-        # Certifique-se de que a coluna 'ano' seja do tipo int
-		df["ano"] = df["ano"].astype(int)
-
-        # Fazer merge com o DataFrame original
-		df_completo = pd.merge(
-            df_todos_anos, df, on=["country_code", "ano"], how="left"
-        ).replace(0, np.nan)
-
-		return df_completo
-
-	df_completo = preencher_anos_faltantes(df_renamed)
+	df_completo = df_renamed.copy()
 
 	# Arredonda para duas casas decimais
-	df_completo["uso_total_de_fertilizantes(t)"]  = df_completo["uso_total_de_fertilizantes(t)"].round(2)
+	df_completo["uso_total_de_pesticidas(t)"]  = df_completo["uso_total_de_pesticidas(t)"].round(2)
 
 	# Inverte o dicionário para que o código do país seja a chave
 	reversed_dict = {v: k for k, v in big_dicts.countries_codes_emissoes_co2.items()}
@@ -114,7 +87,7 @@ def preprocessamento_fertilizantes(path: str) -> pd.DataFrame:
 		'pais': "category",
 		'country_code': "category",
 		'ano': "category",
-		'uso_total_de_fertilizantes(t)': "float64",
+		'uso_total_de_pesticidas(t)': "float64",
 	})
 
 	return df_completo
