@@ -5,9 +5,9 @@ from scipy.stats import pearsonr, spearmanr
 
 path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/limpos")
 
-df_producao = pd.read_csv(os.path.join(path_data, 'producao_total_e_area.csv'), index_col=0)
+df_producao = pd.read_parquet(os.path.join(path_data, 'producao_total_e_area.parquet'))
 
-df_pib = pd.read_csv(os.path.join(path_data, 'PIB.csv'), index_col=0)
+df_pib = pd.read_parquet(os.path.join(path_data, 'PIB.parquet'))
 
 merged_df = pd.merge(df_producao, df_pib, on=['country_code', 'ano'])
 

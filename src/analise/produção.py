@@ -8,7 +8,7 @@ from sklearn.linear_model import LinearRegression
 # Adiciona o diretório raiz ao sys.path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from config import DATA_SET_PIB, DATA_SETS_RESUMOS
+from config import DATA_SET_PRODUCAO, DATA_SETS_RESUMOS
 
 
 def regressao_por_pais(grupo: pd.DataFrame) -> pd.Series:
@@ -25,7 +25,7 @@ def regressao_por_pais(grupo: pd.DataFrame) -> pd.Series:
 		y (pd.Series): Série com as emissões de anuais de CO₂
 	"""
 	x: pd.Series = grupo[["ano"]]
-	y: pd.Series = grupo["PIB"]
+	y: pd.Series = grupo["Produção_por_hectare_(t)"]
 
 	if x.isna().any().any() or y.isna().any():
 		return pd.Series({"slope": np.nan, "pais": grupo['pais'].iloc[0]})
@@ -47,47 +47,47 @@ def format_dolar(valor: int | None) -> str:
 	"""
 	if pd.isna(valor):
 		return "N/A"
-	return f"${valor:,.0f}".replace(",", ".")
+	return f"{valor:,.0f}".replace(",", ".")
 
 
-df = pd.read_parquet(DATA_SET_PIB, engine="pyarrow")
-df2 = df.groupby(["country_code"])
+df = pd.read_parquet(DATA_SET_PRODUCAO, engine="pyarrow")
 
-df_temporal = df.copy()
+df["Produção_por_hectare_(t)"] = df["producao_total(t)"] / df["area_total_de_producao(ha)"]
 
-df_temporal["pib_log"] = np.log(df_temporal["PIB"])
-# Cria uma nova coluna com o PIB formatado
-df_temporal["PIB ($)"] = df_temporal["PIB"].apply(format_dolar)
+# df_temporal = df.copy()
 
-fig_pib = px.choropleth(df_temporal,
-						locations= "country_code",
-						color="pib_log",
-						hover_name="pais",
-						hover_data={"PIB ($)": True, "country_code": False, "pib_log": False},
-						range_color=[20, 30],
-						animation_frame="ano"
-						)
+# # df_temporal["pib_log"] = np.log(df_temporal["PIB"])
+# # Cria uma nova coluna com o PIB formatado
+# df_temporal["Produção por hectare (t)"] = df_temporal["Produção_por_hectare_(t)"].apply(format_dolar)
+
+# fig_pib = px.choropleth(df_temporal,
+# 						locations= "country_code",
+# 						color="Produção_por_hectare_(t)",
+# 						hover_name="pais",
+# 						hover_data={"Produção por hectare (t)": True, "country_code": False, "Produção_por_hectare_(t)": False},
+# 						range_color=[0, 27],
+# 						animation_frame="ano",
+# 						)
 
 # fig_pib.show()
 
-
 # Nas proximas versões do pandas pode ser necessário usar "include_groups=False" ou explicitamente selecionar as colunas após o agrupamento.
-resultados_regressao = df.groupby(['country_code'], observed=False).apply(regressao_por_pais).reset_index().round(0)
+resultados_regressao = df.groupby(['country_code'], observed=False).apply(regressao_por_pais).reset_index()
 
-resultados_regressao["slope_log"] = np.log(resultados_regressao["slope"])
+# resultados_regressao["slope_log"] = np.log(resultados_regressao["slope"])
 resultados_regressao["Slope ($)"] = resultados_regressao["slope"].apply(format_dolar)
 
 fig_reg_linear = px.choropleth(resultados_regressao,
 						locations= "country_code",
-						color= "slope_log",
+						color= "slope",
 						hover_name= "pais",
-						hover_data= {"Slope ($)": True, "country_code": False, "slope_log": False},
-						range_color= [17, 27]
+						hover_data= {"Slope ($)": True, "country_code": False, "slope": True},
+						range_color=[-0.2,0.45]
 						)
 
 fig_reg_linear.update_layout(
 	title={
-		'text': "Compara o log da regressão linear do pib ano a ano de cada pais",
+		'text': "Compara a regressão linear da Produção total ano a ano de cada pais",
 		'x': 0.5
 	}
 )
@@ -100,5 +100,4 @@ fig_reg_linear.add_annotation(
 
 fig_reg_linear.show()
 
-
-# resultados_regressao.to_parquet(DATA_SETS_RESUMOS + "/pib.parquet", engine="pyarrow", index=False)
+# resultados_regressao.to_parquet;(DATA_SETS_RESUMOS + "/produção.parquet", engine="pyarrow", index=False)
