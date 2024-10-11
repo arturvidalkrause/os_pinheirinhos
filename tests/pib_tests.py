@@ -1,6 +1,7 @@
 import unittest
 import pandas as pd
 import os
+from io import StringIO
 
 # Ajusta o caminho do módulo para importação
 import sys

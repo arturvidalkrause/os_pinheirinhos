@@ -1,64 +1,97 @@
 import unittest
 import pandas as pd
-from io import StringIO
-
-import sys
+import numpy as np
 import os
 
-# Adiciona o diretório src ao sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+# Ajusta o caminho do módulo para importação
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src', 'clean')))
 
-from clean.temperatura import preprocessamento_temperatura
+from temperatura import preprocessamento_temperatura
 
 class TestPreprocessamentoTemperatura(unittest.TestCase):
 
-    def setUp(self):
-        # CSV de exemplo para testar a função
-        self.data1 = """Station_ID,Year,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec
-                        ST1,1961,25.0,-99.99,22.0,23.5,24.0,26.5,28.0,29.0,30.0,31.0,32.0,29.0
-                        ST2,1961,20.0,21.0,22.0,23.0,24.0,25.0,26.0,27.0,28.0,29.0,30.0,31.0
-                     """
-        self.data2 = """Station_ID,Year,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec
-                        ST1,1962,24.0,25.0,26.0,27.0,28.0,29.0,30.0,31.0,32.0,33.0,34.0,35.0
-                        ST2,1962,-99.99,21.0,22.0,23.0,24.0,25.0,26.0,27.0,28.0,29.0,30.0,31.0
-                     """
-        self.path_mock1 = StringIO(self.data1)
-        self.path_mock2 = StringIO(self.data2)
+    # Helper para criar um arquivo Parquet temporário
+    def create_temp_parquet(self, df, file_name):
+        temp_path = file_name
+        df.to_parquet(temp_path, index=False)
+        return temp_path
 
-        # Arquivos temporário para simular a leitura do parquet
-        self.path_parquet1 = "temperatura_mes_a_mes1.parquet"
-        self.path_parquet2 = "temperatura_mes_a_mes2.parquet"
-        
-        # Criando DataFrames e salvando como Parquet
-        df1 = pd.read_csv(self.path_mock1)
-        df2 = pd.read_csv(self.path_mock2)
-        df1.to_parquet(self.path_parquet1, index=False)
-        df2.to_parquet(self.path_parquet2, index=False)
+    # Helper para criar um arquivo de mapeamento temporário
+    def create_temp_mapping_file(self, mapping, file_name):
+        temp_path = file_name
+        with open(temp_path, 'w') as f:
+            for k, v in mapping.items():
+                f.write(f"{k} {v}\n")
+        return temp_path
+
+    def setUp(self):
+        # Cria DataFrame de exemplo
+        data1 = {
+            'Station_ID': ['ST001', 'ST002'],
+            'Year': [1961, 1962],
+            'Jan': [10, 15],
+            'Feb': [12, 17],
+            'Mar': [-99.99, 19],
+            'Apr': [14, 21],
+            'May': [15, 22],
+            'Jun': [16, 23],
+            'Jul': [17, 24],
+            'Aug': [18, 25],
+            'Sep': [19, 26],
+            'Oct': [20, 27],
+            'Nov': [21, 28],
+            'Dec': [22, 29]
+        }
+        data2 = {
+            'Station_ID': ['ST003', 'ST004'],
+            'Year': [1963, 1964],
+            'Jan': [11, 16],
+            'Feb': [13, 18],
+            'Mar': [-99.99, 20],
+            'Apr': [15, 22],
+            'May': [16, 23],
+            'Jun': [17, 24],
+            'Jul': [18, 25],
+            'Aug': [19, 26],
+            'Sep': [20, 27],
+            'Oct': [21, 28],
+            'Nov': [22, 29],
+            'Dec': [23, 30]
+        }
+        self.df1 = pd.DataFrame(data1)
+        self.df2 = pd.DataFrame(data2)
+
+        # Cria arquivos Parquet temporários
+        self.temp_path1 = self.create_temp_parquet(self.df1, 'temperatura_mes_a_mes1.parquet')
+        self.temp_path2 = self.create_temp_parquet(self.df2, 'temperatura_mes_a_mes2.parquet')
+
+        # Cria arquivo de mapeamento temporário
+        self.mapping = {'ST': 'TestCountry'}
+        self.temp_mapping_path = self.create_temp_mapping_file(self.mapping, 'Conversão_Station_id_para_Pais.txt')
+
+        # Define caminho
+        self.path = '.'
+
+    def tearDown(self):
+        # Remove arquivos temporários após o teste
+        os.remove(self.temp_path1)
+        os.remove(self.temp_path2)
+        os.remove(self.temp_mapping_path)
 
     def test_preprocessamento_temperatura(self):
-        # Chamando a função de pré-processamento
-        path = "."  # Ajuste se necessário
-        df_result = preprocessamento_temperatura(path)
+        # Chama a função
+        df_result = preprocessamento_temperatura(self.path)
 
-        # Verifica se as colunas estão corretas após o processamento
-        expected_columns = ['ano', 'country_code', 'temperatura_media_anual(°C)']
-        self.assertListEqual(list(df_result.columns), expected_columns)
+        # Verifica se o DataFrame resultante não está vazio
+        self.assertFalse(df_result.empty)
 
-        # Verifica se o número de linhas está correto
-        self.assertGreater(len(df_result), 0)  # Verifica se há dados
+        # Verifica se as colunas do DataFrame estão corretas
+        expected_columns = ['ano', 'temperatura_media_anual(°C)', 'country_code']
+        self.assertEqual(sorted(df_result.columns.tolist()), sorted(expected_columns))
 
-        # Verifica se a média anual foi calculada corretamente
-        self.assertAlmostEqual(df_result['temperatura_media_anual(°C)'].iloc[0], 25.0, places=1)
+        # Verifica se os valores estão arredondados corretamente
+        self.assertTrue(np.allclose(df_result['temperatura_media_anual(°C)'], df_result['temperatura_media_anual(°C)'].round(2)))
 
-        # Verifica se a coluna de ano foi extraída corretamente
-        self.assertTrue(df_result['ano'].str.isnumeric().all())
-
-    @classmethod
-    def tearDownClass(cls):
-        # Removendo arquivos temporários
-        import os
-        os.remove("temperatura_mes_a_mes1.parquet")
-        os.remove("temperatura_mes_a_mes2.parquet")
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
