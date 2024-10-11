@@ -246,3 +246,44 @@ vegetais_producao = [
     'Quinoa',
     'Brazil nuts, in shell'
     ]
+
+paises_desenvolvidos = [
+    "BHR",  # Bahrein
+    "SGP",  # Cingapura
+    "HRV",  # Croácia
+    "SVN",  # Eslovênia
+    "ESP",  # Espanha
+    "FIN",  # Finlândia
+    "FRA",  # França
+    "HUN",  # Hungria
+    "NOR",  # Noruega
+    "SWE",  # Suécia
+    "CHE",  # Suíça
+    "THA",  # Tailândia
+    "AUS",  # Austrália
+    "AUT",  # Áustria
+    "CAN",  # Canadá
+    "CYP",  # Chipre
+    "SLV",  # El Salvador
+    "USA",  # Estados Unidos
+    "GRC",  # Grécia
+    "YEM",  # Iémen
+    "ITA",  # Itália
+    "JPN",  # Japão
+    "PRT",  # Portugal
+    "GBR",  # Reino Unido
+    "TUN",  # Tunísia
+]
+
+paises_emergentes = [
+    "ZAF",  # África do Sul
+    "BRA",  # Brasil
+    "CHL",  # Chile
+    "CHN",  # China
+    "KOR",  # Coréia do Sul
+    "IND",  # Índia
+    "IDN",  # Indonésia
+    "MYS",  # Malásia
+    "MEX",  # México
+    "TUR"   # Turquia
+]
