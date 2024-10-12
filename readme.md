@@ -55,11 +55,12 @@ O objetivo é tratar e unificar diversos datasets sobre que afetam a agricultura
 
 
 ## Pré Processamento 
-(@Bruno_Luiz)
+O pré-processamento dos dados foi uma etapa essencial para garantir a integridade das informações. Dada a diversidade dos conjuntos de dados, essa fase também visou uniformizá-los, facilitando sua integração. Para isso, realizamos o tratamento de valores ausentes, preenchendo dados mensais de temperatura com a média entre os períodos anterior e posterior. Também adicionamos uma variável global, incluindo dados agregados do mundo para cada país, e garantimos a conversão de tipos de dados, assegurando que todas as colunas estivessem no formato correto e sem erros de arredondamento. Além disso, padronizamos o formato dos datasets, de modo que o país e o ano figurassem como linhas e as colunas corresponderiam aos indicadores, preenchendo valores faltantes de 1961 a 2022 com NaN e convertendo os nomes dos países para o código ISO de três dígitos.
 
 ## Contribuições
 - #### Bruno:
 	- Tratou os dados
+	- Escreveu o artigo
 
 - #### Artur: 
 	- Documentação dos módulos e funções
