@@ -413,7 +413,58 @@ with tab4:
 		)
 
 		st.plotly_chart(fig_reg_linear)
-          
+            
+        # Dados para o DataFrame
+		data_total = {
+			"producao_total(t)": [1.000000, -0.056721, -0.030031],
+			"precipitação_anual": [-0.056721, 1.000000, 0.419153],
+			"temperatura_media_anual(°C)": [-0.030031, 0.419153, 1.000000]
+		}
+
+		# Índices para as linhas
+		index = ["producao_total(t)", "precipitação_anual", "temperatura_media_anual(°C)"]
+
+		# Criação do DataFrame
+		df_total = pd.DataFrame(data_total, index=index)
+            
+		st.write('Total:', df_total, end="\n\n")
+        
+		
+		# Create the DataFrame with the provided values
+		data_desenvolvidos = {
+			'': ['producao_total(t)', 'precipitação_anual', 'temperatura_media_anual(°C)'],
+			'producao_total(t)': [1.000000, -0.073663, -0.065051],
+			'precipitação_anual': [-0.073663, 1.000000, 0.204624],
+			'temperatura_media_anual(°C)': [-0.065051, 0.204624, 1.000000]
+		}
+
+		df_desenvolvidos = pd.DataFrame(data_desenvolvidos)
+
+		st.write('Desenvolvidos:', df_desenvolvidos, end="\n\n")
+            
+        # Create the DataFrame
+		data_emergentes = {
+			"producao_total(t)": [1.000000, -0.235837, -0.178143],
+			"precipitação_anual": [-0.235837, 1.000000, 0.706586],
+			"temperatura_media_anual(°C)": [-0.178143, 0.706586, 1.000000]
+		}
+
+		df_emergentes = pd.DataFrame(data_emergentes, index=["producao_total(t)", "precipitação_anual", "temperatura_media_anual(°C)"])
+
+
+		st.write('Emergentes:', df_emergentes, end="\n\n")
+            
+        # Create the DataFrame
+		data_em_desenvolvimento = {
+			"producao_total(t)": [1.000000, -0.116172, -0.039791],
+			"precipitação_anual": [-0.116172, 1.000000, 0.420206],
+			"temperatura_media_anual(°C)": [-0.039791, 0.420206, 1.000000]
+		}
+
+		df_em_desenvolvimento = pd.DataFrame(data_em_desenvolvimento, index=["producao_total(t)", "precipitação_anual", "temperatura_media_anual(°C)"])
+
+		st.write('Em desenvolvimento:', df_em_desenvolvimento, end="\n\n")
+
 	# Gera o mapa da regressão linear
 	map_reg_linear(df)
 
