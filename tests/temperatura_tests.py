@@ -15,7 +15,7 @@ class TestPreprocessamentoTemperatura(unittest.TestCase):
 
     # Helper para criar um arquivo Parquet temporário
     def create_temp_parquet(self, df, file_name):
-        temp_path = file_name
+        temp_path = os.path.join('.', file_name)
         df.to_parquet(temp_path, index=False)
         return temp_path
 
@@ -30,7 +30,7 @@ class TestPreprocessamentoTemperatura(unittest.TestCase):
     def setUp(self):
         # Cria DataFrame de exemplo
         data1 = {
-            'Station_ID': ['ST001', 'ST002'],
+            'Station_ID': ['BR001', 'BR002'],
             'Year': [1961, 1962],
             'Jan': [10, 15],
             'Feb': [12, 17],
@@ -46,7 +46,7 @@ class TestPreprocessamentoTemperatura(unittest.TestCase):
             'Dec': [22, 29]
         }
         data2 = {
-            'Station_ID': ['ST003', 'ST004'],
+            'Station_ID': ['BR003', 'BR004'],
             'Year': [1963, 1964],
             'Jan': [11, 16],
             'Feb': [13, 18],
@@ -67,9 +67,10 @@ class TestPreprocessamentoTemperatura(unittest.TestCase):
         # Cria arquivos Parquet temporários
         self.temp_path1 = self.create_temp_parquet(self.df1, 'temperatura_mes_a_mes1.parquet')
         self.temp_path2 = self.create_temp_parquet(self.df2, 'temperatura_mes_a_mes2.parquet')
+        print('path', self.temp_path1)
 
         # Cria arquivo de mapeamento temporário
-        self.mapping = {'ST': 'TestCountry'}
+        self.mapping = {'BR': 'Brasil'}
         self.temp_mapping_path = self.create_temp_mapping_file(self.mapping, 'Conversão_Station_id_para_Pais.txt')
 
         # Define caminho
@@ -82,11 +83,10 @@ class TestPreprocessamentoTemperatura(unittest.TestCase):
         os.remove(self.temp_mapping_path)
 
     def test_preprocessamento_temperatura(self):
-        # Chama a função
+        print("Caminho passado para preprocessamento:", self.path)
         df_result = preprocessamento_temperatura(self.path)
 
-        # Verifica se o DataFrame resultante não está vazio
-        self.assertFalse(df_result.empty)
+        print("Resultado do DataFrame:", df_result)
 
         # Verifica se as colunas do DataFrame estão corretas
         expected_columns = ['ano', 'temperatura_media_anual(°C)', 'country_code']

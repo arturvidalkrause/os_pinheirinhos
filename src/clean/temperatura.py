@@ -90,5 +90,5 @@ def preprocessamento_temperatura(path: str) -> pd.DataFrame:
     return df_final
 
 
-path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
-print(preprocessamento_temperatura(path_data))
+# path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
+# print(preprocessamento_temperatura(path_data))
