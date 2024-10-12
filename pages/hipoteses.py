@@ -180,7 +180,7 @@ with tab2:
     df_pib = pd.read_parquet(DATA_SET_PIB, engine="pyarrow")
 
     # Mesclar os datasets de produção e PIB
-    df_merged = pd.merge(df_producao, df_pib, on=["country_code", "ano", "pais"])
+    df_merged = pd.merge(df_producao, df_pib, on=["country_code", "ano"])
     df_merged["Produção por hectare (t)"] = df_merged["producao_total(t)"] / df_merged["area_total_de_producao(ha)"]
     df_merged = df_merged.dropna()
 
