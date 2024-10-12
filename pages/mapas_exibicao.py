@@ -17,7 +17,6 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 from config import DATA_SETS_LIMPOS
-from pathlib import Path
 
 # Leitura dos arquivos CSV usando pandas
 # Ajuste os caminhos dos arquivos conforme necessário
@@ -26,7 +25,7 @@ df_temperatura = pd.read_parquet(DATA_SETS_LIMPOS + '/temperatura.parquet')
 df_precipitacao_anual = pd.read_parquet(DATA_SETS_LIMPOS + '/precipitacao_anual.parquet')
 df_producao_total_e_area = pd.read_parquet(DATA_SETS_LIMPOS + '/producao_total_e_area.parquet')
 df_fertilizantes_total = pd.read_parquet(DATA_SETS_LIMPOS + '/fertilizantes_total.parquet')
-df_pib = pd.read_parquet(DATA_SETS_LIMPOS + '/pib.parquet')
+df_pib = pd.read_parquet(DATA_SETS_LIMPOS + '/PIB.parquet')
 df_emissoes_co2 = pd.read_parquet(DATA_SETS_LIMPOS + '/emissoes_co2.parquet')
 
 # Corrigir o nome da coluna no DataFrame de temperatura
@@ -73,7 +72,7 @@ data_column1, unit1 = data_info[theme1]
 
 # Obtenção dos anos disponíveis no DataFrame
 available_years1 = df1['ano'].unique()
-year1 = st.sidebar.selectbox('Selecione o ano', sorted(available_years1))
+year1 = st.sidebar.selectbox('Selecione o ano', sorted(available_years1, reverse=True))
 
 # Opção para ativar o duplo gráfico
 double_graph = st.sidebar.checkbox('Ativar Duplo Gráfico')
@@ -103,7 +102,6 @@ def create_map(df, data_column, year, map_title, unit):
     fig.update_layout(
         margin=dict(l=0, r=0, t=40, b=10),
         coloraxis_colorbar=dict(title=unit, tickprefix=' ')
-
     )
     
     # Exibe o mapa no Streamlit
