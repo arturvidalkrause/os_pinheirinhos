@@ -18,12 +18,17 @@ sys.path.append(
 import big_strings
 
 # Caminho para os dados
-path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..../data/limpos")
+path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/limpos")
 
 # Carregando os datasets de produção, precipitação e temperatura
 df_producao = pd.read_parquet(os.path.join(path_data, 'producao_total_e_area.parquet'))
 df_precipitacao = pd.read_parquet(os.path.join(path_data, 'precipitacao_anual.parquet'))
 df_temperatura = pd.read_parquet(os.path.join(path_data, 'temperatura.parquet'))
+
+# Convertendo os anos para int
+df_producao['ano'] = df_producao['ano'].astype(int)
+df_precipitacao['ano'] = df_precipitacao['ano'].astype(int)
+df_temperatura['ano'] = df_temperatura['ano'].astype(int)
 
 # Unindo os DataFrames de produção, precipitação e temperatura
 df_merged1 = pd.merge(df_producao, df_precipitacao, on=['country_code', 'ano'], how='outer')
