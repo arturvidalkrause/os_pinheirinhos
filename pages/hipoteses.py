@@ -320,13 +320,232 @@ with tab3:
 #######################################################################################################################################################################################
 
 with tab4:
-    st.title(hipoteses[3]["titulo"])
-    st.subheader(hipoteses[3]["descricao"])
+	st.title(hipoteses[3]["titulo"])
+	st.subheader(hipoteses[3]["descricao"])
+     
+	# Carrega os dados do dataset de produção agrícola
+	df = pd.read_parquet(DATA_SET_PRODUCAO)
+
+	# Calcula a produção por hectare (toneladas por hectare)
+	df["Produção_por_hectare_(t)"] = df["producao_total(t)"] / df["area_total_de_producao(ha)"]
+
+	def regressao_por_pais(grupo: pd.DataFrame) -> pd.Series:
+		"""
+		Realiza uma regressão linear para analisar a relação entre o ano e a produção por hectare de cada país.
+
+		Args:
+			grupo (pd.DataFrame): DataFrame contendo os dados de um país agrupados. Deve incluir as colunas 'ano' e 'Produção_por_hectare_(t)'.
+
+		Returns:
+			pd.Series: Retorna uma série contendo o coeficiente angular (slope) da regressão linear e o nome do país.
+
+		Variáveis:
+			x (pd.Series): Série com os anos (coluna 'ano').
+			y (pd.Series): Série com os dados de produção por hectare (coluna 'Produção_por_hectare_(t)').
+		"""
+		x: pd.Series = grupo[["ano"]]
+		y: pd.Series = grupo["Produção_por_hectare_(t)"]
+
+		if x.isna().any().any() or y.isna().any():
+			return pd.Series({"slope": np.nan})
+
+		modelo = LinearRegression()
+		modelo.fit(x, y)
+		
+		slope = modelo.coef_[0]
+		return pd.Series({"slope": slope})
+		
+	def format_dolar(valor: int | None) -> str:
+		"""
+		Formata um número inteiro ou float para o formato de dólar, separando os milhares por ponto.
+
+		Args:
+			valor (int | None): Valor a ser formatado.
+
+		Returns:
+			str: Valor formatado como string no formato de dólar (e.g., 1.000.000) ou "N/A" se o valor for nulo.
+		"""
+		if pd.isna(valor):
+			return "N/A"
+		return f"{valor:,.0f}".replace(",", ".")
+
+	def map_reg_linear(df: pd.DataFrame) -> None:
+		"""
+		Gera um gráfico coroplético para representar a taxa média de crescimento anual (slope) da produção por hectare em cada país, utilizando regressão linear.
+
+		Args:
+			df (pd.DataFrame): DataFrame com os dados de produção por país, incluindo as colunas 'country_code', 'ano', 'Produção_por_hectare_(t)'.
+
+		Returns:
+			None: O gráfico é exibido diretamente e salvo como um arquivo SVG.
+		"""
+		df = df.dropna()
+		# Aplica regressão linear por país
+		resultados_regressao = df.groupby(['country_code'], observed=False).apply(regressao_por_pais).reset_index()
+
+		# Formata o slope (taxa de crescimento) em formato de dólar
+		resultados_regressao["Slope ($)"] = resultados_regressao["slope"].apply(format_dolar)
+
+		fig_reg_linear = px.choropleth(resultados_regressao,
+								locations= "country_code",
+								color= "slope",
+								hover_data= {"Slope ($)": True, "country_code": False, "slope": True},
+								range_color=[0,0.4],
+        						color_continuous_scale=px.colors.sequential.Plasma,
+								)
+
+		fig_reg_linear.update_layout(
+			title={
+				'text': "Taxa média de crescimento anual da Produção por hectare(t)",
+				'x': 0.2
+			}
+		)
+
+		fig_reg_linear.add_annotation(
+			text= "Periodo: 1961 a 2022",
+			y= -0.05,
+			showarrow= False
+		)
+          
+		fig_reg_linear.update_layout(
+			margin=dict(l=0, r=0, t=40, b=10),
+			coloraxis_colorbar=dict(title="Slope", tickprefix=' ')
+		)
+
+		st.plotly_chart(fig_reg_linear)
+          
+	# Gera o mapa da regressão linear
+	map_reg_linear(df)
 
 #######################################################################################################################################################################################
 
 with tab5:
-    st.title(hipoteses[4]["titulo"])
-    st.subheader(hipoteses[4]["descricao"])
-    df2 = pd.read_parquet(DATA_SETS_LIMPOS + "/fertilizantes_total.parquet")
-    st.write(df2)
+	st.title(hipoteses[4]["titulo"])
+	st.subheader(hipoteses[4]["descricao"])
+    
+	from config import DATA_SET_PRODUCAO, DATA_SET_FERTILIZANTES, DATA_SETS_RESUMOS, DATA_SET_PESTICIDAS
+
+	def regressao_por_grupo(grupo: pd.DataFrame) -> pd.DataFrame:
+		"""
+		Realiza uma regressão linear com os dados ao longo de um período.
+
+		Args:
+			grupo (pd.DataFrame): DataFrame contendo os dados de um país agrupados. Deve incluir as colunas 'ano' e 'Produção por hectare (t)'.
+
+		Returns:
+			pd.DataFrame: DataraFrame com os coeficientes angulares da reta da regressão linear.
+
+		Variáveis:
+			x (pd.Series): Série com os anos.
+			y (pd.Series): Série com a produção por hectare.
+		"""
+		if grupo.empty:
+			return np.nan  # Retorna NaN se o grupo estiver vazio
+
+		x: pd.Series = grupo[["ano"]]
+		y_fertilizantes: pd.Series = grupo["uso_total_de_fertilizantes(t)"]
+
+		modelo_fertilizantes = LinearRegression()
+		modelo_fertilizantes.fit(x, y_fertilizantes)
+		slope_fertilizantes = modelo_fertilizantes.coef_[0]
+            
+		y_pesticidas: pd.Series = grupo["uso_total_de_pesticidas(t)"]
+
+		modelo_pesticidas = LinearRegression()
+		modelo_pesticidas.fit(x, y_pesticidas)
+		slope_pesticidas = modelo_pesticidas.coef_[0]
+
+		return pd.DataFrame({"slope_fertilizantes": [slope_fertilizantes], "slope_pesticidas": [slope_pesticidas]})
+
+	# Lê o arquivo JSON contendo a classificação dos países
+	json_file_path = Path(DATA_SETS_RESUMOS) / "classificação_paises.json"
+
+	with open(json_file_path, 'r') as json_file:
+		countries_data = json.load(json_file)
+
+	# Carregando os datasets de produção, pesticidas e fertilizantes
+	df_producao = pd.read_parquet(DATA_SET_PRODUCAO, engine="pyarrow")
+	df_pesticidas = pd.read_parquet(DATA_SET_PESTICIDAS, engine="pyarrow")
+	df_fertilizantes = pd.read_parquet(DATA_SET_FERTILIZANTES, engine="pyarrow")
+
+	# Unindo os DataFrames de produção, pesticidas e fertilizantes
+	df_merged = pd.merge(df_producao, df_pesticidas, on=["country_code", "ano"])
+	df_merged = pd.merge(df_merged, df_fertilizantes, on=["country_code", "ano"])
+
+	# Calculando a produção por hectare
+	df_merged["Produção por hectare (t)"] = df_merged["producao_total(t)"] / df_merged["area_total_de_producao(ha)"]
+
+	# Removendo valores NaN
+	df_merged = df_merged.dropna()
+      
+	# Criando DataFrames separados para países desenvolvidos, emergentes e em desenvolvimento
+	df_developed = df_merged[df_merged["country_code"].isin(countries_data['developed'])]
+	df_emerging = df_merged[df_merged["country_code"].isin(countries_data['emerging'])]
+	df_subdeveloped = df_merged[df_merged["country_code"].isin(countries_data['developing_countries'])]
+
+	# Exibindo as correlações para o conjunto total de países e para cada grupo de países
+	st.write('Total:', df_merged[['Produção por hectare (t)', 'uso_total_de_pesticidas(t)', 'uso_total_de_fertilizantes(t)']].corr(), end="\n\n")
+
+	st.write('Desenvolvidos:', df_developed[['Produção por hectare (t)', 'uso_total_de_pesticidas(t)', 'uso_total_de_fertilizantes(t)']].corr(), end="\n\n")
+	st.write('Emergentes:', df_emerging[['Produção por hectare (t)', 'uso_total_de_pesticidas(t)', 'uso_total_de_fertilizantes(t)']].corr(), end="\n\n")
+	st.write('Em desenvolvimento:', df_subdeveloped[['Produção por hectare (t)', 'uso_total_de_pesticidas(t)', 'uso_total_de_fertilizantes(t)']].corr(), end="\n\n")
+    
+	df_merge_reg_linear = df_merged.groupby(["country_code"], observed=False).apply(regressao_por_grupo).reset_index()
+      
+	# st.write(df_merge_reg_linear)
+
+	fig_reg_linear_fertilizantes = px.choropleth(df_merge_reg_linear,
+							locations= "country_code",
+							color= "slope_fertilizantes",
+							hover_data= {"country_code": False, "slope_fertilizantes": True},
+							range_color=[-2000,500000],
+							color_continuous_scale=px.colors.sequential.Plasma,
+							)
+
+	fig_reg_linear_fertilizantes.update_layout(
+		title={
+			'text': "Taxa média de crescimento anual do uso de Fertiliznates(t)",
+			'x': 0.2
+		}
+	)
+
+	fig_reg_linear_fertilizantes.add_annotation(
+		text= "Periodo: 1961 a 2022",
+		y= -0.05,
+		showarrow= False
+	)
+		
+	fig_reg_linear_fertilizantes.update_layout(
+		margin=dict(l=0, r=0, t=40, b=10),
+		coloraxis_colorbar=dict(title="Slope", tickprefix=' ')
+	)
+
+	st.plotly_chart(fig_reg_linear_fertilizantes)
+      
+	fig_reg_linear_pesticidas = px.choropleth(df_merge_reg_linear,
+							locations= "country_code",
+							color= "slope_pesticidas",
+							hover_data= {"country_code": False, "slope_pesticidas": True},
+							range_color=[-3000,15000],
+							color_continuous_scale=px.colors.sequential.Plasma,
+							)
+
+	fig_reg_linear_pesticidas.update_layout(
+		title={
+			'text': "Taxa média de crescimento anual do uso de Pesticidas(t)",
+			'x': 0.2
+		}
+	)
+
+	fig_reg_linear_pesticidas.add_annotation(
+		text= "Periodo: 1961 a 2022",
+		y= -0.05,
+		showarrow= False
+	)
+		
+	fig_reg_linear_pesticidas.update_layout(
+		margin=dict(l=0, r=0, t=40, b=10),
+		coloraxis_colorbar=dict(title="Slope", tickprefix=' ')
+	)
+
+	st.plotly_chart(fig_reg_linear_pesticidas)
