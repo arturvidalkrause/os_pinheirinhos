@@ -116,6 +116,28 @@ with tab1:
     # Exibindo o gráfico de resumo no Streamlit
     st.plotly_chart(fig_resumo)
 
+    # # Gráfico de dispersão com Altair
+    # scatter = alt.Chart(df_merged).mark_point().encode(
+    #     x=alt.X('producao_total(t):Q', scale=alt.Scale(domain=[0, 9000000000]), title='Produção total (t)'),
+    #     y=alt.Y('PIB:Q', scale=alt.Scale(domain=[0, 110000000000000]), title='PIB ($)'),
+    #     tooltip=['country_code', 'ano']  # Dados a serem exibidos ao passar o mouse
+    # ).properties(
+    #     title='Gráfico de dispersão: Produção total(t) vs PIB($)',
+    #     width=600,
+    #     height=400
+    # )
+
+    # # Linha de regressão com Altair
+    # regression_line = scatter.transform_regression(
+    #     'producao_total(t)', 'PIB', method='linear', extent=[3000000000, df_merged['producao_total(t)'].max()]
+    # ).mark_line(color='red')
+
+    # # Combinando o gráfico de dispersão com a linha de regressão
+    # final_chart = scatter + regression_line
+
+    # # Exibindo o gráfico com Altair no Streamlit
+    # st.altair_chart(final_chart, use_container_width=True)
+
 #######################################################################################################################################################################################
 
 with tab2:
