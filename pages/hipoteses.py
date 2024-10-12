@@ -192,7 +192,7 @@ with tab2:
     # Dividir o dataframe em três grupos de países
     df_developed = df_merged[df_merged["country_code"].isin(countries_data['developed'])]
     df_emerging = df_merged[df_merged["country_code"].isin(countries_data['emerging'])]
-    df_subdeveloped = df_merged[df_merged["country_code"].isin(countries_data['subdeveloped'])]
+    df_developing_countries = df_merged[df_merged["country_code"].isin(countries_data['developing_countries'])]
 
     # Analisar correlação para cada grupo de países
     st.write("Correlação para países desenvolvidos:")
@@ -202,20 +202,20 @@ with tab2:
     corr_analise(df_emerging, ["producao_total(t)", "PIB"])
 
     st.write("Correlação para países subdesenvolvidos:")
-    corr_analise(df_subdeveloped, ["producao_total(t)", "PIB"])
+    corr_analise(df_developing_countries, ["producao_total(t)", "PIB"])
 
     # Resumo das correlações por ano
     df_developed_resume = df_developed.groupby(["ano"], observed=False).apply(corr_pais_ano).reset_index()
     df_emerging_resume = df_emerging.groupby(["ano"], observed=False).apply(corr_pais_ano).reset_index()
-    df_subdeveloped_resume = df_subdeveloped.groupby(["ano"], observed=False).apply(corr_pais_ano).reset_index()
+    df_developing_countries_resume = df_developing_countries.groupby(["ano"], observed=False).apply(corr_pais_ano).reset_index()
 
     # Adicionar a coluna "dataset" para identificar os grupos
     df_developed_resume["dataset"] = "developed"
     df_emerging_resume["dataset"] = "emerging"
-    df_subdeveloped_resume["dataset"] = "subdeveloped"
+    df_developing_countries_resume["dataset"] = "developing_countries"
 
     # Combinar os três dataframes
-    df_merge_resume = pd.concat([df_developed_resume, df_emerging_resume, df_subdeveloped_resume])
+    df_merge_resume = pd.concat([df_developed_resume, df_emerging_resume, df_developing_countries_resume])
 
     # Criar gráfico de linhas com Altair
     line_chart = alt.Chart(df_merge_resume).mark_line().encode(
@@ -271,18 +271,18 @@ with tab3:
     # Separar os países por grupos
     df_developed = df_producao[df_producao["country_code"].isin(countries_data['developed'])]
     df_emerging = df_producao[df_producao["country_code"].isin(countries_data['emerging'])]
-    df_subdeveloped = df_producao[df_producao["country_code"].isin(countries_data['subdeveloped'])]
+    df_developing_countries = df_producao[df_producao["country_code"].isin(countries_data['developing_countries'])]
 
     # Resumir os dados por ano
     df_developed_resume = df_developed.groupby(["ano"], observed=False).apply(mean).reset_index()
     df_emerging_resume = df_emerging.groupby(["ano"], observed=False).apply(mean).reset_index()
-    df_subdeveloped_resume = df_subdeveloped.groupby(["ano"], observed=False).apply(mean).reset_index()
+    df_developing_countries_resume = df_developing_countries.groupby(["ano"], observed=False).apply(mean).reset_index()
 
     # Calcular o coeficiente de regressão para cada grupo
     slope = {
         "developed": regressao_por_grupo(df_developed_resume),
         "emerging": regressao_por_grupo(df_emerging_resume),
-        "subdeveloped": regressao_por_grupo(df_subdeveloped_resume),
+        "developing_countries": regressao_por_grupo(df_developing_countries_resume),
     }
 
     # Exibir os coeficientes de regressão no Streamlit
@@ -293,10 +293,10 @@ with tab3:
     # Adicionar coluna de identificação do dataset
     df_developed_resume["dataset"] = "developed"
     df_emerging_resume["dataset"] = "emerging"
-    df_subdeveloped_resume["dataset"] = "subdeveloped"
+    df_developing_countries_resume["dataset"] = "developing_countries"
 
     # Unir os dataframes de resumo
-    df_merge_resume = pd.concat([df_developed_resume, df_emerging_resume, df_subdeveloped_resume])
+    df_merge_resume = pd.concat([df_developed_resume, df_emerging_resume, df_developing_countries_resume])
 
     # Criar gráfico de linhas com Altair
     line_chart = alt.Chart(df_merge_resume).mark_line().encode(
