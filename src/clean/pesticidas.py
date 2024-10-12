@@ -3,10 +3,10 @@
 """
 
 import pandas as pd
-import numpy as np
 import os
 import big_strings
 import big_dicts
+import numpy as np
 
 def preprocessamento_pesticidas(file_path: str) -> pd.DataFrame:
     """Trata o dataset em questão removendo colunas desnecessárias, agrupando os dados necessários,

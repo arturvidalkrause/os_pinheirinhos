@@ -1,3 +1,13 @@
+"""
+    Este módulo cria uma interface web simples para uma apresentação de trabalho utilizando o Streamlit.
+    
+    Estrutura:
+    1. Configuração da página com o título e layout.
+    2. Título principal da apresentação e subseções com descrições gerais.
+    3. Seções para descrever os dados analisados, metodologia, resultados esperados e conclusão.
+    
+"""
+
 import streamlit as st
 
 # config da pagina

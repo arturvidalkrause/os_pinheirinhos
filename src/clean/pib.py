@@ -1,3 +1,11 @@
+"""
+Módulo para tratamento dos dados do DataSet: "PIB"
+
+Este módulo contém funções para pré-processamento do dataset de PIB, incluindo a remoção de colunas desnecessárias,
+transformação dos dados de colunas para linhas, preenchimento de dados faltantes, e a preparação dos dados para análises posteriores.
+
+"""
+
 import pandas as pd
 import numpy as np
 import os

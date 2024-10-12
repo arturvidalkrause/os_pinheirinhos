@@ -1,5 +1,11 @@
 """
-	Contém funções para tratar os dados do DataSet: "annual-co2-emissions-per-country"
+Módulo de Pré-processamento de Emissões de CO₂
+
+Este módulo contém funções para realizar o pré-processamento dos dados do dataset
+"annual-co2-emissions-per-country". Ele trata o conjunto de dados removendo colunas
+desnecessárias, preenchendo anos ausentes, renomeando valores e colunas, e
+preparando os dados para análises.
+
 """
 
 import pandas as pd
@@ -15,30 +21,50 @@ def preencher_anos_faltantes(df: pd.DataFrame) -> pd.DataFrame:
 
     Args:
         df (pd.DataFrame): Dataset com os dados de emissões de CO₂ filtrados por período.
+    Args:
+        df (pd.DataFrame): Dataset com os dados de emissões de CO₂ filtrados por período.
 
     Returns:
         pd.DataFrame: Retorna o dataset completo com os anos ausentes preenchidos.
 
     Exemplo de uso:
         df_completo = preencher_anos_faltantes(df)
+    # Criar uma lista de anos de 1961 a 2022
+    anos = pd.Series(range(1961, 2023))
+    Returns:
+        pd.DataFrame: Retorna o dataset completo com os anos ausentes preenchidos.
+
+    Exemplo de uso:
+        df_completo = preencher_anos_faltantes(df)
     """
+    
     # Criar uma lista de anos de 1961 a 2022
     anos = pd.Series(range(1961, 2023))
 
     # Criar um DataFrame com todas as combinações de country_code e anos
     country_codes = df['country_code'].unique()
     todos_anos = pd.MultiIndex.from_product([country_codes, anos], names=['country_code', 'ano'])
+    # Criar um DataFrame com todas as combinações de country_code e anos
+    country_codes = df['country_code'].unique()
+    todos_anos = pd.MultiIndex.from_product([country_codes, anos], names=['country_code', 'ano'])
 
+    # Criar um DataFrame vazio para os anos de 1961 a 2022
+    df_todos_anos = pd.DataFrame(index=todos_anos).reset_index()
     # Criar um DataFrame vazio para os anos de 1961 a 2022
     df_todos_anos = pd.DataFrame(index=todos_anos).reset_index()
 
     # Certifique-se de que a coluna 'ano' seja do tipo int
     df.loc[:, 'ano'] = df['ano'].astype(int)
+    # Certifique-se de que a coluna 'ano' seja do tipo int
+    df.loc[:, 'ano'] = df['ano'].astype(int)
 
+    # Fazer merge com o DataFrame original
+    df_completo = pd.merge(df_todos_anos, df, on=['country_code', 'ano'], how='left')
     # Fazer merge com o DataFrame original
     df_completo = pd.merge(df_todos_anos, df, on=['country_code', 'ano'], how='left')
 
     return df_completo
+
 
 
 def preprocessamento_emissoes(file_path: str) -> pd.DataFrame:
@@ -77,8 +103,10 @@ def preprocessamento_emissoes(file_path: str) -> pd.DataFrame:
 
     # Renomear o total global
     df_final = df_cleaned.replace('OWID_WRL', 'WLD')
+    df_final = df_cleaned.replace('OWID_WRL', 'WLD')
 
     # Renomear Kosovo
+    df_final.replace('OWID_KOS', 'XKX', inplace=True)
     df_final.replace('OWID_KOS', 'XKX', inplace=True)
 
     # Arredondar os valores de emissões anuais de CO₂

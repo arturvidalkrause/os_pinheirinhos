@@ -1,3 +1,16 @@
+"""
+Este módulo cria uma aplicação web interativa utilizando Streamlit para visualizar gráficos baseados em diferentes conjuntos de dados.
+
+Funcionalidades principais:
+1. Carrega múltiplos datasets, incluindo dados de emissões de CO₂, fertilizantes, PIB, precipitação anual, produção total, temperatura e terras aráveis, usando `st.cache_data` para melhorar o desempenho.
+2. Oferece a opção de exibir três gráficos diferentes, cada um representando uma análise visual específica, através de uma barra lateral interativa.
+3. Gráfico 1: Emissões de CO₂ ao longo dos anos, segmentado por país, com visualização de áreas empilhadas.
+4. Gráfico 2: Produção total ao longo dos anos para diferentes países, com uma linha representando cada país.
+5. Gráfico 3: Temperatura média anual ao longo dos anos, comparando países individualmente e a média global.
+
+A aplicação permite que o usuário selecione qual gráfico deseja visualizar, fornecendo uma maneira interativa de explorar os dados.
+"""
+
 from config import DATA_SETS_LIMPOS
 import streamlit as st
 import os

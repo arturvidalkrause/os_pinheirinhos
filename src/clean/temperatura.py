@@ -1,5 +1,13 @@
 """
-	Contém funções para tratar os dados dos DataSets: "temperatura_mes_a_mes< 1, 2>"
+    Contém funções para tratar os dados dos DataSets: "temperatura_mes_a_mes<1, 2>".
+    
+    O objetivo deste módulo é processar e tratar os dados de temperatura mensal, removendo colunas desnecessárias, 
+    preenchendo valores faltantes, e agregando a média anual de temperatura por país, incluindo uma média global. 
+    Ele lida com duas partes de arquivos em formato Parquet, consolidando e preparando os dados para futuras análises 
+    e integração com outros datasets.
+
+    O arquivo de conversão entre Station_ID e o nome dos países também é utilizado para mapear o nome dos países no 
+    dataset.
 """
 import pandas as pd
 import numpy as np

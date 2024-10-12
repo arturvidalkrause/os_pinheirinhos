@@ -1,4 +1,12 @@
-"""Trata todos os dados da tabela 'Preciptação_mes_a_mes.xlsx'"""
+"""
+Módulo para tratamento dos dados da tabela: "Preciptação_mes_a_mes.xlsx"
+
+Este módulo contém funções para o pré-processamento do dataset de precipitação mensal, incluindo a remoção de colunas desnecessárias,
+transformação dos dados de colunas para linhas, agregação por ano e país, preenchimento de dados faltantes, e a preparação dos dados
+para análises posteriores.
+
+"""
+
 import pandas as pd
 import os
 

@@ -1,3 +1,11 @@
+"""
+Módulo para tratamento dos dados do DataSet: "Produção agropecuária"
+
+Este módulo contém funções para o pré-processamento do dataset de produção agropecuária, incluindo a remoção de colunas desnecessárias, 
+transformação dos dados de colunas para linhas, tratamento de dados NaN, e a preparação dos dados para análises futuras. 
+
+"""
+
 import pandas as pd
 import big_strings
 import big_dicts

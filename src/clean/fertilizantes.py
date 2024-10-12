@@ -1,7 +1,13 @@
 """
-	Contém funções para tratar os dados do DataSet: "Fertilizantes_por_nutrientes"
-"""
+Módulo de Pré-processamento de Fertilizantes por Nutrientes
 
+Este módulo contém funções para realizar o pré-processamento dos dados do dataset
+"Fertilizantes_por_nutrientes". O processo inclui a remoção de colunas desnecessárias,
+agrupamento dos dados relevantes, tratamento de valores ausentes (NaN), transformação
+de colunas em linhas e preenchimento de anos ausentes. O objetivo é preparar os dados
+para análises relacionadas ao uso de fertilizantes por nutrientes em diferentes países.
+
+"""
 import pandas as pd
 import numpy as np
 import big_strings

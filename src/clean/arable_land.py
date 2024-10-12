@@ -1,5 +1,9 @@
 """
-	Contém funções para tratar os dados dataset: "Arable_Land"
+Módulo para tratamento dos dados do DataSet: "Arable_Land"
+
+Este módulo contém funções para o pré-processamento do dataset de terras aráveis, incluindo a remoção de colunas desnecessárias,
+transformação dos dados de colunas para linhas, preenchimento de dados faltantes, e a preparação dos dados para análises posteriores.
+
 """
 import pandas as pd
 import big_strings

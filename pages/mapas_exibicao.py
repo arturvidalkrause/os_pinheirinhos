@@ -1,3 +1,18 @@
+"""
+Este módulo cria uma aplicação Streamlit interativa para visualização geográfica de diversos dados agrícolas, econômicos e ambientais, como terras aráveis, temperatura, precipitação anual, produção agrícola, fertilizantes, PIB e emissões de CO2.
+
+Funcionalidades:
+1. Carregamento de múltiplos datasets a partir de arquivos Parquet, incluindo dados sobre terras aráveis, temperatura, precipitação, produção agrícola, fertilizantes, PIB e emissões de CO2.
+2. Utiliza gráficos coropléticos (mapas) para exibir visualmente as variações desses dados por país.
+3. A aplicação permite selecionar o ano e o dataset a ser visualizado através de uma interface de barra lateral interativa.
+4. Inclui a opção de ativar um segundo gráfico para comparar dois temas simultaneamente em diferentes anos.
+
+Principais Componentes:
+- `create_map()`: Função responsável pela criação e exibição de mapas coropléticos para o dataset e ano selecionados.
+- `themes`: Um dicionário mapeando os datasets para seus temas correspondentes (como terras aráveis, temperatura, etc.).
+- `data_info`: Um dicionário que contém informações sobre as colunas e unidades de medida de cada tema.
+"""
+
 import pandas as pd
 import streamlit as st
 import plotly.express as px

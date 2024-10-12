@@ -1,3 +1,5 @@
+"""Módulo de teste para o a função de limpeza do dataset de pesticidas"""
+
 import unittest
 import pandas as pd
 import os
