@@ -57,10 +57,6 @@ O objetivo é tratar e unificar diversos datasets sobre que afetam a agricultura
 ## Pré Processamento 
 (@Bruno_Luiz)
 
-
-## Desafios 
-- Procurando Macri
-
 ## Contribuições
 - #### Bruno:
 	- Tratou os dados
@@ -78,3 +74,4 @@ O objetivo é tratar e unificar diversos datasets sobre que afetam a agricultura
 
 - #### Gabriel:
 	- Testes unitários
+	- Streamlit
