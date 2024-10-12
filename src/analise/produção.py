@@ -77,7 +77,7 @@ def map_reg_linear(df: pd.DataFrame) -> None:
 	# resultados_regressao["slope_log"] = np.log(resultados_regressao["slope"])
 	resultados_regressao["Slope ($)"] = resultados_regressao["slope"].apply(format_dolar)
 
-	
+
 
 	fig_reg_linear = px.choropleth(resultados_regressao,
 							locations= "country_code",
@@ -101,7 +101,7 @@ def map_reg_linear(df: pd.DataFrame) -> None:
 	)
 
 	fig_reg_linear.show()
-	# fig_reg_linear.write_image("choropleth_graph.svg")
+	fig_reg_linear.write_image("./src/graphs/choropleth_graph.svg")
 
 	# resultados_regressao.to_parquet;(DATA_SETS_RESUMOS + "/produção.parquet", engine="pyarrow", index=False)
 
