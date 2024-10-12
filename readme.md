@@ -40,8 +40,24 @@ Nesta seção, apresentamos uma série de gráficos gerados para analisar a rela
 ![Dispersão da Produção Total(t) vs PIB($)](src/graphs/grafico_dispersao_Produção_vs_PIB.svg)
 *Figura 1: Grafico de dispesão que compara Produção total(t) de todos os paises com o PIB($)*
 
-![Dispersão da Produção Total(t) vs PIB($)](src/graphs/Produção_agricola_vs_ano.svg)
-*Figura 1: Compara a correlação entre Produção agrícola total(t) e PIB($) dos paises em desenvolvimento, emergentes e desenvolvidos ano a ano (1961 - 2022)*
+<br>
+
+![Correlação Produção Total(t) vs PIB($) ano a ano](src/graphs/Produção_agricola_vs_ano.svg)
+*Figura 2: Compara a correlação entre Produção agrícola total(t) e PIB($) dos paises em desenvolvimento, emergentes e desenvolvidos ano a ano (1961 - 2022)*
+
+<br>
+
+![Taxa média de crescimento anual da Produção por hectare(t)](src/graphs/choropleth_graph.svg)
+*Figura 3: Compara a taxa média do crescimento anual da produção por hectare(t) dos paises*
+
+
+<br>
+
+<div style="text-align: center;">
+    <img src="src/graphs/gráfico_temperatura.svg" alt="Temperatura média ao longo dos anos" width="450"/>
+</div>
+
+*Figura 3: Compara a média da temperatura anual dos paises ano a ano (1961 - 2022)*
 
 ## Estrutura do Projeto
 
