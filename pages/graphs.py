@@ -178,12 +178,12 @@ st.title('Visualização de Gráficos')
 
 # Sidebar para trocar os gráficos
 st.sidebar.title("Escolha o gráfico para exibição")
-chart_selection = st.sidebar.selectbox("Selecione um gráfico:", ["Gráfico 1", "Gráfico 2", "Gráfico 3"])
+chart_selection = st.sidebar.selectbox("Selecione um gráfico:", ["Emissões de CO₂", "Produção total", "Temperatura"])
 
 # Renderização do gráfico escolhido
-if chart_selection == "Gráfico 1":
+if chart_selection == "Emissões de CO₂":
     show_chart_1()
-elif chart_selection == "Gráfico 2":
+elif chart_selection == "Produção total":
     show_chart_2()
-elif chart_selection == "Gráfico 3":
+elif chart_selection == "Temperatura":
     show_chart_3()
