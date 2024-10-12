@@ -19,7 +19,7 @@ df = pd.merge(df_producao, df_pib, how='outer')
 
 df = df[df['country_code'] == 'WLD']
 
-print(df)
+# print(df)
 ## Fazendo o gráfico
 
 scatter = alt.Chart(df, title="Produção x PIB (Mundo)").mark_point(color='black', opacity=1).encode(
