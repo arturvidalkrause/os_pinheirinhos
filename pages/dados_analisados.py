@@ -42,17 +42,17 @@ tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["emissões co2", "fertilizan
 with tab1:
     st.header("Emissões CO2")
     st.dataframe(df1)
-    st.write("Texto para Emissões CO2")
+    st.write("Dados de emissões de CO2 em diferentes países")
 
 with tab2:
     st.header("Fertilizantes Total")
     st.dataframe(df2)
-    st.write("Texto para Fertilizantes Total")
+    st.write("Quantidade de fertilizantes usados por cada pais ano a ano")
 
 with tab3:
     st.header("PIB")
     st.dataframe(df3)
-    st.write("Texto para PIB")
+    st.write("Produto Interno Bruto (PIB) de países, medido em dólares correntes, usado para avaliar o desempenho econômico.")
 
 with tab4:
     st.header("Precipitação Anual")
@@ -62,14 +62,14 @@ with tab4:
 with tab5:
     st.header("Produção Total e Área")
     st.dataframe(df5)
-    st.write("Texto para Produção Total e Área")
+    st.write("Índices de produção agrícola, medindo a variação no volume de produção ao longo do tempo.")
 
 with tab6:
     st.header("Temperatura")
     st.dataframe(df6)
-    st.write("Texto para Temperatura")
+    st.write("Dados mensais históricos de temperatura de estações meteorológicas, usados para estudar mudanças climáticas.")
 
 with tab7:
     st.header("Terras Aráveis")
     st.dataframe(df7)
-    st.write("Texto para Terras Aráveis")
+    st.write("Proporção de terra arável em relação à área total de cada país, um indicador importante para o potencial agrícola.")

@@ -31,13 +31,13 @@ def regressao_por_pais(grupo: pd.DataFrame) -> pd.Series:
 	y: pd.Series = grupo["Produção_por_hectare_(t)"]
 
 	if x.isna().any().any() or y.isna().any():
-		return pd.Series({"slope": np.nan, "pais": grupo['pais'].iloc[0]})
+		return pd.Series({"slope": np.nan})
 
 	modelo = LinearRegression()
 	modelo.fit(x, y)
     
 	slope = modelo.coef_[0]
-	return pd.Series({"slope": slope, "pais": grupo['pais'].iloc[0]})
+	return pd.Series({"slope": slope})
 
 
 def format_dolar(valor: int | None) -> str:
@@ -71,7 +71,6 @@ def map_anual(df_temporal: pd.DataFrame) -> None:
 	fig_pib = px.choropleth(df_temporal,
 							locations= "country_code",
 							color="Produção_por_hectare_(t)",
-							hover_name="pais",
 							hover_data={"Produção por hectare (t)": True, "country_code": False, "Produção_por_hectare_(t)": False},
 							range_color=[0, 27],
 							animation_frame="ano",
@@ -100,7 +99,6 @@ def map_reg_linear(df: pd.DataFrame) -> None:
 	fig_reg_linear = px.choropleth(resultados_regressao,
 							locations= "country_code",
 							color= "slope",
-							hover_name= "pais",
 							hover_data= {"Slope ($)": True, "country_code": False, "slope": True},
 							range_color=[0,0.4]
 							)
