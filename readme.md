@@ -1,189 +1,154 @@
 # Tema: Agricultura
 
-O objetivo é tratar e unificar diversos datasets sobre agricultura, abrangendo um período comum, utilizando Pandas para manipulação de dados e NumPy para facilitar inferências estatísticas. O foco é garantir a integridade dos dados e permitir análises sobre fatores como terra arável, temperatura, precipitação e produção agrícola, visando identificar correlações e tendências ao longo do tempo.  
+O objetivo deste projeto é analisar como variáveis climáticas, econômicas e de insumos agrícolas afetam a agricultura global, abrangendo o período de 1961 a 2022. Utilizamos bibliotecas como Pandas e NumPy para manipulação de dados e realizar inferências estatísticas. O foco principal é garantir a integridade dos dados para permitir análises sobre variáveis como terra arável, temperatura, precipitação, uso de insumos agrícolas (fertilizantes e pesticidas), PIB e produção agrícola, a fim de identificar correlações e tendências ao longo do tempo.
 
-## Datasets:
+## Getting Started
 
-### Arable Land (% of land area)
-Proporção de terra arável em relação à área total de um país, usada para medir o potencial agrícola. Fonte: Banco Mundial.
+### Pré-requisitos
 
-Tratamentos: dados faltantes, dados repetidos, valores atípicos etc.
+Antes de rodar o projeto, certifique-se de ter as seguintes ferramentas instaladas:
 
-#### Fonte: [WorldBank](https://data.worldbank.org/indicator/AG.LND.ARBL.ZS)
+- Python 3.12 ou superior
+- pip (Python package manager)
 
-| Country N    | aCountry C | oIndicator  | NIndicator       | C            | 1960         | 1961         | 1962         | 1963         | 1964         | 1965         | 1966         |
-|--------------|------------|-------------|------------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|--------------|
-| Aruba        | ABW        | Arable lan  | AG.LND.ARBL.ZS    | 1.111.111.111| 1.111.111.111| 1.111.111.111| 1.111.111.111| 1.111.111.111| 1.111.111.111|              |
-| Africa East  | AFE        | Arable lan  | AG.LND.ARBL.ZS    | 4.702.843.083| 4.754.587.533| 4.866.723.384| 4.918.673.714| 4.972.682.842| 5.002.260.903|              |
-| Afghanistan  | AFG        | Arable lan  | AG.LND.ARBL.ZS    | 1.172.899.131| 1.180.565.138| 1.188.231.145| 1.195.897.153| 1.195.897.153| 1.201.263.358|              |
-| Africa West  | AFW        | Arable lan  | AG.LND.ARBL.ZS    | 6.976.669.636| 7.004.636.006| 7.041.556.036| 7.065.985.157| 7.102.573.569| 7.129.213.471|              |
+### Instalação
 
+1. Clone o repositório do GitHub:
+   ```
+   git clone arturvidalkrause/os_pinheirinhos
+   ```
 
-### Temperature (GHCN)
-Dados mensais históricos de temperatura de estações meteorológicas terrestres, usados para estudos de mudanças climáticas. Fonte: NOAA.
+2. Acesse a pasta do projeto:
+   ```
+   cd os_pinheirinhos
+   ```
 
-**Desafios:** ao baixar os dados eles vêm em dois arquivos, um `.dat` e outro `.env`. Deve-se lê-los com Python e transformá-los em um DataFrame para começar o tratamento dos dados, com cerca de 1.400.000 linhas.
+3. Instale as dependências:
+   ```
+   pip install -r requirements.txt
+   ```
 
-Tratamentos: conversão de unidade (estão em centésimos °C), valores nulos (-9999), transformar em dados anuais, identificação correta dos países, agrupar os dados por país.
+4. Rode a aplicação (se houver um dashboard ou algo similar):
+   ```
+   streamlit run pagina_inicial.py
+   ```
 
-#### Fonte: [NOAA](https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-monthly)
+## Resultados Visuais e Análises Gráficas
 
-| Station_ID   | Year | Jan  | Feb  | Mar  | Apr  | May  | Jun  | Jul  | Aug  | Sep  | Oct  | Nov  | Dec  |
-|--------------|------|------|------|------|------|------|------|------|------|------|------|------|------|
-| ACW00011604  | 1961 |  -71 |  254 |   49 |  791 | 1146 | 1617 | 1588 | 1499 | 1431 | 1192 |  528 |  -21 |
-| ACW00011604  | 1962 |  131 |  103 | -136 |  653 |  926 | 1399 | 1528 | 1411 | 1181 | 1012 |  341 | -108 |
-| ACW00011604  | 1963 | -695 | -535 |  -81 |  559 | 1242 | 1645 | 1638 | 1614 |  135 |  958 |  584 |   -9 |
-| ACW00011604  | 1964 |    8 |  -67 |   73 |  756 | 1237 |  146 | 1524 | 1575 | 1239 |  806 |  564 |  -13 |
-| ACW00011604  | 1965 |   62 |  -87 |   56 |  608 | 1005 | 1518 | 1505 | 1495 | 1395 |  992 |   49 |  -16 |
-| ACW00011604  | 1966 | -419 | -543 |  179 |  317 | 1153 | 1713 | 1691 | 1542 | 1266 |  874 |   73 |  -16 |
-| ACW00011604  | 1967 | -199 |  107 |  468 |  552 | 1123 | 1444 | 1726 | 1669 | 1389 | 1068 |   63 |  -25 |
+Nesta seção, apresentamos uma série de gráficos gerados para analisar a relação entre as variáveis climáticas, econômicas e de insumos agrícolas. Os gráficos abaixo ajudam a visualizar as correlações e tendências que foram identificadas ao longo do período de 1961 a 2022.
 
+![Dispersão da Produção Total(t) vs PIB($)](src/graphs/grafico_dispersao_Produção_vs_PIB.svg)
+*Figura 1: Grafico de dispesão que compara Produção total(t) de todos os paises com o PIB($)*
 
-### Precipitação Agro
-Dados históricos e projetados sobre precipitação focados nos impactos agrícolas. Fonte: Banco Mundial.
+<br>
 
-Tratamentos: dados faltantes, conversão de strings, agrupamento de dados, transformar em dados anuais.
+![Correlação Produção Total(t) vs PIB($) ano a ano](src/graphs/Produção_agricola_vs_ano.svg)
+*Figura 2: Compara a correlação entre Produção agrícola total(t) e PIB($) dos paises em desenvolvimento, emergentes e desenvolvidos ano a ano (1961 - 2022)*
 
-#### Fonte: [WorldBank](https://climateknowledgeportal.worldbank.org/download-data)
+<br>
 
-| code | name       | 1901-01 | 1901-02 | 1901-03 | 1901-04 | 1901-05 | 1901-06 | 1901-07 | 1901-08 | 1901-09 | 1901-10 |
-|------|------------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|
-| ABW  | Aruba      |    33.3 |    16.7 |         |       9 |    16.9 |    20.1 |    19.9 |    25.8 |    22.6 |    41.9 |
-| AFG  | Afghanist  |   48.21 |   31.63 |   52.23 |    34.86|    53.82|    17.11|     4.48|     2.53|     3.03|     9.65|
-| AGO  | Angola     |   152.7 |   153.6 |  170.88 |   130.86|    20.6 |     0.86|     0.77|     3.88|    21.4 |    68.7 |
-| AIA  | Anguilla   |    92.6 |    27.2 |    59.1 |    49.5 |    88.3 |    89.1 |   125.6 |    97.4 |   163.3 |   123.6 |
-| ALA  | Finland    |   15.76 |   21.36 |   19.57 |    32.15|     8.28|    37.45|     7.23|    27.14|    31.37|      71 |
+![Taxa média de crescimento anual da Produção por hectare(t)](src/graphs/choropleth_graph.svg)
+*Figura 3: Compara a taxa média do crescimento anual da produção por hectare(t) dos paises*
 
 
-### Production Indices
-Índices de produção agrícola que medem a variação no volume de produção agrícola ao longo do tempo. Fonte: FAO.
+<br>
 
-Tratamentos: dados faltantes, conversão de unidades, segmentação de dados.
+<div style="text-align: center;">
+    <img src="src/graphs/gráfico_temperatura.svg" alt="Temperatura média ao longo dos anos" width="450"/>
+</div>
 
-#### Fonte: [Faostat](https://www.fao.org/faostat/en/#data/QI)
+*Figura 3: Compara a média da temperatura anual dos paises ano a ano (1961 - 2022)*
 
-| Area Code | Area Code | Area      | Item Code | Item Code | Item       | Element C | oElement  | Unit     | Y1961 | Y1962 | Y1963 | Y1964 | Y1965 |
-|-----------|-----------|-----------|-----------|-----------|------------|-----------|-----------|----------|-------|-------|-------|-------|-------|
-| 2         | 4         | Afghanist | 541       | 01349.20  | Other ston | 5510      | Productio | nt       | 18100 | 18100 | 18100 | 22100 | 24400 |
-| 2         | 4         | Afghanist | 463       | 01290.90  | Other vege | 5312      | Area harv | eha      | 68700 | 68700 | 68700 | 73700 | 79700 |
-| 2         | 4         | Afghanist | 463       | 01290.90  | Other vege | 5419      | Yield     | 100 g/ha | 42402 | 44585 | 47249 | 46526 | 44856 |
-| 2         | 4         | Afghanist | 463       | 01290.90  | Other vege | 5510      | Productio | nt       | 291300| 306300| 324600| 342900| 357500|
-| 2         | 4         | Afghanist | 534       | 1345      | Peaches a  | 5312      | Area harv | eha      | 1810  | 1810  | 1810  | 1920  | 2020  |
-| 2         | 4         | Afghanist | 534       | 1345      | Peaches a  | 5419      | Yield     | 100 g/ha | 66298 | 66298 | 66298 | 76563 | 80693 |
+## Estrutura do Projeto
 
+- **`config.py`**: Define variáveis e parâmetros globais, como configurações de leitura de dados e caminhos dos arquivos.
+- **`data/`**: Contém os datasets utilizados no projeto. Esses dados incluem variáveis climáticas, econômicas e agrícolas, como PIB, produção agrícola, fertilizantes, pesticidas e emissões de CO2.
+- **`docs/`**: Diretório onde está armazenada a documentação do projeto, contendo explicações sobre o código, manuais, gráficos gerados e qualquer relatório adicional.
+- **`Pages/`**: Contém as diferentes páginas ou visualizações utilizadas no projeto, sugerindo que seja um dashboard ou aplicação com várias telas.
+- **`pagina_inicial.py`**: Responsável pela página inicial da aplicação, exibindo uma visão geral dos dados e análises mais importantes.
+- **`readme.md`**: Este arquivo README contém todas as informações sobre o projeto, sua estrutura e instruções de uso.
+- **`requirements.txt`**: Lista as bibliotecas e dependências necessárias para a execução do projeto. Facilita a instalação do ambiente de desenvolvimento.
+- **`src/`**: Diretório principal do código-fonte. Aqui estão scripts para pré-processamento dos dados, análise estatística e geração de visualizações.
+- **`.gitignore`**: Define quais arquivos e pastas devem ser ignorados pelo Git, como arquivos temporários ou dados sensíveis.
 
-### PIB
-Produto Interno Bruto de países, medido em dólares correntes, usado para avaliar o desempenho econômico. Fonte: Banco Mundial.
+## Datasets Utilizados:
 
-Tratamentos: dados faltantes.
+- **Arable Land (% of land area)**  
+  Proporção de terra arável em relação à área total de cada país, um indicador importante para o potencial agrícola.  
+  **Fonte**: [WorldBank](https://data.worldbank.org/indicator/AG.LND.ARBL.ZS)
 
-#### Fonte: [WorldBank](https://data.worldbank.org/indicator/NY.GDP.MKTP.CD)
+- **Temperature (GHCN)**  
+  Dados mensais históricos de temperatura de estações meteorológicas, usados para estudar mudanças climáticas.  
+  **Fonte**: [NOAA](https://www.ncei.noaa.gov/products/land-based-station/global-historical-climatology-network-monthly)
 
-| Country N  | aCountry C | oIndicator | NIndicator      | C           | 1960       | 1961       | 1962       | 1963       | 1964       | 1965       | 1966       |
-|------------|------------|------------|-----------------|-------------|------------|------------|------------|------------|------------|------------|------------|
-| Bahrain    | BHR        | GDP (curr  | eNY.GDP.MKTP.CD |             |            |            |            |            |            |            |
-| Bahamas    | BHS        | GDP (curr  | eNY.GDP.M       | 169803921   | 190098039  | 2.12E+08   | 2.38E+08   | 266666666  | 300392156  | 3.4E+08    |
-| Bosnia     | BIH        | GDP (curr  | eNY.GDP.MKTP.CD |             |            |            |            |            |            |            |
-| Belarus    | BLR        | GDP (curr  | eNY.GDP.MKTP.CD |             |            |            |            |            |            |            |
-| Belize     | BLZ        | GDP (curr  | eNY.GDP.M       | 28072478    | 029964999  | 931857591  | 833750113  | 736194586  | 140110040  | 144450044.4|
-| Bermuda    | BMU        | GDP (curr  | eNY.GDP.M       | 84466652    | 589249985  | 194149984  | 396366650  | 6107566648 | 114339050  | 13417337   |
-| Bolivia    | BOL        | GDP (curr  | eNY.GDP.M       | 3.73E+08    | 4.06E+08   | 443916666  | 4.78E+08   | 538583333  | 598333333  | 6.63E+08   |
+- **Precipitação Agro**  
+  Dados históricos e projetados sobre precipitação, focando nos impactos agrícolas.  
+  **Fonte**: [WorldBank](https://climateknowledgeportal.worldbank.org/download-data)
 
+- **Production Indices**  
+  Índices de produção agrícola, medindo a variação no volume de produção ao longo do tempo.  
+  **Fonte**: [FAOSTAT](https://www.fao.org/faostat/en/#data/QI)
 
-### Fertilizantes por Nutrientes
-Quantidade de fertilizantes usados por tipo de nutriente na agricultura. Fonte: FAO.
+- **PIB**  
+  Produto Interno Bruto (PIB) de países, medido em dólares correntes, usado para avaliar o desempenho econômico.  
+  **Fonte**: [WorldBank](https://data.worldbank.org/indicator/NY.GDP.MKTP.CD)
 
-Tratamentos: dados faltantes, retirar dados úteis da tabela, conversão de unidades.
+- **Fertilizantes por Nutrientes**  
+  Quantidade de fertilizantes usados por tipo de nutriente.  
+  **Fonte**: [FAOSTAT](https://www.fao.org/faostat/en/#data/RFN)
 
-#### Fonte: [Faostat](https://www.fao.org/faostat/en/#data/RFN)
+- **Pesticidas**  
+  Uso de pesticidas agrícolas por categoria (herbicidas, inseticidas, etc.) ao longo dos anos.  
+  **Fonte**: [FAOSTAT](https://www.fao.org/faostat/en/#data/RP)
 
-| 9  | 32 | Argentina | 3102 | Nutrient n | i | 5510 | Productio | nt   | 2100  | A  | Official da | 5000  | X  |
-|----|----|-----------|------|------------|---|------|-----------|------|-------|----|-------------|-------|----|
-| 9  | 32 | Argentina | 3102 | Nutrient n | i | 5610 | Import Qu | t    | 6290  | A  | Official da | 7073  | A  |
-| 9  | 32 | Argentina | 3102 | Nutrient n | i | 5910 | Export Qu | at   |       |    |             |       |    |
-| 9  | 32 | Argentina | 3102 | Nutrient n | i | 5157 | Agricultur| at   | 8390  | A  | Official da | 8605  | A  |
-| 9  | 32 | Argentina | 3102 | Nutrient n | i | 5159 | Use per ar| kg/ha| 0.43  | E  |             | 0.43  | E  |
+- **Emissões de CO2**  
+  Dados de emissões de CO2 em diferentes países, cobrindo o período desde 1750.  
+  **Fonte**: [Our World in Data](https://ourworldindata.org/co2-emissions)
 
+## Hipóteses Propostas:
 
-### Pesticidas
-Uso de pesticidas agrícolas por categoria (herbicidas, inseticidas, etc.). Fonte: FAO.
+- Hipótese 1: A produtividade agrícola por hectare está aumentando ao longo do tempo, com maior destaque para os países emergentes.
+- Hipótese 2: Existe uma correlação significativa entre a variação de temperatura e a produção agrícola nos países em desenvolvimento.
+- Hipótese 3: O aumento no uso de fertilizantes e pesticidas está diretamente correlacionado com a produção por hectare, especialmente em países subdesenvolvidos.
+- Hipótese 4: A variação na precipitação ao longo dos anos impacta diretamente os índices de produção agrícola em regiões específicas.
+- Hipótese 5: A produção agrícola tem uma correlação mais forte com o PIB em países subdesenvolvidos/em desenvolvimento em comparação com os países desenvolvidos.
 
-Tratamentos: valores faltantes, segmentação de dados, conversão de unidades.
+## Pré-processamento dos Dados
 
-#### Fonte: [Faostat](https://www.fao.org/faostat/en/#data/RP)
+No pré-processamento, foram adotadas as seguintes etapas:
 
-| 4  | 12 | Algeria  | 1320 | Herbicide  | s | 5157 | Agricultur | at   | 99.28  | E  | Estimated   | 129.54  | E  | Estimated  | 69.7  |
-|----|----|----------|------|------------|---|------|------------|------|--------|----|-------------|---------|----|------------|-------|
-| 4  | 12 | Algeria  | 1331 | Fungicide  | s | 5157 | Agricultur | at   | 3275.4 | E  | Estimated   | 3712.8  | E  | Estimated  | 1898.4|
-| 4  | 12 | Algeria  | 1341 | Plant Grow | w | 5157 | Agricultur | at   | 1059.34| I  | Imputed v   | 1059.34 | I  | Imputed v  | 1059.34|
-| 4  | 12 | Algeria  | 1355 | Other Pest |   | 5157 | Agricultur | at   | 121.53 | E  | Estimated   | 198.79  | E  | Estimated  | 140.39|
-| 6  | 20 | Andorra  | 1357 | Pesticides |   | 5157 | Agricultur | at   | 14.12  | E  | Estimated   | 14.12   | E  | Estimated  | 14.12 |
-| 6  | 20 | Andorra  | 1357 | Pesticides |   | 5159 | Use per ar | kg/ha| 14.12  | E  |             | 14.12   | E  |            | 14.12 |
+1. **Tratamento de Valores Ausentes**: Utilizamos a média dos períodos anterior e posterior para preencher valores ausentes em séries temporais de temperatura e precipitação.
+2. **Conversão de Tipos de Dados**: Garantimos que todas as variáveis estivessem no formato correto, unificando as unidades e corrigindo erros de arredondamento.
+3. **Agregação por País**: Normalizamos os nomes dos países e utilizamos códigos ISO de três dígitos para consistência.
+4. **Integração de Fontes**: As diferentes bases de dados foram integradas de forma padronizada, possibilitando uma análise coesa entre os países.
+5. **Padronização Temporal**: Preenchimento de lacunas de dados de 1961 a 2022 com valores nulos (NaN) para garantir a integridade da análise temporal.
 
+## Resultados da Análise Exploratória
 
-### Emissões
-O dataset contém dados de emissões de gases de efeito estufa na agricultura, abrangendo diversas atividades agrícolas e mais de 200 países desde 1961. Fonte: FAO.
+A análise exploratória revelou padrões importantes, como:
 
-Tratamentos: agrupamento de dados por elementos e países, dados nulos, conversão de unidades, segmentação dos dados necessários.
+- **Correlação entre Clima e Agricultura**: A variação de temperatura e precipitação está fortemente correlacionada com a produção agrícola em regiões vulneráveis, especialmente em países subdesenvolvidos.
+- **Impacto dos Insumos**: O uso de fertilizantes e pesticidas apresenta uma relação direta com o aumento da produtividade agrícola, especialmente em países emergentes.
+- **Produtividade por Hectare**: A produtividade por hectare aumentou ao longo do tempo em países com mais investimentos em tecnologia agrícola e insumos.
 
-#### Fonte: [Faostat](https://www.fao.org/faostat/en/##data/GT)
+## Validação das Hipóteses
 
-| Area Code | Area Code (M49) | Area       | Item Code | Item             | Element Code | Element                          | Source Code | Source   | Unit | Y1961     |
-|-----------|-----------------|------------|-----------|------------------|--------------|----------------------------------|-------------|----------|------|-----------|
-| 2         | 004             | Afghanistan| 5064      | Crop Residues    | 7234         | Direct emissions (N2O)           | 3050        | FAOTIER1 | kt   | 876200    |
-| 2         | 004             | Afghanistan| 5064      | Crop Residues    | 7230         | Emissions (N2O)                  | 3050        | FAOTIER1 | kt   | 1073400   |
-| 2         | 004             | Afghanistan| 5064      | Crop Residues    | 723113       | Emissions (CO2eq) (AR5)          | 3050        | FAOTIER1 | kt   | 284451000 |
-| 2         | 004             | Afghanistan| 5060      | Rice Cultivation | 724413       | Emissions (CO2eq) from CH4 (AR5) | 3050        | FAOTIER1 | kt   | 823200000 |
+- **Hipótese 1**: Validada. A produtividade agrícola por hectare tem aumentado ao longo do tempo, com maior destaque em países emergentes.
+- **Hipótese 2**: Parcialmente validada. A variação climática afeta significativamente a produção agrícola, mas a magnitude varia entre os países em desenvolvimento.
+- **Hipótese 3**: Validada. O uso de insumos, como fertilizantes e pesticidas, está diretamente relacionado ao aumento de produtividade agrícola.
+- **Hipótese 4**: Validada. A precipitação tem um impacto claro sobre a produção agrícola em regiões específicas.
+- **Hipótese 5**: Validada. Existe uma correlação mais forte entre a produção agrícola e o PIB em países subdesenvolvidos.
 
+## Desafios Encontrados
 
-### Desastres Naturais/Tecnológicos
-Dados sobre a ocorrência e impacto de desastres em geral, naturais e tecnológicos. Fonte: EM-DAT.
-
-Utilidade: Realizar análises com a API da OpenAI para comprovar ou sustentar teses e hipóteses levantadas.
-
-Tratamentos: segmentar os dados, identificação correta dos países.
-
-#### Fonte: [Emdat]( https://public.emdat.be/data)
-
-| DisNo.      | Historic | Classifica  | tDisaster G | Disaster Su  | Disaster T | yDisaster Su    | External ID | Event Nam         | ISO | Country      | Subregion | Region      | Location             | Origin   | Associated |
-|-------------|----------|-------------|-------------|--------------|------------|-----------------|-------------|-------------------|-----|--------------|-----------|-------------|----------------------|----------|------------|
-| 1900-0003-  | Yes      | nat-met-s   | tNatural    | Meteorolo    | Storm      | Tropical cyclone |             |                   | USA | United Sta   | Northern  | AAmericas   | Galveston (Texas)    | Avalanch |            |
-| 1900-0005-  | Yes      | tec-ind-fir | -Technolog  | Industrial   | Fire (Indu)| sFire (Industrial)|             |                   | USA | United Sta   | Northern  | AAmericas   | Hoboken, New York,   | Explosion|            |
-| 1900-0006-  | Yes      | nat-hyd-fl  | oNatural    | Hydrologi    | cFlood     | Flood (General)  |             |                   | JAM | Jamaica      | Latin Ame | rAmericas   | Saint James          |          |            |
-| 1900-0007-  | Yes      | nat-bio-ep  | Natural     | Biological   | Epidemic   | Viral disease    | Gastroent   |                   | JAM | Jamaica      | Latin Ame | rAmericas   | Porus                |          |            |
-
-
-## Hipóteses Levantadas:
-
-- Baseando-se nos dados agrícolas, é possível ver se um país apresentou desenvolvimento significativo no período (PIB)?
-
-- Há uma correlação maior entre produção agrícola e PIB nos países subdesenvolvidos/em desenvolvimento em relação aos países desenvolvidos?
-
-- A produtividade por hectare de terra arável está aumentando ao longo do tempo, com destaque para os países emergentes.
-
-- A variação na precipitação ao longo dos anos está correlacionada com mudanças nos índices de produção agrícola em regiões específicas.
-
--  O aumento no uso de fertilizantes e pesticidas apresenta uma correlação maior com a produção por hectare em países subdesenvolvidos e emergentes?
-
-
-## Pré Processamento 
-(@Bruno_Luiz)
+- **Unificação de Dados**: A diversidade de fontes de dados e a falta de uniformidade nas unidades de medida e formatos foi um grande desafio.
+- **Valores Ausentes**: A ausência de dados em alguns anos e países demandou o uso de técnicas de preenchimento e análise cuidadosa.
+- **Complexidade da Análise**: Devido à grande quantidade de variáveis e países analisados, foi necessário adotar técnicas avançadas de agrupamento e normalização.
 
 ## Contribuições
-- #### Bruno:
-	- Tratou os dados
 
-- #### Artur: 
-	- Documentação dos módulos e funções
-	- Fez o readme
-
-- #### Gustavo:
-	- Streamlit
-   	- Fez os Geomaps 
-
-- #### Kauan:
-	- Testes unitários
-
-- #### Gabriel:
-	- Testes unitários
-	- Streamlit
+- **Bruno**: Tratamento dos dados e pré-processamento; Validação das hipóteses; Escrita do Artigo.
+- **Artur**: Documentação dos módulos e funções; Suporte no Tratamento e processamento dos dados; Validação das hipóteses;
+- **Gustavo**: Implementação do Streamlit;
+- **Kauan**: Testes unitários e validação do código.
+- **Gabriel**: Testes unitários e suporte no desenvolvimento da documentação.
