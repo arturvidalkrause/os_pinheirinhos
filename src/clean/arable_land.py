@@ -3,8 +3,14 @@
 """
 
 import pandas as pd
+<<<<<<< HEAD
 from . import big_strings
 from . import big_dicts
+=======
+import big_strings
+import big_dicts
+import pyarrow
+>>>>>>> main
 import os
 
 
@@ -31,7 +37,7 @@ def preprocessamento_arable_land(path: str) -> pd.DataFrame:
 
     # Renomeando as colunas
 	df_melted = df_melted.rename(columns={
-        'Country Name': 'area_name',
+        'Country Name': 'pais',
         'Indicator Name': 'indicator_name',
         'Year': 'ano'
     })
@@ -47,20 +53,26 @@ def preprocessamento_arable_land(path: str) -> pd.DataFrame:
 
     # Obtendo apenas os países e o mundo:
 	countries_to_keep = big_strings.countries_to_keep_worldbank
-	df_filtered = df_periodo[df_periodo['area_name'].isin(countries_to_keep)]
+	df_filtered = df_periodo[df_periodo['pais'].isin(countries_to_keep)]
 	df_filtered.reset_index(drop=True, inplace=True)
 
     # Dando um código para cada, para poder integrar com outros datasets
 	country_codes = big_dicts.countries_codes_worldbank
-	df_filtered['country_code'] = df_filtered['area_name'].map(country_codes)
+	df_filtered['country_code'] = df_filtered['pais'].map(country_codes)
 
     # Removendo os nomes antigos
-	df_renamed: pd.DataFrame = df_filtered.drop('area_name', axis=1)
+	# df_renamed: pd.DataFrame = df_filtered.drop('pais', axis=1)
+	df_renamed = df_filtered
 
 	# Arredonda para tres casas decimais
 	df_renamed["terras_araveis(%)"] = df_renamed["terras_araveis(%)"].round(3)
+	
+	# Define um tipo correto a cada coluna
+	df_renamed = df_renamed.astype({
+		'pais': "category",
+		'ano': "category",
+		'terras_araveis(%)': "float16",
+		'country_code': "category"
+	})
 
 	return df_renamed
-
-# path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
-# print(preprocessamento_arable_land(path_data)[preprocessamento_arable_land(path_data)['ano']>1960])

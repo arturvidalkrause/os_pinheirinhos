@@ -82,7 +82,18 @@ def preprocessamento_temperatura(path: str) -> pd.DataFrame:
 	# Arredonda para duas casas decimais
 	df_final["temperatura_media_anual(°C)"] = df_final["temperatura_media_anual(°C)"].round(2)
 
-	return df_final
+	# Inverte o dicionário para que o código do país seja a chave
+	reversed_dict = {v: k for k, v in big_dicts.country_codes_temperatura.items()}
 
-# path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
-# print(preprocessamento_temperatura(path_data))
+	# Faz a substituição
+	df_final["pais"] = df_final["country_code"].replace(reversed_dict)
+
+	# Define um tipo correto a cada coluna
+	df_final = df_final.astype({
+		'pais': "category",
+		'ano': "category",
+		'temperatura_media_anual(°C)': "float16",
+		'country_code': "category"
+	})
+
+	return df_final

@@ -36,14 +36,14 @@ def preprocessamento_producao(path: str) -> pd.DataFrame:
 	df_vegetal = df[df['Item'].isin(vegetais)]
 
     # Removendo colunas desnecessárias
-	df_vegetal.drop(['Item Code', 'Element Code'], axis=1, inplace=True)
+	df_vegetal = df_vegetal.drop(['Item Code', 'Element Code'], axis=1)
 
     # Separando em área e produção e eliminando colunas desnecessárias
 	df_area = df_vegetal[df_vegetal['Element'] == 'Area harvested']
-	df_area.drop(['Element', 'Unit'], axis=1, inplace=True)
+	df_area = df_area.drop(['Element', 'Unit'], axis=1)
 
 	df_production = df_vegetal[df_vegetal['Element'] == 'Production']
-	df_production.drop(['Element', 'Unit'], axis=1, inplace=True)
+	df_production = df_production.drop(['Element', 'Unit'], axis=1)
 
     ## Reorganizando os dataframes
 
@@ -86,12 +86,12 @@ def preprocessamento_producao(path: str) -> pd.DataFrame:
 	df_production_total = df_production_pivot[['Area', 'Year', 'Total']]
 
     # Renomeando as colunas
-	df_production_total.rename(columns={'Total': 'producao_total(t)',
+	df_production_total = df_production_total.rename(columns={'Total': 'producao_total(t)',
                                         'Area': 'area_name',
-                                        'Year': 'ano'}, inplace=True)
-	df_area_total.rename(columns={'Total': 'area_total_de_producao(ha)',
+                                        'Year': 'ano'})
+	df_area_total = df_area_total.rename(columns={'Total': 'area_total_de_producao(ha)',
                                   'Area': 'area_name',
-                                  'Year': 'ano'}, inplace=True)
+                                  'Year': 'ano'})
 
     # Unindo ambos os dataframes em um só
 	df_combinado = pd.merge(df_production_total, df_area_total, on=['area_name', 'ano'])
@@ -103,7 +103,9 @@ def preprocessamento_producao(path: str) -> pd.DataFrame:
 
     # Dando um código para cada, para poder integrar com outros datasets
 	country_codes = big_dicts.country_codes_faostat
-	df_filtered['country_code'] = df_filtered['area_name'].map(country_codes)
+	df_filtered = df_filtered.copy()
+	# Mapeia o country_code e faz a modificação segura
+	df_filtered.loc[:, 'country_code'] = df_filtered['area_name'].map(country_codes)
     
     # Removendo os nomes antigos
 	df_renamed = df_filtered.drop('area_name', axis=1)
@@ -132,9 +134,20 @@ def preprocessamento_producao(path: str) -> pd.DataFrame:
 
 	# Arredonda para duas casas decimais
 	df_completo["producao_total(t)"] = df_completo["producao_total(t)"].round(2)
-    
-	return df_completo
 
-# path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/brutos")
-# print(preprocessamento_producao(path_data))
-# print(preprocessamento_producao(path_data)['area_name'].unique())
+	# Inverte o dicionário para que o código do país seja a chave
+	reversed_dict = {v: k for k, v in big_dicts.countries_codes_emissoes_co2.items()}
+
+	# Substituir os valores em country_code com o dicionário de correspondência
+	df_completo["pais"] = df_completo["country_code"].replace(reversed_dict)
+
+	# Converter outras colunas para os tipos corretos
+	df_completo = df_completo.astype({
+		'pais': "category",
+		'country_code': "category",
+		'ano': "category",
+		'producao_total(t)': "float64",
+		'area_total_de_producao(ha)': "float64"
+	})
+	
+	return df_completo
