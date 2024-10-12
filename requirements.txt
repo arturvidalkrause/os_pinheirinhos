@@ -1,6 +1,7 @@
 geopandas==1.0.1            # Geospatial data handling
 pandas==2.2.3               # Data manipulation
 numpy==2.1.2                # Array and numerical operations
+numpy==2.0.2                # Array and numerical operations
 pyarrow==17.0.0             # Apache Arrow and file formats (e.g., Parquet)
 matplotlib==3.9.2           # Data visualization
 altair==5.4.1               # Declarative data visualization

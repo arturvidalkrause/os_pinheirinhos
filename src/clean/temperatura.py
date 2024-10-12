@@ -1,5 +1,13 @@
 """
-	Contém funções para tratar os dados dos DataSets: "temperatura_mes_a_mes< 1, 2>"
+    Contém funções para tratar os dados dos DataSets: "temperatura_mes_a_mes<1, 2>".
+    
+    O objetivo deste módulo é processar e tratar os dados de temperatura mensal, removendo colunas desnecessárias, 
+    preenchendo valores faltantes, e agregando a média anual de temperatura por país, incluindo uma média global. 
+    Ele lida com duas partes de arquivos em formato Parquet, consolidando e preparando os dados para futuras análises 
+    e integração com outros datasets.
+
+    O arquivo de conversão entre Station_ID e o nome dos países também é utilizado para mapear o nome dos países no 
+    dataset.
 """
 
 import pandas as pd
@@ -9,14 +17,21 @@ import big_strings
 import big_dicts
 
 def preprocessamento_temperatura(path: str) -> pd.DataFrame:
-	"""Trata o dataset em questão removendo colunas desnecessárias, agrupas os dados necessários, trata dados NaN e transforma dados de colunas em novas linhas e retorna apenas o necessário para as análises
+	"""
+	Trata o dataset de temperatura de 1961 a 2022, unindo duas partes de arquivos, 
+	removendo valores inválidos, preenchendo valores ausentes, calculando a média anual por país 
+	e adicionando uma média global. O dataset final inclui os códigos dos países, a média anual 
+	de temperatura e uma coluna categorizada de países para integração com outros dados.
 
 	Args:
-		path (str): path do diretório com todos os datasets que seram tratados
+		path (str): Diretório contendo os arquivos de temperatura "temperatura_mes_a_mes1.parquet" 
+		e "temperatura_mes_a_mes2.parquet".
 
 	Returns:
-		df_final: retorna o dataset com os dados tratados
+		df_final (pd.DataFrame): DataFrame processado contendo médias anuais de temperatura 
+		por país e a média global, com os dados categorizados e prontos para análises posteriores.
 	"""
+
     # Unindo as duas partes da tabela
 	df1 = pd.read_parquet(os.path.join(path, "temperatura_mes_a_mes1.parquet"))
 	df2 = pd.read_parquet(os.path.join(path, "temperatura_mes_a_mes2.parquet"))

@@ -1,3 +1,23 @@
+"""
+Módulo de mapeamento de códigos de países.
+
+Este módulo contém dicionários que associam os nomes de países aos seus códigos ISO
+ou padrões específicos, usados para diferentes contextos de dados, como temperatura,
+FAOstat, emissões de CO₂, e precipitação.
+
+Esses mapeamentos são úteis para visualizações de dados geográficos e análises
+comparativas entre diferentes conjuntos de dados.
+"""
+
+# country_codes_temperatura
+"""
+Dicionário que mapeia nomes de países para seus respectivos códigos ISO
+utilizados em análises de temperatura.
+
+Exemplo:
+    'Brazil': 'BRA'
+    'United States': 'USA'
+"""
 country_codes_temperatura = {
     'Afghanistan': 'AFG',
     'Albania': 'ALB',
@@ -173,6 +193,15 @@ country_codes_temperatura = {
     'Equatorial Guinea': 'GNQ'
     }
 
+# country_codes_faostat
+"""
+Dicionário que mapeia nomes de países para seus respectivos códigos ISO
+usados pela base de dados FAOstat, relacionada a dados agrícolas e alimentares.
+
+Exemplo:
+    'Argentina': 'ARG'
+    'France': 'FRA'
+"""
 country_codes_faostat = {
     'Afghanistan': 'AFG',
     'Albania': 'ALB',
@@ -344,6 +373,16 @@ country_codes_faostat = {
     'Yugoslav SFR': 'YUG'
     }
 
+# countries_codes_worldbank
+"""
+Dicionário que mapeia nomes de países para seus respectivos códigos ISO,
+utilizados pelo Banco Mundial. Inclui placeholders para entidades que não são
+países ISO reconhecidos.
+
+Exemplo:
+    'China': 'CHN'
+    'India': 'IND'
+"""
 countries_codes_worldbank = {
     'Aruba': 'ABW',
     'Afghanistan': 'AFG',
@@ -550,6 +589,16 @@ countries_codes_worldbank = {
     'Zimbabwe': 'ZWE'
 }
 
+# countries_codes_emissoes_co2
+"""
+Dicionário que mapeia nomes de países para seus respectivos códigos ISO para
+dados de emissões de CO₂. Inclui placeholders para regiões ou setores
+não considerados países.
+
+Exemplo:
+    'Germany': 'DEU'
+    'Japan': 'JPN'
+"""
 countries_codes_emissoes_co2 = {
     'Afghanistan': 'AFG',
     'Africa': None,
@@ -803,6 +852,15 @@ countries_codes_emissoes_co2 = {
     'Zimbabwe': 'ZWE'
 }
 
+# country_codes_precipitacao
+"""
+Dicionário que mapeia nomes de países para seus respectivos códigos ISO
+para dados relacionados à precipitação.
+
+Exemplo:
+    'Mexico': 'MEX'
+    'Canada': 'CAN'
+"""
 country_codes_precipitacao = {
     'Aruba (Neth.)': 'ABW', 'Afghanistan': 'AFG', 'Angola': 'AGO', 
     'Anguilla (U.K.)': 'AIA', 'Finland': 'FIN', 'Albania': 'ALB', 

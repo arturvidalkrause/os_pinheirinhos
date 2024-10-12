@@ -1,5 +1,9 @@
 """
-	Contém funções para tratar os dados do DataSet: "Fertilizantes_por_nutrientes"
+Módulo para tratamento dos dados do DataSet: "Pesticidas"
+
+Este módulo contém funções para pré-processamento do dataset sobre o uso de pesticidas, incluindo a remoção de colunas desnecessárias,
+transformação de dados, preenchimento de dados faltantes, e a preparação dos dados para análises posteriores.
+
 """
 
 import pandas as pd
@@ -10,13 +14,21 @@ import big_dicts
 
 
 def preprocessamento_pesticidas(path: str) -> pd.DataFrame:
-	"""Trata o dataset em questão removendo colunas desnecessárias, agrupas os dados necessários, trata dados NaN e transforma dados de colunas em novas linhas e retorna apenas o necessário para as análises
+	"""
+    Realiza o pré-processamento dos dados do dataset de pesticidas.
+
+    O pré-processamento inclui:
+        - Leitura do arquivo CSV.
+        - Remoção de colunas desnecessárias, como códigos de área e códigos M49.
+        - Transformação das colunas de ano e uso de pesticidas por país.
+        - Conversão dos dados para os tipos corretos.
+        - Substituição de valores dos países pelo respectivo código de país.
 
     Args:
-            path (str): path do diretório com todos os datasets que seram tratados
+        path (str): Caminho do diretório contendo o dataset a ser tratado.
 
     Returns:
-            df_completo: retorna o dataset com os dados tratados
+        pd.DataFrame: Um DataFrame contendo o uso total de pesticidas por país, pronto para análise.
     """
     # Lendo o arquivo
 	try:

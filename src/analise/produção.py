@@ -14,17 +14,18 @@ from config import DATA_SET_PRODUCAO, DATA_SETS_RESUMOS
 
 
 def regressao_por_pais(grupo: pd.DataFrame) -> pd.Series:
-	"""Realiza uma regressão linear com o dados ao longo de um periodo
+	"""
+	Realiza uma regressão linear para analisar a relação entre o ano e a produção por hectare de cada país.
 
 	Args:
-		grupo (pd.DataFrame):  DataFrame contendo os dados de um país agrupados. Deve incluir as colunas 'ano' e 'Annual CO₂ emissions'.
+		grupo (pd.DataFrame): DataFrame contendo os dados de um país agrupados. Deve incluir as colunas 'ano' e 'Produção_por_hectare_(t)'.
 
 	Returns:
-		pd.Series: Coeficiente da angular da reta da regressão linear
+		pd.Series: Retorna uma série contendo o coeficiente angular (slope) da regressão linear e o nome do país.
 
 	Variáveis:
-		x (pd.Series): Série com os anos
-		y (pd.Series): Série com as emissões de anuais de CO₂
+		x (pd.Series): Série com os anos (coluna 'ano').
+		y (pd.Series): Série com os dados de produção por hectare (coluna 'Produção_por_hectare_(t)').
 	"""
 	x: pd.Series = grupo[["ano"]]
 	y: pd.Series = grupo["Produção_por_hectare_(t)"]
@@ -38,23 +39,33 @@ def regressao_por_pais(grupo: pd.DataFrame) -> pd.Series:
 	slope = modelo.coef_[0]
 	return pd.Series({"slope": slope, "pais": grupo['pais'].iloc[0]})
 
+
 def format_dolar(valor: int | None) -> str:
-	"""Formata um numero para dolar
+	"""
+	Formata um número inteiro ou float para o formato de dólar, separando os milhares por ponto.
 
 	Args:
-		valor (int): valor a ser formatado
+		valor (int | None): Valor a ser formatado.
 
 	Returns:
-		str: Valor em dolar
+		str: Valor formatado como string no formato de dólar (e.g., 1.000.000) ou "N/A" se o valor for nulo.
 	"""
 	if pd.isna(valor):
 		return "N/A"
 	return f"{valor:,.0f}".replace(",", ".")
 
+
 def map_anual(df_temporal: pd.DataFrame) -> None:
-	
-	# df_temporal["pib_log"] = np.log(df_temporal["PIB"])
-	# Cria uma nova coluna com o PIB formatado
+	"""
+	Gera um gráfico do tipo choropleth (mapa coroplético) animado para mostrar a produção agrícola por hectare (t) de cada país ao longo dos anos.
+
+	Args:
+		df_temporal (pd.DataFrame): DataFrame contendo os dados da produção agrícola por país, incluindo as colunas 'pais', 'country_code', 'Produção_por_hectare_(t)', e 'ano'.
+
+	Returns:
+		None: O gráfico é exibido diretamente e não há retorno.
+	"""
+	# Cria uma nova coluna com a produção por hectare formatada
 	df_temporal["Produção por hectare (t)"] = df_temporal["Produção_por_hectare_(t)"].apply(format_dolar)
 
 	fig_pib = px.choropleth(df_temporal,
@@ -68,16 +79,23 @@ def map_anual(df_temporal: pd.DataFrame) -> None:
 
 	fig_pib.show()
 
-def map_reg_linear(df: pd.DataFrame) -> None:
 
+def map_reg_linear(df: pd.DataFrame) -> None:
+	"""
+	Gera um gráfico coroplético para representar a taxa média de crescimento anual (slope) da produção por hectare em cada país, utilizando regressão linear.
+
+	Args:
+		df (pd.DataFrame): DataFrame com os dados de produção por país, incluindo as colunas 'country_code', 'ano', 'Produção_por_hectare_(t)'.
+
+	Returns:
+		None: O gráfico é exibido diretamente e salvo como um arquivo SVG.
+	"""
 	df = df.dropna()
-	# Nas proximas versões do pandas pode ser necessário usar "include_groups=False" ou explicitamente selecionar as colunas após o agrupamento.
+	# Aplica regressão linear por país
 	resultados_regressao = df.groupby(['country_code'], observed=False).apply(regressao_por_pais).reset_index()
 
-	# resultados_regressao["slope_log"] = np.log(resultados_regressao["slope"])
+	# Formata o slope (taxa de crescimento) em formato de dólar
 	resultados_regressao["Slope ($)"] = resultados_regressao["slope"].apply(format_dolar)
-
-
 
 	fig_reg_linear = px.choropleth(resultados_regressao,
 							locations= "country_code",
@@ -103,16 +121,15 @@ def map_reg_linear(df: pd.DataFrame) -> None:
 	fig_reg_linear.show()
 	fig_reg_linear.write_image("./src/graphs/choropleth_graph.svg")
 
-	# resultados_regressao.to_parquet;(DATA_SETS_RESUMOS + "/produção.parquet", engine="pyarrow", index=False)
 
-
-
+# Carrega os dados do dataset de produção agrícola
 df = pd.read_parquet(DATA_SET_PRODUCAO, engine="pyarrow")
 
+# Calcula a produção por hectare (toneladas por hectare)
 df["Produção_por_hectare_(t)"] = df["producao_total(t)"] / df["area_total_de_producao(ha)"]
 
-# map_anual(df)
+# Gera o mapa anual
+map_anual(df)
 
+# Gera o mapa da regressão linear
 map_reg_linear(df)
-
-# print(df)

@@ -1,3 +1,17 @@
+"""
+Módulo de Listas de Países e Produtos Agrícolas
+
+Este módulo contém várias listas que agrupam países e produtos agrícolas
+para diferentes contextos de análise de dados. As listas incluem países selecionados
+para análises de temperatura, FAOstat, Banco Mundial, e outras categorias econômicas
+ou climáticas, além de listas de vegetais e produtos agrícolas específicos para
+análises de produção.
+
+As listas são usadas para filtrar e segmentar dados em diversas áreas de estudo,
+como clima, economia e agricultura.
+
+"""
+
 countries_to_keep_temperatura = [
     'Afghanistan', 'Albania', 'Algeria', 'Angola', 'Antarctica',
     'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan',
