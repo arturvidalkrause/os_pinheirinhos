@@ -60,8 +60,8 @@ df_pesticidas = pd.read_parquet(DATA_SET_PESTICIDAS, engine="pyarrow")
 df_fertilizantes = pd.read_parquet(DATA_SET_FERTILIZANTES, engine="pyarrow")
 
 # Unindo os DataFrames de produção, pesticidas e fertilizantes
-df_merged = pd.merge(df_producao, df_pesticidas, on=["country_code", "ano", "pais"])
-df_merged = pd.merge(df_merged, df_fertilizantes, on=["country_code", "ano", "pais"])
+df_merged = pd.merge(df_producao, df_pesticidas, on=["country_code", "ano"])
+df_merged = pd.merge(df_merged, df_fertilizantes, on=["country_code", "ano"])
 
 # Removendo valores NaN
 df_merged = df_merged.dropna()

@@ -7,9 +7,7 @@
 """
 
 import pandas as pd
-import numpy as np
 import os
-import statsmodels.api as sm
 import sys
 
 # Adicionando o caminho para importar módulos locais
@@ -20,12 +18,12 @@ sys.path.append(
 import big_strings
 
 # Caminho para os dados
-path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/limpos")
+path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..../data/limpos")
 
 # Carregando os datasets de produção, precipitação e temperatura
-df_producao = pd.read_csv(os.path.join(path_data, 'producao_total_e_area.csv'), index_col=0)
-df_precipitacao = pd.read_csv(os.path.join(path_data, 'precipitacao_anual.csv'), index_col=0)
-df_temperatura = pd.read_csv(os.path.join(path_data, 'temperatura.csv'), index_col=0)
+df_producao = pd.read_parquet(os.path.join(path_data, 'producao_total_e_area.parquet'))
+df_precipitacao = pd.read_parquet(os.path.join(path_data, 'precipitacao_anual.parquet'))
+df_temperatura = pd.read_parquet(os.path.join(path_data, 'temperatura.parquet'))
 
 # Unindo os DataFrames de produção, precipitação e temperatura
 df_merged1 = pd.merge(df_producao, df_precipitacao, on=['country_code', 'ano'], how='outer')
