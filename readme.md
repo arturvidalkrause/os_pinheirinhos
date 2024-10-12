@@ -1,4 +1,6 @@
 # Tema: Agricultura
+- Link para visualização streamlit: https://ospinheirinhos.streamlit.app/
+
 
 O objetivo deste projeto é analisar como variáveis climáticas, econômicas e de insumos agrícolas afetam a agricultura global, abrangendo o período de 1961 a 2022. Utilizamos bibliotecas como Pandas e NumPy para manipulação de dados e realizar inferências estatísticas. O foco principal é garantir a integridade dos dados para permitir análises sobre variáveis como terra arável, temperatura, precipitação, uso de insumos agrícolas (fertilizantes e pesticidas), PIB e produção agrícola, a fim de identificar correlações e tendências ao longo do tempo.
 
