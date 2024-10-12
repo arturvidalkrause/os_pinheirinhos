@@ -1,3 +1,14 @@
+"""
+Este módulo Streamlit apresenta uma aplicação interativa para visualizar e explorar diferentes hipóteses baseadas em dados agrícolas.
+
+Funcionalidades principais:
+1. `st.tabs()`: Divide a interface da aplicação em diferentes abas, permitindo que o usuário explore as hipóteses individualmente.
+2. Cada aba contém uma hipótese, representada por um título e uma descrição, que foca em correlações entre dados agrícolas, PIB e produtividade.
+3. O objetivo é fornecer um ambiente para explorar visualmente as hipóteses sobre como fatores agrícolas, como produtividade por hectare, uso de fertilizantes e variações de precipitação, afetam o desenvolvimento econômico dos países.
+
+O aplicativo permite fácil navegação entre as hipóteses, facilitando a visualização e análise dos tópicos propostos.
+"""
+
 import pandas as pd
 import numpy as np
 import plotly.express as px

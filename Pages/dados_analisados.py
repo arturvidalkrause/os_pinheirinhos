@@ -1,3 +1,13 @@
+"""
+Este módulo utiliza Streamlit para criar uma interface interativa que exibe múltiplos datasets a partir de arquivos Parquet.
+
+Funcionalidades:
+1. Carrega e exibe datasets com caching para otimizar o desempenho.
+2. Organiza os dados em abas interativas para visualização fácil e individual de cada dataset (emissões de CO2, fertilizantes, PIB, precipitação anual, produção total e área, temperatura, terras aráveis).
+
+Este módulo facilita a análise de dados de forma organizada e visual.
+"""
+
 from config import DATA_SETS_LIMPOS
 import streamlit as st
 import pandas as pd

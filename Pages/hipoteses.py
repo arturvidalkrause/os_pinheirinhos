@@ -1,3 +1,14 @@
+"""
+Este módulo utiliza o Streamlit para apresentar uma lista interativa de hipóteses de dados, que são expandidas e visualizadas pelos usuários.
+
+Funcionalidades principais:
+1. Cria uma interface de visualização interativa, onde uma lista de hipóteses é apresentada utilizando `st.expander`.
+2. Cada hipótese contém um título e uma breve descrição, e os usuários podem clicar em cada expander para ver o conteúdo detalhado da hipótese.
+3. O objetivo é facilitar a navegação e leitura das diferentes hipóteses formuladas com base em dados agrícolas e suas correlações com PIB, produtividade e outros fatores.
+
+A aplicação é simples e foca na apresentação clara e objetiva das hipóteses.
+"""
+
 import streamlit as st
 
 # Título da página
