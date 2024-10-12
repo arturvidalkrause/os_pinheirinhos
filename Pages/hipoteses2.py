@@ -8,7 +8,7 @@ from pathlib import Path
 import json
 from sklearn.linear_model import LinearRegression
 # Carregar os datasets do diretório de configurações
-from config import DATA_SET_PRODUCAO, DATA_SET_PIB, DATA_SETS_RESUMOS
+from config import DATA_SET_PRODUCAO, DATA_SET_PIB, DATA_SETS_RESUMOS, DATA_SETS_LIMPOS
 
 # Configuração inicial do aplicativo (deve ser o primeiro comando Streamlit)
 st.set_page_config(page_title='Análise de Produtividade Agrícola', layout='wide')
@@ -317,3 +317,5 @@ with tab4:
 with tab5:
     st.title(hipoteses[4]["titulo"])
     st.subheader(hipoteses[4]["descricao"])
+    df2 = pd.read_parquet(DATA_SETS_LIMPOS + "/fertilizantes_total.parquet")
+    st.write(df2)
