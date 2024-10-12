@@ -14,3 +14,4 @@ scikit-learn==1.5.2         # Machine learning and statistical models
 statsmodels==0.14.4         # Statistical models and hypothesis tests
 IPython==8.28.0             # Interactive Python shell
 kaleido==0.2.1              # Static image export for Plotly charts
+streamlit==1.39.0           # Web app framework for data science and machine learning
