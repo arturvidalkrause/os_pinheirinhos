@@ -7,7 +7,6 @@ transformação de dados, preenchimento de dados faltantes, e a preparação dos
 """
 
 import pandas as pd
-import numpy as np
 import os
 import big_strings
 import big_dicts

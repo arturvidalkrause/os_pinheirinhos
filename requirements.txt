@@ -15,5 +15,5 @@ statsmodels==0.14.4         # Statistical models and hypothesis tests
 IPython==8.28.0             # Interactive Python shell
 kaleido==0.2.1              # Static image export for Plotly charts
 streamlit==1.39.0           # Web app framework for data science and machine learning
-openpyxl==1.1.0				# Excel file reader and writer library for Python
+openpyxl==3.1.5				# Excel file reader and writer library for Python
 seaborn==0.13.2

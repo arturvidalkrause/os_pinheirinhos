@@ -8,14 +8,12 @@
     O módulo também carrega resumos de dados de produção e PIB e gera gráficos com essas informações resumidas.
 """
 
-import os
+import sys
 import pandas as pd
 import altair as alt
 import plotly.express as px
-import numpy as np
 from scipy.stats import spearmanr
 from pathlib import Path
-from sklearn.linear_model import LinearRegression
 
 # Adiciona o diretório raiz ao sys.path para importar arquivos de configuração
 sys.path.append(str(Path(__file__).resolve().parents[2]))
@@ -27,7 +25,7 @@ df_producao = pd.read_parquet(DATA_SET_PRODUCAO, engine="pyarrow")
 df_pib = pd.read_parquet(DATA_SET_PIB, engine="pyarrow")
 
 # Unindo os datasets com base no código do país e ano
-df_merged = pd.merge(df_producao, df_pib, on=["country_code", "ano", "pais"])
+df_merged = pd.merge(df_producao, df_pib, on=["country_code", "ano"])
 
 # Calculando a Produção por Hectare
 df_merged["Produção por hectare (t)"] = df_merged["producao_total(t)"] / df_merged["area_total_de_producao(ha)"]

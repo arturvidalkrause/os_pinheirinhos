@@ -26,11 +26,11 @@ hipoteses = [
     },
     {
         "titulo": "Hipótese 3",
-        "descricao": "A produtividade por hectare de terra arável está aumentando ao longo do tempo, com destaque para os países emergentes."
+        "descricao": "A produtividade por hectare de terra arável está aumentando ao longo do tempo, com destaque para os países emergentes?"
     },
     {
         "titulo": "Hipótese 4",
-        "descricao": "A variação na precipitação ao longo dos anos está correlacionada com mudanças nos índices de produção agrícola em regiões específicas."
+        "descricao": "A variação na precipitação ao longo dos anos está correlacionada com mudanças nos índices de produção agrícola em regiões específicas?"
     },
     {
         "titulo": "Hipótese 5",

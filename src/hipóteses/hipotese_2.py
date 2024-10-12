@@ -7,12 +7,9 @@
     - Um gráfico de linhas é gerado usando Altair, mostrando a evolução da correlação ao longo dos anos para os grupos de países desenvolvidos, emergentes e em desenvolvimento.
 """
 
-import plotly.express as px
 import pandas as pd
-import numpy as np
 import sys
 from pathlib import Path
-from sklearn.linear_model import LinearRegression
 from scipy.stats import spearmanr
 import altair as alt
 import json
@@ -81,7 +78,7 @@ df_producao = pd.read_parquet(DATA_SET_PRODUCAO, engine="pyarrow")
 df_pib = pd.read_parquet(DATA_SET_PIB, engine="pyarrow")
 
 # Unindo os datasets com base no código do país, ano e nome do país
-df_merged = pd.merge(df_producao, df_pib, on=["country_code", "ano", "pais"])
+df_merged = pd.merge(df_producao, df_pib, on=["country_code", "ano"])
 
 # Calculando Produção por Hectare
 df_merged["Produção por hectare (t)"] = df_merged["producao_total(t)"] / df_merged["area_total_de_producao(ha)"]
