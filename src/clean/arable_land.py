@@ -1,6 +1,11 @@
 """
-	Contém funções para tratar os dados dataset: "Arable_Land"
+Módulo para tratamento dos dados do DataSet: "Arable_Land"
+
+Este módulo contém funções para o pré-processamento do dataset de terras aráveis, incluindo a remoção de colunas desnecessárias,
+transformação dos dados de colunas para linhas, preenchimento de dados faltantes, e a preparação dos dados para análises posteriores.
+
 """
+
 
 import pandas as pd
 import big_strings
@@ -10,14 +15,22 @@ import os
 
 
 def preprocessamento_arable_land(path: str) -> pd.DataFrame:
-	"""Trata o dataset em questão removendo colunas desnecessárias, agrupas os dados necessários, trata dados NaN e transforma dados de colunas em novas linhas e retorna apenas o necessário para as análises
-
-	Args:
-		path (str): path do diretório com todos os datasets que seram tratados
-
-	Returns:
-		df_renamed: retorna o dataset com os dados tratados
 	"""
+    Realiza o pré-processamento dos dados do dataset de terras aráveis.
+
+    O pré-processamento inclui:
+        - Leitura do arquivo CSV removendo as primeiras linhas de cabeçalho.
+        - Remoção de colunas desnecessárias.
+        - Transformação das colunas de ano e terras aráveis por país.
+        - Conversão dos dados para os tipos corretos.
+        - Substituição de valores dos países pelo respectivo código de país.
+
+    Args:
+        path (str): Caminho do diretório contendo o dataset a ser tratado.
+
+    Returns:
+        pd.DataFrame: Um DataFrame contendo o percentual de terras aráveis por país, pronto para análise.
+    """
     # Lendo o arquivo removendo as primeiras linhas
 	df: pd.DataFrame  = pd.read_csv(os.path.join(path, "Arable_Land.csv"), skiprows=3)
     

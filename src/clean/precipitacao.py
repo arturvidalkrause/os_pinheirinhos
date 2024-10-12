@@ -1,4 +1,11 @@
-"""Trata todos os dados da tabela 'Preciptação_mes_a_mes.xlsx'"""
+"""
+Módulo para tratamento dos dados da tabela: "Preciptação_mes_a_mes.xlsx"
+
+Este módulo contém funções para o pré-processamento do dataset de precipitação mensal, incluindo a remoção de colunas desnecessárias,
+transformação dos dados de colunas para linhas, agregação por ano e país, preenchimento de dados faltantes, e a preparação dos dados
+para análises posteriores.
+
+"""
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -7,6 +14,23 @@ import big_dicts
 
 
 def preprocessamento_precipitacao(path):
+	"""
+    Realiza o pré-processamento dos dados da tabela de precipitação mês a mês.
+
+    O pré-processamento inclui:
+        - Leitura do arquivo Excel.
+        - Remoção de colunas desnecessárias, como o nome do país.
+        - Transposição do DataFrame para ter os anos nas linhas e os países nas colunas.
+        - Agrupamento dos dados por ano e cálculo da precipitação total anual por país.
+        - Transformação dos dados de forma que cada linha corresponda a um país e ano, com sua precipitação anual.
+        - Conversão dos dados para os tipos apropriados e arredondamento dos valores de precipitação para duas casas decimais.
+
+    Args:
+        path (str): Caminho do diretório contendo o arquivo Excel.
+
+    Returns:
+        pd.DataFrame: Um DataFrame contendo a precipitação anual por país e ano, pronto para análise.
+    """
     # Lendo o arquivo removendo as primeiras linhas
 	df = pd.read_excel(os.path.join(path, "Precipitação_mes_a_mes.xlsx"))
 

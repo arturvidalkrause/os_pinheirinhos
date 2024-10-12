@@ -149,6 +149,6 @@ A análise exploratória revelou padrões importantes, como:
 
 - **Bruno**: Tratamento dos dados e pré-processamento; Validação das hipóteses; Escrita do Artigo.
 - **Artur**: Documentação dos módulos e funções; Suporte no Tratamento e processamento dos dados; Validação das hipóteses;
-- **Gustavo**: Implementação do Streamlit;
+- **Gustavo**: Implementação do Streamlit; 
 - **Kauan**: Testes unitários e validação do código.
 - **Gabriel**: Testes unitários e suporte no desenvolvimento da documentação.

@@ -1,5 +1,9 @@
 """
-	Contém funções para tratar os dados do DataSet: "Produção agropecuaria"
+Módulo para tratamento dos dados do DataSet: "Produção agropecuária"
+
+Este módulo contém funções para o pré-processamento do dataset de produção agropecuária, incluindo a remoção de colunas desnecessárias, 
+transformação dos dados de colunas para linhas, tratamento de dados NaN, e a preparação dos dados para análises futuras. 
+
 """
 
 import pandas as pd
@@ -9,13 +13,23 @@ import big_strings
 import big_dicts
 
 def preprocessamento_producao(path: str) -> pd.DataFrame:
-	"""Trata o dataset em questão removendo colunas desnecessárias, agrupas os dados necessários, trata dados NaN e transforma dados de colunas em novas linhas e retorna apenas o necessário para as análises
+	"""
+	Realiza o pré-processamento dos dados do dataset de produção agropecuária.
 
+	O pré-processamento inclui:
+	    - Leitura do arquivo CSV.
+	    - Remoção de colunas desnecessárias, como códigos de área e item.
+	    - Foco apenas em dados vegetais.
+	    - Separação em área colhida e produção total.
+	    - Transformação dos dados de formato largo para formato longo e vice-versa.
+	    - Preenchimento de anos faltantes e cálculo do total de produção e área colhida.
+	    - Arredondamento dos dados de produção total e integração de códigos de países.
+	
 	Args:
-		path (str): path do diretório com todos os datasets que seram tratados
-
+	    path (str): Caminho do diretório contendo o arquivo CSV.
+	
 	Returns:
-		df_renamed: retorna o dataset com os dados tratados
+	    pd.DataFrame: Um DataFrame contendo a produção total e a área colhida por país e ano, prontos para análise.
 	"""
     # Lendo o arquivo
 	try:
@@ -111,7 +125,20 @@ def preprocessamento_producao(path: str) -> pd.DataFrame:
 	df_renamed = df_filtered.drop('area_name', axis=1)
 
     # Preenchendo anos faltantes
-	def preencher_anos_faltantes(df):
+	def preencher_anos_faltantes(df: pd.DataFrame) -> pd.DataFrame:
+		"""
+		Preenche os anos faltantes no dataset, garantindo que todos os países tenham valores para todos os anos de 1961 a 2022.
+
+		A função cria uma combinação de todos os códigos de países e anos no intervalo de 1961 a 2022 e realiza um merge
+		com o DataFrame original. Caso algum ano esteja ausente para um determinado país, ele será adicionado com valores
+		NaN para as colunas faltantes.
+
+		Args:
+			df (pd.DataFrame): O DataFrame original contendo os dados a serem preenchidos.
+
+		Returns:
+			pd.DataFrame: Um DataFrame completo com todos os anos preenchidos de 1961 a 2022 para cada país.
+		"""
         # Criar uma lista de anos de 1961 a 2022
 		anos = pd.Series(range(1961, 2023))
 

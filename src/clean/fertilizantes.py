@@ -1,7 +1,13 @@
 """
-	Contém funções para tratar os dados do DataSet: "Fertilizantes_por_nutrientes"
-"""
+Módulo de Pré-processamento de Fertilizantes por Nutrientes
 
+Este módulo contém funções para realizar o pré-processamento dos dados do dataset
+"Fertilizantes_por_nutrientes". O processo inclui a remoção de colunas desnecessárias,
+agrupamento dos dados relevantes, tratamento de valores ausentes (NaN), transformação
+de colunas em linhas e preenchimento de anos ausentes. O objetivo é preparar os dados
+para análises relacionadas ao uso de fertilizantes por nutrientes em diferentes países.
+
+"""
 import pandas as pd
 import numpy as np
 import os
@@ -10,15 +16,21 @@ import big_dicts
 
 
 def preprocessamento_fertilizantes(path: str) -> pd.DataFrame:
-	"""Trata o dataset em questão removendo colunas desnecessárias, agrupas os dados necessários, trata dados NaN e transforma dados de colunas em novas linhas e retorna apenas o necessário para as análises
+	"""
+	Realiza o pré-processamento do dataset "Fertilizantes_por_nutrientes",
+	removendo colunas desnecessárias, agrupando os dados relevantes, tratando
+	valores NaN, transformando colunas em linhas, preenchendo anos ausentes e
+	renomeando valores para retornar um dataset pronto para análise.
 
-    Args:
-            path (str): path do diretório com todos os datasets que seram tratados
+	Args:
+		path (str): Caminho do diretório que contém o dataset a ser processado.
 
-    Returns:
-            df_completo: retorna o dataset com os dados tratados
-    """
-    # Lendo o arquivo
+	Returns:
+		pd.DataFrame: Retorna o dataset tratado, pronto para análises de uso de fertilizantes.
+
+	Exemplo de uso:
+		df_tratado = preprocessamento_fertilizantes('caminho/para/dataset')
+	"""
 	try:
 		df = pd.read_csv(
 			os.path.join(path, "Fertilizantes_por_nutrientes.csv"), encoding="utf-8"
@@ -75,8 +87,20 @@ def preprocessamento_fertilizantes(path: str) -> pd.DataFrame:
 	df_renamed = df_renamed[(df_renamed["ano"] > 1960) & (df_renamed["ano"] < 2023)]
 
     # Preenchendo anos faltantes
-	def preencher_anos_faltantes(df):
-        # Criar uma lista de anos de 1961 a 2022
+	def preencher_anos_faltantes(df: pd.DataFrame) -> pd.DataFrame:
+		"""
+		Preenche anos faltantes para cada país no dataset, garantindo que todos os anos
+		de 1961 a 2022 estejam presentes para cada país.
+
+		Args:
+			df (pd.DataFrame): Dataset com os dados de uso de fertilizantes.
+
+		Returns:
+			pd.DataFrame: Retorna o dataset completo com os anos ausentes preenchidos.
+
+		Exemplo de uso:
+			df_completo = preencher_anos_faltantes(df)
+		"""
 		anos = pd.Series(range(1961, 2023))
 
         # Criar um DataFrame com todas as combinações de country_code e anos
