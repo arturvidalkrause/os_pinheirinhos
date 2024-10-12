@@ -57,7 +57,7 @@ with tab3:
 with tab4:
     st.header("Precipitação Anual")
     st.dataframe(df4)
-    st.write("Texto para Precipitação Anual")
+    st.write("Dados históricos e projetados sobre precipitação, focando nos impactos agrícolas.")
 
 with tab5:
     st.header("Produção Total e Área")
