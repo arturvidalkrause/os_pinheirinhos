@@ -8,10 +8,10 @@ import altair as alt
 alt.data_transformers.disable_max_rows()
 
 # Diretório da tabela a ser tratada
-path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/limpos/emissoes_co2.csv")
+path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/limpos/emissoes_co2.parquet")
 
 # Obtendo a tabela tratada
-df = pd.read_csv(path_data, index_col=0)
+df = pd.read_parquet(path_data)
 
 # Removendo os dados mundiais
 df_paises = df[df['country_code'] != 'WLD']
@@ -35,4 +35,4 @@ Countries = alt.Chart(df_paises, title="Emissoes CO2 (t)").mark_area(opacity=1.0
 )
 
 # Salvando o gráfico
-Countries.save('os_pinheirinhos/src/graphs/gráfico_emissoes_temp.svg')
+Countries.save('./src/graphs/gráfico_emissoes_temp.svg')

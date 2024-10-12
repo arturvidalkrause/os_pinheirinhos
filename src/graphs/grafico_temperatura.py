@@ -8,10 +8,10 @@ import altair as alt
 alt.data_transformers.disable_max_rows()
 
 # Diretório da tabela a ser tratada
-path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/limpos/temperatura.csv")
+path_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../data/limpos/temperatura.parquet")
 
 # Obtendo a tabela tratada
-df = pd.read_csv(path_data, index_col=0)
+df = pd.read_parquet(path_data)
 
 df_paises = df[df['country_code'] != 'WLD']
 
