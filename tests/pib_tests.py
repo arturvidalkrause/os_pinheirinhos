@@ -19,7 +19,10 @@ class TestPreprocessamentoPIB(unittest.TestCase):
 
     # Testa a função com um DataFrame contendo todas as colunas necessárias
     def test_all_columns_present(self):
-        csv_content = """Country Name,Indicator Name,Indicator Code,Country Code,1960,1961,1962
+        csv_content = """,,,,,,
+        ,,,,,,
+        ,,,,,,
+        Country Name,Indicator Name,Indicator Code,Country Code,1960,1961,1962
 Brazil,GDP (current US$),NY.GDP.MKTP.CD,BRA,500,550,600
 World,GDP (current US$),NY.GDP.MKTP.CD,WLD,1000,1100,1200"""
         
@@ -32,7 +35,10 @@ World,GDP (current US$),NY.GDP.MKTP.CD,WLD,1000,1100,1200"""
 
     # Testa a função para verificar se ela retorna um DataFrame não vazio
     def test_non_empty_dataframe(self):
-        csv_content = """Country Name,Indicator Name,Indicator Code,Country Code,1960,1961,1962
+        csv_content = """,,,,,,
+        ,,,,,,
+        ,,,,,,
+        Country Name,Indicator Name,Indicator Code,Country Code,1960,1961,1962
 Brazil,GDP (current US$),NY.GDP.MKTP.CD,BRA,500,550,600
 World,GDP (current US$),NY.GDP.MKTP.CD,WLD,1000,1100,1200"""
         
